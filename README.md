@@ -5,8 +5,11 @@ Gedacht für den zweiten Bildschirm oder das Handy, während du spielst.
 
 ## Starten
 
-`index.html` im Browser öffnen. Es wird nichts installiert. Three.js kommt per CDN, daher braucht die Seite Internet.
-Wer lieber einen lokalen Server nutzt: `python3 -m http.server` im Ordner und dann `http://localhost:8000` öffnen.
+`index.html` im Browser öffnen. Es wird nichts installiert. Three.js und die Schriften liegen in `vendor/`,
+die Seite braucht also kein Internet. Für den Offline-Modus (App installieren) einen Server nutzen:
+`python3 -m http.server` im Ordner und dann `http://localhost:8000` öffnen.
+
+**Veröffentlichen, Unterstützer-Abo, Rechtliches:** siehe [VEROEFFENTLICHEN.md](VEROEFFENTLICHEN.md).
 
 ## Funktionen
 
@@ -20,6 +23,14 @@ Wer lieber einen lokalen Server nutzt: `python3 -m http.server` im Ordner und da
 - **Bau-Video**: animiertes Tutorial, das den Bau Block für Block aufbaut, mit Hinweisen zu jeder Ebene (Taste `V`), dazu ein Link zu passenden YouTube-Tutorials
 - **Bauzeit**: geschätzte Zeit fürs Platzieren (ohne Material sammeln) bei jedem Bau
 - **Spielmodus**: große Weiter/Zurück-Tasten, Tastenkürzel (← → Leertaste), *Bildschirm an* hält Handy/Tablet wach
+- **Drehen und Spiegeln**: jeden Bau um 90° drehen oder spiegeln, Raster, Hinweise und Exporte passen sich an
+- **Export**: Litematica (`.litematic`, Hologramm im Spiel), WorldEdit (`.schem`) und fertiges Datapack (`.zip`)
+- **Import**: eigene Bauten aus `.litematic`, `.schem` oder `.nbt` (Strukturblock) laden, auch per Drag & Drop
+- **Teilen**: eigene Bauten als Link verschicken, ganz ohne Server
+- **Merkliste**: Bauten merken und eine gemeinsame Einkaufsliste für mehrere Bauten kopieren
+- **Sprachen**: Deutsch, Englisch, Spanisch, Französisch, Türkisch, Polnisch (alle Baupläne übersetzt)
+- **Offline & App**: läuft ohne Internet und lässt sich auf dem Handy installieren
+- **Unterstützer-Abo**: freiwillig, mit Unterstützer-Farben als Dankeschön (Links in `js/config.js`)
 
 ### Tastenkürzel
 
@@ -30,7 +41,8 @@ Wer lieber einen lokalen Server nutzt: `python3 -m http.server` im Ordner und da
 | `Leertaste` | Ebene fertig, weiter zur nächsten |
 | `A` `B` `N` | Alles / Bis Ebene / Nur Ebene |
 | `I` `T` `F` | Kamera schräg / oben / vorne |
-| `R` | Drehen |
+| `R` | Kamera kreisen |
+| `D` / `S` | Bau drehen / spiegeln |
 
 ## Enthaltene Baupläne
 
@@ -75,7 +87,7 @@ Gartenpavillon, Springbrunnen, Unterwasser-Kuppel
 
 ## Eigene Baupläne hinzufügen
 
-Alle Pläne stehen in `js/builds.js`. Ein Bau wird mit einem kleinen Builder beschrieben:
+Pläne stehen in `js/builds*.js`. Ein Bau wird mit einem kleinen Builder beschrieben:
 
 ```js
 BUILDS.push({
@@ -94,9 +106,23 @@ Koordinaten: `x` = Osten, `y` = oben, `z` = Süden, wie in Minecraft. Richtungen
 Zusätze: `top`/`bottom` (Stufen, Treppen), `upper`/`lower` (Türen), `head`/`foot` (Betten).
 Verfügbare Blöcke, Texturen und Platzierungshinweise stehen in `js/blocks.js`.
 
+## Übersetzungen
+
+Deutsch steht direkt im Code (`js/i18n.js`, Baupläne, Blöcke). Die anderen Sprachen liegen in `js/i18n/<code>.js`
+und überschreiben nur die Texte. Fehlt ein Text, gilt: gewählte Sprache → Englisch → Deutsch.
+Neue Sprache: Datei kopieren, übersetzen und in `LANGS` in `js/i18n.js` sowie in `sw.js` eintragen.
+
 ## Dateien
 
 - `index.html`: Layout und Stil
+- `js/config.js`: Version, Unterstützer-Links und -Codes, Link zu Impressum/Datenschutz
+- `js/i18n.js`, `js/i18n/*.js`: Sprachen
+- `js/formats.js`: NBT, Litematica, WorldEdit, Datapack-Zip, Import, Teilen-Links
+- `sw.js`, `manifest.webmanifest`, `icons/`: Offline-Modus und App-Installation
+- `legal.html`: Vorlage für Impressum und Datenschutz
+- `vendor/`: Three.js r128 (MIT) und Schriften (SIL OFL)
+- `.github/workflows/pages.yml`: veröffentlicht `main` automatisch auf GitHub Pages
+- `tools/code-hash.js`: erzeugt Prüfsummen für Unterstützer-Codes
 - `js/blocks.js`: Block-Registry, prozedurale Texturen, Platzierungshinweise
 - `js/builds.js`: Farmen, Bauprojekte und die ersten Gebäude, Builder und Bauzeit-Schätzung
 - `js/builds-community.js`: Gebäude im Community-Stil, weitere Farmen und Projekte, Dach-Helfer

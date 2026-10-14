@@ -319,41 +319,11 @@
     const c = document.createElement('canvas');
     c.width = c.height = 16;
     const g = c.getContext('2d');
-    (TEX[key] || TEX.stone)(g, rng(hash(key)));
+    if (key.startsWith('gen:')) { const r = rng(hash(key)); noise(g, r, key.slice(4), 0.12); specks(g, r, key.slice(4), 10, 0.82); }
+    else (TEX[key] || TEX.stone)(g, rng(hash(key)));
     texCache.set(key, c);
     return c;
   }
-
-  /* ---------- Platzierungshinweise ---------- */
-  const H = {
-    facingFront(f) {
-      if (f === 'u') return 'Vorderseite nach oben: beim Platzieren steil nach unten schauen.';
-      if (f === 'd') return 'Vorderseite nach unten: von unten platzieren und steil nach oben schauen.';
-      return 'Vorderseite zeigt nach ' + DIR_NAME[f] + ': beim Platzieren nach ' + DIR_NAME[OPP[f]] + ' schauen.';
-    },
-    piston(f) {
-      if (f === 'u') return 'Kolbenkopf zeigt nach oben: beim Platzieren nach unten schauen.';
-      if (f === 'd') return 'Kolbenkopf zeigt nach unten: beim Platzieren nach oben schauen.';
-      return 'Kolbenkopf zeigt nach ' + DIR_NAME[f] + '. Stell dich auf die ' + DIR_NAME[f] + '-Seite und schau nach ' + DIR_NAME[OPP[f]] + '.';
-    },
-    observer(f) {
-      if (f === 'd') return 'Gesicht schaut nach unten, roter Punkt nach oben: beim Platzieren nach unten schauen.';
-      if (f === 'u') return 'Gesicht schaut nach oben, roter Punkt nach unten: beim Platzieren nach oben schauen.';
-      return 'Gesicht schaut nach ' + DIR_NAME[f] + ', roter Punkt nach ' + DIR_NAME[OPP[f]] + '. Beim Platzieren nach ' + DIR_NAME[f] + ' schauen.';
-    },
-    hopper(f) {
-      if (f === 'd') return 'Ausgang nach unten: einfach von oben auf den Block darunter setzen.';
-      return 'Ausgang zeigt nach ' + DIR_NAME[f] + ': Shift + Rechtsklick auf die Seite des Zielblocks im ' + DIR_NAME[f] + '.';
-    },
-    stairs(f, p) {
-      let t = 'Hohe Seite nach ' + DIR_NAME[f] + ': beim Platzieren nach ' + DIR_NAME[f] + ' schauen.';
-      if (p.half === 'top') t += ' Umgedreht: die obere Hälfte eines Blocks anklicken.';
-      return t;
-    },
-    attached(f, what) {
-      return what + ' an der Wand im ' + DIR_NAME[OPP[f]] + ' anbringen (zeigt nach ' + DIR_NAME[f] + ').';
-    }
-  };
 
   /* ---------- Registry ----------
      shape: Geometrie im 3D-Viewer; color: Farbe im 2D-Raster; item: Name in der Materialliste;
@@ -364,29 +334,29 @@
     stone_bricks: { name: 'Steinziegel', shape: 'cube', tex: { all: 'stone_bricks' }, color: '#7a7a7a' },
     dirt: { name: 'Erde', shape: 'cube', tex: { all: 'dirt' }, color: '#866043' },
     grass_block: { name: 'Grasblock', shape: 'cube', tex: { top: 'grass_top', bottom: 'dirt', side: 'grass_side' }, color: '#6aa84f' },
-    dirt_path: { name: 'Trampelpfad', shape: 'farmland', tex: { top: 'path_top', bottom: 'dirt', side: 'dirt' }, color: '#9a8456', hint: () => 'Mit einer Schaufel auf Gras rechtsklicken.' },
-    farmland: { name: 'Ackerboden', shape: 'farmland', tex: { top: 'farmland_top', bottom: 'dirt', side: 'dirt' }, color: '#56371f', item: 'Erde (mit Hacke umgraben)', hint: () => 'Erde hinlegen und mit einer Hacke umgraben.' },
+    dirt_path: { name: 'Trampelpfad', shape: 'farmland', tex: { top: 'path_top', bottom: 'dirt', side: 'dirt' }, color: '#9a8456', hint: 'dirt_path' },
+    farmland: { name: 'Ackerboden', shape: 'farmland', tex: { top: 'farmland_top', bottom: 'dirt', side: 'dirt' }, color: '#56371f', item: 'Erde (mit Hacke umgraben)', hint: 'farmland' },
     sand: { name: 'Sand', shape: 'cube', tex: { all: 'sand' }, color: '#dccf9e' },
     glass: { name: 'Glas', shape: 'cube', tex: { all: 'glass' }, transparent: true, color: '#cfe8f3' },
     glass_pane: { name: 'Glasscheibe', shape: 'pane', tex: { all: 'glass' }, transparent: true, color: '#cfe8f3' },
     oak_planks: { name: 'Eichenholzbretter', shape: 'cube', tex: { all: 'oak_planks' }, color: '#a8864f' },
     spruce_planks: { name: 'Fichtenholzbretter', shape: 'cube', tex: { all: 'spruce_planks' }, color: '#715231' },
     mangrove_planks: { name: 'Mangrovenholzbretter', shape: 'cube', tex: { all: 'mangrove_planks' }, color: '#7a3330' },
-    oak_log: { name: 'Eichenstamm', shape: 'cube', tex: { top: 'oak_log_top', bottom: 'oak_log_top', side: 'oak_log' }, color: '#6b5232', hint: () => 'Stehend platzieren (auf die Oberseite des Blocks darunter klicken).' },
-    spruce_log: { name: 'Fichtenstamm', shape: 'cube', tex: { top: 'spruce_log_top', bottom: 'spruce_log_top', side: 'spruce_log' }, color: '#3b2a18', hint: () => 'Stehend platzieren (auf die Oberseite des Blocks darunter klicken).' },
+    oak_log: { name: 'Eichenstamm', shape: 'cube', tex: { top: 'oak_log_top', bottom: 'oak_log_top', side: 'oak_log' }, color: '#6b5232', hint: 'oak_log' },
+    spruce_log: { name: 'Fichtenstamm', shape: 'cube', tex: { top: 'spruce_log_top', bottom: 'spruce_log_top', side: 'spruce_log' }, color: '#3b2a18', hint: 'spruce_log' },
     oak_leaves: { name: 'Eichenlaub', shape: 'cube', tex: { all: 'leaves' }, color: '#3f7a2c' },
-    oak_stairs: { name: 'Eichenholztreppe', shape: 'stairs', tex: { all: 'oak_planks' }, color: '#b8955c', hint: H.stairs },
-    spruce_stairs: { name: 'Fichtenholztreppe', shape: 'stairs', tex: { all: 'spruce_planks' }, color: '#7f5e3a', hint: H.stairs },
-    stone_brick_stairs: { name: 'Steinziegeltreppe', shape: 'stairs', tex: { all: 'stone_bricks' }, color: '#8a8a8a', hint: H.stairs },
-    cobblestone_stairs: { name: 'Bruchsteintreppe', shape: 'stairs', tex: { all: 'cobble' }, color: '#969696', hint: H.stairs },
-    oak_slab: { name: 'Eichenholzstufe', shape: 'slab', tex: { all: 'oak_planks' }, color: '#b8955c', hint: (f, p) => p.half === 'top' ? 'Obere Hälfte: an die obere Hälfte eines Blocks klicken.' : 'Untere Hälfte: auf den Boden setzen.' },
-    spruce_slab: { name: 'Fichtenholzstufe', shape: 'slab', tex: { all: 'spruce_planks' }, color: '#7f5e3a', hint: (f, p) => p.half === 'top' ? 'Obere Hälfte: an die obere Hälfte eines Blocks klicken.' : 'Untere Hälfte: auf den Boden setzen.' },
-    stone_brick_slab: { name: 'Steinziegelstufe', shape: 'slab', tex: { all: 'stone_bricks' }, color: '#8a8a8a', hint: (f, p) => p.half === 'top' ? 'Obere Hälfte: an die obere Hälfte eines Blocks klicken.' : 'Untere Hälfte: auf den Boden setzen.' },
-    cobblestone_slab: { name: 'Bruchsteinstufe', shape: 'slab', tex: { all: 'cobble' }, color: '#969696', hint: (f, p) => p.half === 'top' ? 'Obere Hälfte: an die obere Hälfte eines Blocks klicken.' : 'Untere Hälfte: auf den Boden setzen.' },
+    oak_stairs: { name: 'Eichenholztreppe', shape: 'stairs', tex: { all: 'oak_planks' }, color: '#b8955c', hint: 'stairs' },
+    spruce_stairs: { name: 'Fichtenholztreppe', shape: 'stairs', tex: { all: 'spruce_planks' }, color: '#7f5e3a', hint: 'stairs' },
+    stone_brick_stairs: { name: 'Steinziegeltreppe', shape: 'stairs', tex: { all: 'stone_bricks' }, color: '#8a8a8a', hint: 'stairs' },
+    cobblestone_stairs: { name: 'Bruchsteintreppe', shape: 'stairs', tex: { all: 'cobble' }, color: '#969696', hint: 'stairs' },
+    oak_slab: { name: 'Eichenholzstufe', shape: 'slab', tex: { all: 'oak_planks' }, color: '#b8955c', hint: 'slab' },
+    spruce_slab: { name: 'Fichtenholzstufe', shape: 'slab', tex: { all: 'spruce_planks' }, color: '#7f5e3a', hint: 'slab' },
+    stone_brick_slab: { name: 'Steinziegelstufe', shape: 'slab', tex: { all: 'stone_bricks' }, color: '#8a8a8a', hint: 'slab' },
+    cobblestone_slab: { name: 'Bruchsteinstufe', shape: 'slab', tex: { all: 'cobble' }, color: '#969696', hint: 'slab' },
     oak_fence: { name: 'Eichenholzzaun', shape: 'fence', tex: { all: 'oak_planks' }, color: '#a8864f' },
     spruce_fence: { name: 'Fichtenholzzaun', shape: 'fence', tex: { all: 'spruce_planks' }, color: '#715231' },
-    oak_door: { name: 'Eichenholztür', shape: 'door', tex: { all: 'door' }, color: '#a07a45', partCount: 'lower', hint: (f) => 'Tür: beim Platzieren nach ' + DIR_NAME[f] + ' schauen (Türblatt auf der ' + DIR_NAME[OPP[f]] + '-Seite).' },
-    ladder: { name: 'Leiter', shape: 'ladder', tex: { all: 'ladder' }, color: '#9a7445', hint: (f) => H.attached(f, 'Leiter') },
+    oak_door: { name: 'Eichenholztür', shape: 'door', tex: { all: 'door' }, color: '#a07a45', partCount: 'lower', hint: 'oak_door' },
+    ladder: { name: 'Leiter', shape: 'ladder', tex: { all: 'ladder' }, color: '#9a7445', hint: 'ladder' },
     lantern: { name: 'Laterne', shape: 'lantern', tex: { all: 'lantern' }, color: '#f1b54b', emissive: true },
     crafting_table: { name: 'Werkbank', shape: 'cube', tex: { top: 'crafting_top', bottom: 'oak_planks', side: 'crafting_side' }, color: '#9c7a45' },
     hay_block: { name: 'Strohballen', shape: 'cube', tex: { top: 'hay_top', bottom: 'hay_top', side: 'hay_side' }, color: '#c9a227' },
@@ -395,81 +365,81 @@
     sea_lantern: { name: 'Seelaterne', shape: 'cube', tex: { all: 'sea_lantern' }, color: '#cfe3dc', emissive: true },
     glowstone: { name: 'Leuchtstein', shape: 'cube', tex: { all: 'glowstone' }, color: '#e2b65a', emissive: true },
 
-    water: { name: 'Wasserquelle', shape: 'liquid', tex: { all: 'water' }, transparent: true, color: '#3d6ad6', item: 'Wassereimer', stack: 1, hint: () => 'Mit einem Wassereimer platzieren (Quellblock).' },
-    water_env: { name: 'Gewässer (vorhanden)', shape: 'liquid', tex: { all: 'water' }, transparent: true, color: '#4f7bdc', auto: true, hint: () => 'Vorhandenes Wasser: Baue diesen Teil einfach in einem Fluss, See oder Meer.' },
-    water_flow: { name: 'Fließendes Wasser', shape: 'liquid', tex: { all: 'water_flow' }, transparent: true, color: '#8fb3f0', auto: true, flow: true, hint: () => 'Entsteht von selbst aus den Quellen. Nicht platzieren.' },
-    lava: { name: 'Lavaquelle', shape: 'liquid', tex: { all: 'lava' }, color: '#e06a12', emissive: true, item: 'Lavaeimer', stack: 1, hint: () => 'Mit einem Lavaeimer platzieren, erst wenn alle Schilder hängen.' },
+    water: { name: 'Wasserquelle', shape: 'liquid', tex: { all: 'water' }, transparent: true, color: '#3d6ad6', item: 'Wassereimer', stack: 1, hint: 'water' },
+    water_env: { name: 'Gewässer (vorhanden)', shape: 'liquid', tex: { all: 'water' }, transparent: true, color: '#4f7bdc', auto: true, hint: 'water_env' },
+    water_flow: { name: 'Fließendes Wasser', shape: 'liquid', tex: { all: 'water_flow' }, transparent: true, color: '#8fb3f0', auto: true, flow: true, hint: 'water_flow' },
+    lava: { name: 'Lavaquelle', shape: 'liquid', tex: { all: 'lava' }, color: '#e06a12', emissive: true, item: 'Lavaeimer', stack: 1, hint: 'lava' },
 
-    hopper: { name: 'Trichter', shape: 'hopper', tex: { all: 'hopper' }, color: '#45454a', hint: H.hopper },
-    chest: { name: 'Truhe', shape: 'chest', tex: { all: 'chest' }, color: '#a8702b', hint: (f) => H.facingFront(f) + ' Zwei Truhen nebeneinander werden zur Doppeltruhe.' },
-    furnace: { name: 'Ofen', shape: 'cube', tex: { front: 'furnace_front', side: 'furnace_side', top: 'furnace_top', bottom: 'furnace_top' }, color: '#6f6f6f', hint: H.facingFront },
-    dispenser: { name: 'Werfer', shape: 'cube', tex: { front: 'dispenser_front', side: 'furnace_side', top: 'furnace_top', bottom: 'furnace_top' }, color: '#6a6a6a', hint: (f) => H.facingFront(f) + ' Einen Wassereimer hineinlegen.' },
-    piston: { name: 'Kolben', shape: 'piston', tex: { all: 'piston_body' }, color: '#9a8455', hint: H.piston },
-    observer: { name: 'Beobachter', shape: 'cube', tex: { front: 'observer_front', back: 'observer_back', side: 'observer_side' }, color: '#5a5a5a', hint: H.observer },
-    redstone: { name: 'Redstone-Staub', shape: 'dust', color: '#d42a1e', item: 'Redstone', hint: () => 'Redstone auf den Block darunter streuen.' },
-    stone_button: { name: 'Steinknopf', shape: 'button', tex: { all: 'button' }, color: '#9a9a9a', hint: (f) => H.attached(f, 'Knopf') },
-    oak_wall_sign: { name: 'Eichenholzschild', shape: 'wall_sign', tex: { all: 'sign' }, color: '#c7a56b', stack: 16, item: 'Eichenholzschild', hint: (f) => H.attached(f, 'Schild') + ' Text leer lassen (Esc).' },
-    rail_cart: { name: 'Schiene + Trichterlore', shape: 'rail_cart', tex: { all: 'rail' }, color: '#8a8a8a', items: [['Schiene', 1, 64], ['Trichterlore', 1, 1]], hint: () => 'Zuerst die Schiene, dann eine Trichterlore daraufsetzen. Die Lore bleibt stehen, weil die Enden blockiert sind.' },
-    red_bed: { name: 'Rotes Bett', shape: 'bed', color: '#a82a24', partCount: 'foot', stack: 1, item: 'Rotes Bett', hint: (f) => 'Kopfteil zeigt nach ' + DIR_NAME[f] + ': nach ' + DIR_NAME[f] + ' schauen und auf das Fußende klicken.' },
+    hopper: { name: 'Trichter', shape: 'hopper', tex: { all: 'hopper' }, color: '#45454a', hint: 'hopper' },
+    chest: { name: 'Truhe', shape: 'chest', tex: { all: 'chest' }, color: '#a8702b', hint: 'chest' },
+    furnace: { name: 'Ofen', shape: 'cube', tex: { front: 'furnace_front', side: 'furnace_side', top: 'furnace_top', bottom: 'furnace_top' }, color: '#6f6f6f', hint: 'front' },
+    dispenser: { name: 'Werfer', shape: 'cube', tex: { front: 'dispenser_front', side: 'furnace_side', top: 'furnace_top', bottom: 'furnace_top' }, color: '#6a6a6a', hint: 'dispenser' },
+    piston: { name: 'Kolben', shape: 'piston', tex: { all: 'piston_body' }, color: '#9a8455', hint: 'piston' },
+    observer: { name: 'Beobachter', shape: 'cube', tex: { front: 'observer_front', back: 'observer_back', side: 'observer_side' }, color: '#5a5a5a', hint: 'observer' },
+    redstone: { name: 'Redstone-Staub', shape: 'dust', color: '#d42a1e', item: 'Redstone', hint: 'redstone' },
+    stone_button: { name: 'Steinknopf', shape: 'button', tex: { all: 'button' }, color: '#9a9a9a', hint: 'stone_button' },
+    oak_wall_sign: { name: 'Eichenholzschild', shape: 'wall_sign', tex: { all: 'sign' }, color: '#c7a56b', stack: 16, item: 'Eichenholzschild', hint: 'oak_wall_sign' },
+    rail_cart: { name: 'Schiene + Trichterlore', shape: 'rail_cart', tex: { all: 'rail' }, color: '#8a8a8a', items: [['Schiene', 1, 64], ['Trichterlore', 1, 1]], hint: 'rail_cart' },
+    red_bed: { name: 'Rotes Bett', shape: 'bed', color: '#a82a24', partCount: 'foot', stack: 1, item: 'Rotes Bett', hint: 'red_bed' },
 
-    sugar_cane: { name: 'Zuckerrohr', shape: 'cross', tex: { all: 'sugar_cane' }, color: '#8ccf6a', hint: () => 'Auf die Erde pflanzen (Wasser muss direkt daneben liegen).' },
-    sugar_cane_auto: { name: 'Zuckerrohr (wächst)', shape: 'cross', tex: { all: 'sugar_cane' }, color: '#8ccf6a', auto: true, hint: () => 'Wächst von selbst nach. Nicht platzieren.' },
-    pumpkin_stem: { name: 'Kürbiskerne', shape: 'cross', tex: { all: 'stem' }, color: '#6f9a2e', item: 'Kürbis- oder Melonenkerne', hint: () => 'Kerne auf den Ackerboden pflanzen.' },
-    pumpkin_auto: { name: 'Kürbis (wächst)', shape: 'cube', tex: { top: 'pumpkin_top', bottom: 'pumpkin_top', side: 'pumpkin_side' }, color: '#c97614', auto: true, ghost: true, hint: () => 'Hier wächst der Kürbis. Der Platz muss frei bleiben.' },
-    wheat: { name: 'Weizen', shape: 'cross', tex: { all: 'wheat' }, color: '#d9b64a', item: 'Weizenkörner', hint: () => 'Weizenkörner auf den Ackerboden pflanzen.' },
+    sugar_cane: { name: 'Zuckerrohr', shape: 'cross', tex: { all: 'sugar_cane' }, color: '#8ccf6a', hint: 'sugar_cane' },
+    sugar_cane_auto: { name: 'Zuckerrohr (wächst)', shape: 'cross', tex: { all: 'sugar_cane' }, color: '#8ccf6a', auto: true, hint: 'sugar_cane_auto' },
+    pumpkin_stem: { name: 'Kürbiskerne', shape: 'cross', tex: { all: 'stem' }, color: '#6f9a2e', item: 'Kürbis- oder Melonenkerne', hint: 'pumpkin_stem' },
+    pumpkin_auto: { name: 'Kürbis (wächst)', shape: 'cube', tex: { top: 'pumpkin_top', bottom: 'pumpkin_top', side: 'pumpkin_side' }, color: '#c97614', auto: true, ghost: true, hint: 'pumpkin_auto' },
+    wheat: { name: 'Weizen', shape: 'cross', tex: { all: 'wheat' }, color: '#d9b64a', item: 'Weizenkörner', hint: 'wheat' },
 
-    villager: { name: 'Dorfbewohner', shape: 'entity', kind: 'villager', color: '#7b5a3a', entity: true, hint: () => 'Dorfbewohner hierher bringen, z. B. mit Boot oder Lore. Kinder zählen nicht.' },
-    zombie: { name: 'Zombie', shape: 'entity', kind: 'zombie', color: '#4f8a4a', entity: true, hint: () => 'Zombie hierher locken und mit einem Namensschild benennen, damit er nicht verschwindet.' },
-    chicken: { name: 'Huhn', shape: 'entity', kind: 'chicken', color: '#f2f2f2', entity: true, hint: () => 'Eier in das Gehege werfen, bis Küken schlüpfen.' },
+    villager: { name: 'Dorfbewohner', shape: 'entity', kind: 'villager', color: '#7b5a3a', entity: true, hint: 'villager' },
+    zombie: { name: 'Zombie', shape: 'entity', kind: 'zombie', color: '#4f8a4a', entity: true, hint: 'zombie' },
+    chicken: { name: 'Huhn', shape: 'entity', kind: 'chicken', color: '#f2f2f2', entity: true, hint: 'chicken' },
 
-    bamboo: { name: 'Bambus', shape: 'bamboo', tex: { side: 'bamboo', top: 'bamboo_top' }, color: '#5f9e2f', hint: () => 'Bambus auf die Erde pflanzen.' },
-    bamboo_auto: { name: 'Bambus (wächst)', shape: 'bamboo', tex: { side: 'bamboo', top: 'bamboo_top' }, color: '#5f9e2f', auto: true, ghost: true, hint: () => 'Wächst von selbst nach. Nicht platzieren.' },
-    oak_trapdoor: { name: 'Falltür (offen)', shape: 'trapdoor', tex: { all: 'trapdoor' }, color: '#a07a45', item: 'Eichenholzfalltür', hint: (f) => 'Auf die untere Hälfte der Blockseite im ' + DIR_NAME[OPP[f]] + ' klicken, dann rechtsklicken, damit sie offen an der Wand steht.' },
-    cauldron: { name: 'Kessel', shape: 'cauldron', tex: { all: 'cauldron' }, color: '#45464b', hint: () => 'Direkt unter die Spitze des Tropfsteins stellen. Später mit einem leeren Eimer ernten.' },
-    pointed_dripstone: { name: 'Spitzer Tropfstein', shape: 'cross', tex: { all: 'dripstone' }, color: '#a5836a', hint: () => 'Von unten an den Block kleben (an die Unterseite klicken), Spitze zeigt nach unten.' },
-    obsidian: { name: 'Obsidian', shape: 'cube', tex: { all: 'obsidian' }, color: '#2a1e3c', hint: () => 'Nur mit einer Diamant- oder Netheritspitzhacke abbaubar. Alternativ Wasser auf Lavaquellen gießen.' },
-    nether_portal: { name: 'Portal', shape: 'portal', tex: { all: 'portal' }, color: '#8a3cdc', auto: true, hint: () => 'Mit Feuerzeug den Rahmen innen anzünden. Das Portal entsteht von selbst.' },
-    iron_block: { name: 'Eisenblock', shape: 'cube', tex: { all: 'iron_block' }, color: '#d6d8da', hint: () => 'Geht auch mit Gold-, Smaragd-, Diamant- oder Netheritblöcken, auch gemischt.' },
-    beacon: { name: 'Leuchtfeuer', shape: 'beacon', tex: { all: 'beacon' }, color: '#7fe8e0', emissive: true, stack: 64, hint: () => 'In die Mitte oben setzen. Darüber muss freier Himmel sein (Glas ist erlaubt).' },
+    bamboo: { name: 'Bambus', shape: 'bamboo', tex: { side: 'bamboo', top: 'bamboo_top' }, color: '#5f9e2f', hint: 'bamboo' },
+    bamboo_auto: { name: 'Bambus (wächst)', shape: 'bamboo', tex: { side: 'bamboo', top: 'bamboo_top' }, color: '#5f9e2f', auto: true, ghost: true, hint: 'bamboo_auto' },
+    oak_trapdoor: { name: 'Falltür (offen)', shape: 'trapdoor', tex: { all: 'trapdoor' }, color: '#a07a45', item: 'Eichenholzfalltür', hint: 'oak_trapdoor' },
+    cauldron: { name: 'Kessel', shape: 'cauldron', tex: { all: 'cauldron' }, color: '#45464b', hint: 'cauldron' },
+    pointed_dripstone: { name: 'Spitzer Tropfstein', shape: 'cross', tex: { all: 'dripstone' }, color: '#a5836a', hint: 'pointed_dripstone' },
+    obsidian: { name: 'Obsidian', shape: 'cube', tex: { all: 'obsidian' }, color: '#2a1e3c', hint: 'obsidian' },
+    nether_portal: { name: 'Portal', shape: 'portal', tex: { all: 'portal' }, color: '#8a3cdc', auto: true, hint: 'nether_portal' },
+    iron_block: { name: 'Eisenblock', shape: 'cube', tex: { all: 'iron_block' }, color: '#d6d8da', hint: 'iron_block' },
+    beacon: { name: 'Leuchtfeuer', shape: 'beacon', tex: { all: 'beacon' }, color: '#7fe8e0', emissive: true, stack: 64, hint: 'beacon' },
     white_wool: { name: 'Weiße Wolle', shape: 'cube', tex: { all: 'wool' }, color: '#eaeceb' },
     gray_concrete: { name: 'Grauer Beton', shape: 'cube', tex: { all: 'gray_concrete' }, color: '#3b3f44' },
-    lectern: { name: 'Lesepult', shape: 'cube', tex: { top: 'lectern_top', bottom: 'oak_planks', side: 'lectern_side' }, color: '#a8864f', hint: () => 'Arbeitsplatz für Bibliothekare.' },
-    composter: { name: 'Komposter', shape: 'cube', tex: { top: 'composter_top', bottom: 'oak_planks', side: 'composter_side' }, color: '#8a6a3c', hint: () => 'Arbeitsplatz für Bauern.' },
-    blast_furnace: { name: 'Schmelzofen', shape: 'cube', tex: { front: 'blast_front', side: 'blast_side', top: 'blast_side', bottom: 'blast_side' }, color: '#5b5c60', hint: (f) => H.facingFront(f) + ' Arbeitsplatz für Rüstungsschmiede.' },
-    fletching_table: { name: 'Bognertisch', shape: 'cube', tex: { top: 'fletching_top', bottom: 'oak_planks', side: 'fletching_side' }, color: '#d9c88a', hint: () => 'Arbeitsplatz für Pfeilmacher (Smaragde für Stöcke).' },
-    smithing_table: { name: 'Schmiedetisch', shape: 'cube', tex: { top: 'smithing_top', bottom: 'smithing_side', side: 'smithing_side' }, color: '#2e2f35', hint: () => 'Arbeitsplatz für Werkzeugschmiede.' },
-    oak_trapdoor_closed: { name: 'Bodenklappe (Falltür)', shape: 'trapdoor_top', tex: { all: 'oak_planks' }, color: '#a8864f', item: 'Eichenholzfalltür', hint: () => 'Geschlossene Falltür in der oberen Blockhälfte: von unten an die obere Hälfte klicken. Sieht aus wie Holzboden.' },
-    stone_env: { name: 'Fels (vorhanden)', shape: 'cube', tex: { all: 'stone' }, color: '#7a7a7a', auto: true, env: 'stone', hint: () => 'Vorhandener Fels oder Berg. Am besten grabst du den Bau in einen echten Berg, dann sparst du diese Blöcke.' },
-    grass_env: { name: 'Gras (vorhanden)', shape: 'cube', tex: { top: 'grass_top', bottom: 'dirt', side: 'grass_side' }, color: '#6aa84f', auto: true, env: 'grass_block', hint: () => 'Vorhandener Boden. Nur nachbauen, wenn er fehlt.' },
-    redstone_lamp: { name: 'Redstone-Lampe', shape: 'cube', tex: { all: 'lamp_on' }, color: '#e8a24a', emissive: true, hint: () => 'Leuchtet, sobald sie Strom bekommt (hier: nachts über den Tageslichtsensor).' },
-    daylight_detector: { name: 'Tageslichtsensor (umgedreht)', shape: 'detector', tex: { top: 'detector_top', bottom: 'detector_side', side: 'detector_side' }, color: '#5a7f9e', item: 'Tageslichtsensor', hint: () => 'Nach dem Setzen einmal rechtsklicken: Er wird blau und gibt dann nachts Strom ab.' },
-    note_block: { name: 'Notenblock', shape: 'cube', tex: { all: 'note_block' }, color: '#6b4a2a', hint: () => 'Der Block darüber muss frei bleiben, sonst bleibt er stumm. Rechtsklick ändert den Ton.' },
-    lever: { name: 'Hebel', shape: 'lever', tex: { all: 'cobble' }, color: '#8a8a8a', hint: (f) => 'Hebel an die Wand im ' + DIR_NAME[OPP[f]] + ' setzen. Hebel an = Tür zu, Hebel aus = Tür offen.' },
-    sticky_piston: { name: 'Klebriger Kolben', shape: 'piston', sticky: true, tex: { all: 'piston_body' }, color: '#7fc062', hint: H.piston },
-    piston_head: { name: 'Kolbenkopf (ausgefahren)', shape: 'piston_head', tex: { all: 'piston_wood' }, color: '#c9a76a', auto: true, hint: () => 'So sieht es aus, wenn der Kolben ausgefahren ist. Nicht platzieren.' },
-    stonecutter: { name: 'Steinsäge', shape: 'stonecutter', tex: { top: 'stonecutter_top', bottom: 'stone', side: 'smooth_stone' }, color: '#8a8a8a', hint: () => 'Macht aus Stein Stufen, Treppen und Ziegel ohne Verlust.' },
+    lectern: { name: 'Lesepult', shape: 'cube', tex: { top: 'lectern_top', bottom: 'oak_planks', side: 'lectern_side' }, color: '#a8864f', hint: 'lectern' },
+    composter: { name: 'Komposter', shape: 'cube', tex: { top: 'composter_top', bottom: 'oak_planks', side: 'composter_side' }, color: '#8a6a3c', hint: 'composter' },
+    blast_furnace: { name: 'Schmelzofen', shape: 'cube', tex: { front: 'blast_front', side: 'blast_side', top: 'blast_side', bottom: 'blast_side' }, color: '#5b5c60', hint: 'blast_furnace' },
+    fletching_table: { name: 'Bognertisch', shape: 'cube', tex: { top: 'fletching_top', bottom: 'oak_planks', side: 'fletching_side' }, color: '#d9c88a', hint: 'fletching_table' },
+    smithing_table: { name: 'Schmiedetisch', shape: 'cube', tex: { top: 'smithing_top', bottom: 'smithing_side', side: 'smithing_side' }, color: '#2e2f35', hint: 'smithing_table' },
+    oak_trapdoor_closed: { name: 'Bodenklappe (Falltür)', shape: 'trapdoor_top', tex: { all: 'oak_planks' }, color: '#a8864f', item: 'Eichenholzfalltür', hint: 'oak_trapdoor_closed' },
+    stone_env: { name: 'Fels (vorhanden)', shape: 'cube', tex: { all: 'stone' }, color: '#7a7a7a', auto: true, env: 'stone', hint: 'stone_env' },
+    grass_env: { name: 'Gras (vorhanden)', shape: 'cube', tex: { top: 'grass_top', bottom: 'dirt', side: 'grass_side' }, color: '#6aa84f', auto: true, env: 'grass_block', hint: 'grass_env' },
+    redstone_lamp: { name: 'Redstone-Lampe', shape: 'cube', tex: { all: 'lamp_on' }, color: '#e8a24a', emissive: true, hint: 'redstone_lamp' },
+    daylight_detector: { name: 'Tageslichtsensor (umgedreht)', shape: 'detector', tex: { top: 'detector_top', bottom: 'detector_side', side: 'detector_side' }, color: '#5a7f9e', item: 'Tageslichtsensor', hint: 'daylight_detector' },
+    note_block: { name: 'Notenblock', shape: 'cube', tex: { all: 'note_block' }, color: '#6b4a2a', hint: 'note_block' },
+    lever: { name: 'Hebel', shape: 'lever', tex: { all: 'cobble' }, color: '#8a8a8a', hint: 'lever' },
+    sticky_piston: { name: 'Klebriger Kolben', shape: 'piston', sticky: true, tex: { all: 'piston_body' }, color: '#7fc062', hint: 'piston' },
+    piston_head: { name: 'Kolbenkopf (ausgefahren)', shape: 'piston_head', tex: { all: 'piston_wood' }, color: '#c9a76a', auto: true, hint: 'piston_head' },
+    stonecutter: { name: 'Steinsäge', shape: 'stonecutter', tex: { top: 'stonecutter_top', bottom: 'stone', side: 'smooth_stone' }, color: '#8a8a8a', hint: 'stonecutter' },
     sandstone: { name: 'Sandstein', shape: 'cube', tex: { top: 'sandstone_top', bottom: 'sandstone_top', side: 'sandstone' }, color: '#d8c98f' },
-    sandstone_stairs: { name: 'Sandsteintreppe', shape: 'stairs', tex: { all: 'sandstone_top' }, color: '#e2d6a6', hint: H.stairs },
+    sandstone_stairs: { name: 'Sandsteintreppe', shape: 'stairs', tex: { all: 'sandstone_top' }, color: '#e2d6a6', hint: 'stairs' },
     sandstone_slab: { name: 'Sandsteinstufe', shape: 'slab', tex: { all: 'sandstone_top' }, color: '#e2d6a6' },
     birch_planks: { name: 'Birkenholzbretter', shape: 'cube', tex: { all: 'birch_planks' }, color: '#c8b77a' },
     birch_log: { name: 'Birkenstamm', shape: 'cube', tex: { top: 'birch_log_top', bottom: 'birch_log_top', side: 'birch_log' }, color: '#dcd8cc' },
-    birch_stairs: { name: 'Birkenholztreppe', shape: 'stairs', tex: { all: 'birch_planks' }, color: '#d4c48a', hint: H.stairs },
+    birch_stairs: { name: 'Birkenholztreppe', shape: 'stairs', tex: { all: 'birch_planks' }, color: '#d4c48a', hint: 'stairs' },
     dark_oak_planks: { name: 'Schwarzeichenbretter', shape: 'cube', tex: { all: 'dark_oak_planks' }, color: '#4a3020' },
     dark_oak_log: { name: 'Schwarzeichenstamm', shape: 'cube', tex: { top: 'dark_oak_log_top', bottom: 'dark_oak_log_top', side: 'dark_oak_log' }, color: '#3a2a1a' },
-    dark_oak_stairs: { name: 'Schwarzeichentreppe', shape: 'stairs', tex: { all: 'dark_oak_planks' }, color: '#5a3c28', hint: H.stairs },
+    dark_oak_stairs: { name: 'Schwarzeichentreppe', shape: 'stairs', tex: { all: 'dark_oak_planks' }, color: '#5a3c28', hint: 'stairs' },
     dark_oak_slab: { name: 'Schwarzeichenstufe', shape: 'slab', tex: { all: 'dark_oak_planks' }, color: '#5a3c28' },
     dark_oak_fence: { name: 'Schwarzeichenzaun', shape: 'fence', tex: { all: 'dark_oak_planks' }, color: '#4a3020' },
     cherry_planks: { name: 'Kirschholzbretter', shape: 'cube', tex: { all: 'cherry_planks' }, color: '#e4b4a8' },
     cherry_log: { name: 'Kirschholzstamm', shape: 'cube', tex: { top: 'cherry_log_top', bottom: 'cherry_log_top', side: 'cherry_log' }, color: '#3b2028' },
-    cherry_stairs: { name: 'Kirschholztreppe', shape: 'stairs', tex: { all: 'cherry_planks' }, color: '#e9c0b4', hint: H.stairs },
+    cherry_stairs: { name: 'Kirschholztreppe', shape: 'stairs', tex: { all: 'cherry_planks' }, color: '#e9c0b4', hint: 'stairs' },
     cherry_leaves: { name: 'Kirschblätter', shape: 'cube', tex: { all: 'cherry_leaves' }, color: '#f2b6cf' },
     bricks: { name: 'Ziegelsteine', shape: 'cube', tex: { all: 'bricks' }, color: '#9a4a3a' },
-    brick_stairs: { name: 'Ziegeltreppe', shape: 'stairs', tex: { all: 'bricks' }, color: '#a8584a', hint: H.stairs },
+    brick_stairs: { name: 'Ziegeltreppe', shape: 'stairs', tex: { all: 'bricks' }, color: '#a8584a', hint: 'stairs' },
     snow_block: { name: 'Schneeblock', shape: 'cube', tex: { all: 'snow' }, color: '#f4f8fa' },
     bookshelf: { name: 'Bücherregal', shape: 'cube', tex: { top: 'oak_planks', bottom: 'oak_planks', side: 'bookshelf' }, color: '#8a5a3a' },
     barrel: { name: 'Fass', shape: 'cube', tex: { top: 'barrel_top', bottom: 'barrel_top', side: 'barrel_side' }, color: '#7a5a34' },
-    anvil: { name: 'Amboss', shape: 'anvil', tex: { all: 'anvil' }, color: '#45464a', hint: (f) => 'Amboss: Lange Seite zeigt quer zu deiner Blickrichtung.' },
-    bell: { name: 'Glocke', shape: 'bell', tex: { all: 'bell' }, color: '#e8c04a', hint: () => 'Auf den Block darunter setzen.' },
+    anvil: { name: 'Amboss', shape: 'anvil', tex: { all: 'anvil' }, color: '#45464a', hint: 'anvil' },
+    bell: { name: 'Glocke', shape: 'bell', tex: { all: 'bell' }, color: '#e8c04a', hint: 'bell' },
     quartz_block: { name: 'Quarzblock', shape: 'cube', tex: { all: 'quartz' }, color: '#ece6de' },
     smooth_stone: { name: 'Glatter Stein', shape: 'cube', tex: { all: 'smooth_stone' }, color: '#a3a3a3' },
     smooth_stone_slab: { name: 'Glatte Steinstufe', shape: 'slab', tex: { all: 'smooth_stone' }, color: '#a3a3a3' },
@@ -478,20 +448,20 @@
     red_wool: { name: 'Rote Wolle', shape: 'cube', tex: { all: 'red_wool' }, color: '#a82a24' },
     terracotta: { name: 'Keramik', shape: 'cube', tex: { all: 'terracotta' }, color: '#a0583a' },
     prismarine_bricks: { name: 'Prismarinziegel', shape: 'cube', tex: { all: 'prismarine' }, color: '#5aa89a' },
-    beehive: { name: 'Bienenstock', shape: 'cube', tex: { front: 'beehive_front', side: 'beehive_side', top: 'beehive_top', bottom: 'beehive_top' }, color: '#b98c4c', hint: (f) => 'Eingang zeigt nach ' + DIR_NAME[f] + ', davor muss frei sein. Mit Bienen drin: Bienennest mit Behutsamkeit abbauen oder Bienen mit Blumen anlocken.' },
-    soul_soil: { name: 'Seelenerde', shape: 'cube', tex: { all: 'soul_soil' }, color: '#4b3a2e', hint: () => 'Gibt es im Seelensandtal im Nether.' },
-    soul_sand: { name: 'Seelensand', shape: 'cube', tex: { all: 'soul_sand' }, color: '#5b4535', hint: () => 'Erzeugt im Wasser darüber eine Blasensäule nach oben.' },
-    magma_block: { name: 'Magmablock', shape: 'cube', tex: { all: 'magma' }, color: '#6a2a10', emissive: true, hint: () => 'Erzeugt im Wasser darüber eine Blasensäule nach unten.' },
-    blue_ice: { name: 'Blaues Eis', shape: 'cube', tex: { all: 'blue_ice' }, color: '#74b4f0', hint: () => 'Aus 9 Packeis herstellen oder in Eisbergen finden.' },
-    basalt_auto: { name: 'Basalt (entsteht)', shape: 'cube', tex: { all: 'basalt' }, color: '#4b4b50', auto: true, ghost: true, hint: () => 'Hier entsteht Basalt. Abbauen, er bildet sich sofort neu.' },
-    stone_auto: { name: 'Stein (entsteht)', shape: 'cube', tex: { all: 'stone' }, color: '#7f7f7f', auto: true, ghost: true, hint: () => 'Hier entsteht Stein. Mit Behutsamkeit bekommst du Stein, sonst Bruchstein.' },
-    powered_rail: { name: 'Antriebsschiene', shape: 'rail', tex: { all: 'powered_rail' }, color: '#e0b23a', hint: () => 'Wird durch den Redstone-Block darunter dauerhaft angetrieben.' },
+    beehive: { name: 'Bienenstock', shape: 'cube', tex: { front: 'beehive_front', side: 'beehive_side', top: 'beehive_top', bottom: 'beehive_top' }, color: '#b98c4c', hint: 'beehive' },
+    soul_soil: { name: 'Seelenerde', shape: 'cube', tex: { all: 'soul_soil' }, color: '#4b3a2e', hint: 'soul_soil' },
+    soul_sand: { name: 'Seelensand', shape: 'cube', tex: { all: 'soul_sand' }, color: '#5b4535', hint: 'soul_sand' },
+    magma_block: { name: 'Magmablock', shape: 'cube', tex: { all: 'magma' }, color: '#6a2a10', emissive: true, hint: 'magma_block' },
+    blue_ice: { name: 'Blaues Eis', shape: 'cube', tex: { all: 'blue_ice' }, color: '#74b4f0', hint: 'blue_ice' },
+    basalt_auto: { name: 'Basalt (entsteht)', shape: 'cube', tex: { all: 'basalt' }, color: '#4b4b50', auto: true, ghost: true, hint: 'basalt_auto' },
+    stone_auto: { name: 'Stein (entsteht)', shape: 'cube', tex: { all: 'stone' }, color: '#7f7f7f', auto: true, ghost: true, hint: 'stone_auto' },
+    powered_rail: { name: 'Antriebsschiene', shape: 'rail', tex: { all: 'powered_rail' }, color: '#e0b23a', hint: 'powered_rail' },
     rail: { name: 'Schiene', shape: 'rail', tex: { all: 'rail' }, color: '#a7a7a7' },
     redstone_block: { name: 'Redstone-Block', shape: 'cube', tex: { all: 'redstone_block' }, color: '#b0170e' },
     poppy: { name: 'Mohn', shape: 'cross', tex: { all: 'poppy' }, color: '#c8221c' },
     dandelion: { name: 'Löwenzahn', shape: 'cross', tex: { all: 'dandelion' }, color: '#f2d22a' },
-    spruce_fence_gate: { name: 'Fichtenholzzauntor', shape: 'gate', tex: { all: 'spruce_planks' }, color: '#715231', hint: (f) => 'Zauntor: beim Platzieren nach ' + DIR_NAME[f] + ' oder ' + DIR_NAME[OPP[f]] + ' schauen.' },
-    cobble_auto: { name: 'Bruchstein (entsteht)', shape: 'cube', tex: { all: 'cobble' }, color: '#8a8a8a', auto: true, ghost: true, hint: () => 'Hier entsteht der Bruchstein. Abbauen, er bildet sich sofort neu.' }
+    spruce_fence_gate: { name: 'Fichtenholzzauntor', shape: 'gate', tex: { all: 'spruce_planks' }, color: '#715231', hint: 'spruce_fence_gate' },
+    cobble_auto: { name: 'Bruchstein (entsteht)', shape: 'cube', tex: { all: 'cobble' }, color: '#8a8a8a', auto: true, ghost: true, hint: 'cobble_auto' }
   };
 
   for (const id in B) B[id].id = id;
@@ -510,11 +480,22 @@
     return out;
   }
 
+  /* Hinweise sind Vorlagen aus I18N (hints): Text oder { u, d, h, top, bottom, topAdd, base, add }.
+     {f} = Richtung, {o} = Gegenrichtung. */
   function hintFor(cell) {
     const def = B[cell.id];
-    if (!def) return '';
-    if (def.hint) return def.hint(cell.facing || 'n', cell);
-    return '';
+    if (!def || !def.hint || !global.I18N) return '';
+    const f = cell.facing || 'n';
+    const fill = (s) => s.replace(/\{f\}/g, I18N.dir(f)).replace(/\{o\}/g, I18N.dir(OPP[f]));
+    const pick = (e) => {
+      if (!e) return '';
+      if (typeof e === 'string') return e;
+      if (e.base) return pick(I18N.hint(e.base)) + (e.add || '');
+      let s = e[f] || e[cell.half || 'bottom'] || e.h || '';
+      if (cell.half === 'top' && e.topAdd) s += e.topAdd;
+      return s;
+    };
+    return I18N.sentence(fill(pick(I18N.hint(def.hint))));
   }
 
   /* Liefert [[Name, Anzahl, Stapelgröße]] für die Materialliste. */
@@ -535,6 +516,7 @@
     const def = B[c.id];
     if (!def || def.entity) return null;
     if (def.env) return def.env;
+    if (def.generic) return def.java + (c.facing && def.facingProp ? '[facing=' + MC.DIR_NAME_EN[c.facing] + ']' : '');
     if (def.auto) return null;
     if (c.id === 'rail_cart') return 'rail[shape=' + (c.facing === 'e' || c.facing === 'w' ? 'east_west' : 'north_south') + ']';
     if (def.shape === 'rail') return c.id + '[shape=' + (c.facing === 'e' || c.facing === 'w' ? 'east_west' : 'north_south') + (c.id === 'powered_rail' ? ',powered=true' : '') + ']';
@@ -572,5 +554,39 @@
     return out;
   }
 
-  global.MC = { DIRS, OPP, DIR_NAME, DIR_SHORT, DIR_NAME_EN: { n: 'north', s: 'south', e: 'east', w: 'west', u: 'up', d: 'down' }, BLOCKS: B, parse, texCanvas, hintFor, itemsFor, javaCommands };
+
+  /* ---------- Unbekannte Blöcke aus Importen ---------- */
+  const GEN_COLORS = [
+    ['light_blue', '#3aafd9'], ['light_gray', '#8e8e86'], ['white', '#e9ecec'], ['orange', '#f07613'], ['magenta', '#bd44b3'], ['yellow', '#f8c527'],
+    ['lime', '#70b919'], ['pink', '#ed8dac'], ['gray', '#3e4447'], ['cyan', '#158991'], ['purple', '#792aac'], ['blue', '#35399d'], ['brown', '#724728'],
+    ['green', '#546d1b'], ['red_sand', '#be6621'], ['red', '#a12722'], ['black', '#141519'], ['dark_oak', '#4a3020'], ['oak', '#a8864f'], ['spruce', '#715231'],
+    ['birch', '#c8b77a'], ['jungle', '#a07351'], ['acacia', '#a85a32'], ['mangrove', '#7a3330'], ['cherry', '#e4b4a8'], ['bamboo', '#c3ad53'], ['crimson', '#7e3a56'],
+    ['warped', '#398382'], ['deepslate', '#4d4d50'], ['granite', '#9a6a59'], ['diorite', '#bcbcbc'], ['andesite', '#888889'], ['sand', '#dccf9e'], ['gravel', '#847f7e'],
+    ['dirt', '#866043'], ['mud', '#3c3a3d'], ['netherrack', '#6f3534'], ['nether_brick', '#2d1619'], ['end_stone', '#dbde9e'], ['prismarine', '#5aa89a'], ['quartz', '#ece6de'],
+    ['copper', '#c06c50'], ['gold', '#f6d03d'], ['iron', '#d6d8da'], ['diamond', '#62ede4'], ['emerald', '#2fd15d'], ['lapis', '#1f43a8'], ['obsidian', '#2a1e3c'],
+    ['ice', '#91b7fd'], ['snow', '#f4f8fa'], ['leaves', '#3f7a2c'], ['moss', '#596e2d'], ['tuff', '#6c6d66'], ['calcite', '#dfe0dc'], ['blackstone', '#2a2328'],
+    ['basalt', '#4b4b50'], ['terracotta', '#a0583a'], ['brick', '#9a4a3a'], ['purpur', '#a97ea9'], ['honey', '#fbbb38'], ['slime', '#78c45f'], ['sponge', '#c3c049'],
+    ['sculk', '#0d1e24'], ['amethyst', '#8561c0'], ['glass', '#cfe8f3'], ['stone', '#7f7f7f'], ['wool', '#e9ecec'], ['torch', '#f1b54b'], ['log', '#6b5232'], ['planks', '#a8864f']
+  ];
+  const GEN_SHAPES = [['_stairs', 'stairs'], ['_slab', 'slab'], ['_fence_gate', 'gate'], ['_fence', 'fence'], ['_wall', 'wall'], ['glass_pane', 'pane'], ['iron_bars', 'pane'], ['_carpet', 'carpet'],
+    ['_trapdoor', 'trapdoor_top'], ['_door', 'door'], ['torch', 'lantern'], ['lantern', 'lantern'], ['flower', 'cross'], ['sapling', 'cross'], ['short_grass', 'cross'], ['fern', 'cross'],
+    ['tulip', 'cross'], ['orchid', 'cross'], ['allium', 'cross'], ['bluet', 'cross'], ['daisy', 'cross'], ['cornflower', 'cross'], ['lily_of_the_valley', 'cross'], ['rose', 'cross'],
+    ['mushroom', 'cross'], ['_button', 'button'], ['ladder', 'ladder'], ['_sign', 'wall_sign'], ['rail', 'rail']];
+  function generic(name, props) {
+    const id = 'x.' + name;
+    if (!B[id]) {
+      const color = (GEN_COLORS.find(([k]) => name.includes(k)) || [null, '#' + (0x808080 + (hash(name) & 0x3f3f3f)).toString(16).slice(-6)])[1];
+      const sh = GEN_SHAPES.find(([k]) => name.includes(k));
+      const pretty = name.split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+      B[id] = { id, name: pretty, shape: sh ? sh[1] : 'cube', tex: { all: 'gen:' + color }, color, generic: true, java: name, hint: 'imported',
+        transparent: /glass|ice|leaves/.test(name) && !/packed|blue_ice/.test(name), emissive: /lamp|lantern|torch|glowstone|shroomlight|froglight/.test(name) };
+    }
+    if (props && props.facing) { B[id].facingProp = true; return id + ':' + ({ north: 'n', south: 's', east: 'e', west: 'w', up: 'u', down: 'd' }[props.facing] || 'n'); }
+    if (props && props.half === 'top' && B[id].shape === 'stairs') return id + ':top';
+    if (props && props.type === 'top' && B[id].shape === 'slab') return id + ':top';
+    if (props && B[id].shape === 'door') return id + ':' + (props.half === 'upper' ? 'upper' : 'lower');
+    return id;
+  }
+
+  global.MC = { DIRS, OPP, DIR_NAME, DIR_SHORT, DIR_NAME_EN: { n: 'north', s: 'south', e: 'east', w: 'west', u: 'up', d: 'down' }, BLOCKS: B, parse, texCanvas, hintFor, itemsFor, javaCommands, javaState, generic };
 })(window);
