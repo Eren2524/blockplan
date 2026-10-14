@@ -155,7 +155,7 @@
         const m = pane ? mat(def.tex.all, { transparent: true }) : mat(def.tex.all);
         const conn = ['e', 'w', 's', 'n'].filter((d) => {
           const n = nb(MC.DIRS[d]);
-          return n && (isCube(n) || D(n).shape === def.shape || (pane && D(n).shape === 'door'));
+          return n && (isCube(n) || D(n).shape === def.shape || D(n).shape === 'gate' || (pane && D(n).shape === 'door'));
         });
         if (pane && conn.length === 0) conn.push('e', 'w');
         if (pane) {
@@ -284,11 +284,19 @@
       }
       case 'lantern': {
         const above = nb([0, 1, 0]), below = nb([0, -1, 0]);
-        const hanging = above && isCube(above) && !(below && (isCube(below) || D(below).shape === 'fence'));
+        const hanging = above && (isCube(above) || (D(above).shape === 'slab' && above.half !== 'top')) && !(below && (isCube(below) || D(below).shape === 'fence'));
         const y0 = hanging ? 0.3 : 0;
         add(bx(0.3125, y0, 0.3125, 0.6875, y0 + 0.4375, 0.6875, mat('lantern', { basic: true })));
         add(bx(0.375, y0 + 0.4375, 0.375, 0.625, y0 + 0.5625, 0.625, colorMat('#2f2f33')));
         if (hanging) add(bx(0.47, y0 + 0.5625, 0.47, 0.53, 1, 0.53, colorMat('#4a4a50')));
+        break;
+      }
+      case 'gate': {
+        const m = mat(def.tex.all);
+        const ax = f === 'n' || f === 's';
+        const post = (a) => ax ? bx(a, 0.3125, 0.4375, a + 0.125, 1, 0.5625, m) : bx(0.4375, 0.3125, a, 0.5625, 1, a + 0.125, m);
+        add(post(0)); add(post(0.875));
+        for (const y of [0.375, 0.75]) add(ax ? bx(0.125, y, 0.4375, 0.875, y + 0.1875, 0.5625, m) : bx(0.4375, y, 0.125, 0.5625, y + 0.1875, 0.875, m));
         break;
       }
       case 'trapdoor': {
@@ -512,11 +520,11 @@
     const [W, H, Dp] = this.build.size;
     const center = new THREE.Vector3(W / 2, H * 0.42, Dp / 2);
     const fit = this.camera.aspect < 1 ? 1 / Math.max(0.55, this.camera.aspect) : 1;
-    const r = (Math.max(W, H, Dp) * 1.35 + 4) * fit;
+    const r = (Math.max(W, H, Dp) * 1.5 + 4) * fit;
     this.controls.target.copy(center);
     if (name === 'top') this.camera.position.set(W / 2, H + r * 1.1, Dp / 2 + 0.01);
-    else if (name === 'front') this.camera.position.set(W / 2, center.y + r * 0.25, Dp / 2 + r * 1.05);
-    else this.camera.position.set(center.x + r * 0.62, center.y + r * 0.62, center.z + r * 0.78);
+    else if (name === 'front') this.camera.position.set(W / 2, center.y + r * 0.25, Dp / 2 - r * 1.05);
+    else this.camera.position.set(center.x + r * 0.62, center.y + r * 0.62, center.z - r * 0.78);
     if (name === 'top') this.controls.target.set(W / 2, 0, Dp / 2);
     this.camera.updateProjectionMatrix();
     this.controls.update();

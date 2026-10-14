@@ -15,6 +15,8 @@ Wer lieber einen lokalen Server nutzt: `python3 -m http.server` im Ordner und da
 - **Platzierungshilfe**: Block antippen und du siehst, in welche Richtung du schauen musst (Kolben, Beobachter, Trichter, Treppen, Betten …)
 - **Materialliste** pro Ebene und für den ganzen Bau, mit Stapeln (64er) und einer kopierbaren Einkaufsliste
 - **Fortschritt**: Ebenen als fertig markieren, wird im Browser gespeichert
+- **Kreativ-Test**: `/setblock`-Befehle für den ganzen Bau oder eine Ebene kopieren (Java Edition, als Datapack-Funktion)
+- **Filter** nach Schwierigkeit und Suche
 - **Spielmodus**: große Weiter/Zurück-Tasten, Tastenkürzel (← → Leertaste), *Bildschirm an* hält Handy/Tablet wach
 
 ### Tastenkürzel
@@ -43,8 +45,10 @@ Wer lieber einen lokalen Server nutzt: `python3 -m http.server` im Ordner und da
 - Lavafarm (Tropfstein + Kessel)
 - Bruchstein-Generator
 
-**Gebäude**: Starterhaus, Wachturm, Dorfbrunnen, Scheune, Leuchtturm, Netherportal,
-Leuchtfeuer-Pyramide, Handelshalle, Windmühle, Modernes Haus, Holzbrücke
+**Bauprojekte**: Netherportal, Leuchtfeuer-Pyramide, Handelshalle, Holzbrücke, Lagerraum
+
+**Gebäude**: Starterhaus, Wachturm, Dorfbrunnen, Scheune, Leuchtturm, Windmühle, Modernes Haus,
+Kastell, Fachwerkhaus, Gewächshaus-Kuppel, Pferdestall, Baumhaus
 
 ## Eigene Baupläne hinzufügen
 

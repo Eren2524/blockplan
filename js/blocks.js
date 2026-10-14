@@ -387,6 +387,7 @@
     blast_furnace: { name: 'Schmelzofen', shape: 'cube', tex: { front: 'blast_front', side: 'blast_side', top: 'blast_side', bottom: 'blast_side' }, color: '#5b5c60', hint: (f) => H.facingFront(f) + ' Arbeitsplatz für Rüstungsschmiede.' },
     fletching_table: { name: 'Bognertisch', shape: 'cube', tex: { top: 'fletching_top', bottom: 'oak_planks', side: 'fletching_side' }, color: '#d9c88a', hint: () => 'Arbeitsplatz für Pfeilmacher (Smaragde für Stöcke).' },
     smithing_table: { name: 'Schmiedetisch', shape: 'cube', tex: { top: 'smithing_top', bottom: 'smithing_side', side: 'smithing_side' }, color: '#2e2f35', hint: () => 'Arbeitsplatz für Werkzeugschmiede.' },
+    spruce_fence_gate: { name: 'Fichtenholzzauntor', shape: 'gate', tex: { all: 'spruce_planks' }, color: '#715231', hint: (f) => 'Zauntor: beim Platzieren nach ' + DIR_NAME[f] + ' oder ' + DIR_NAME[OPP[f]] + ' schauen.' },
     cobble_auto: { name: 'Bruchstein (entsteht)', shape: 'cube', tex: { all: 'cobble' }, color: '#8a8a8a', auto: true, ghost: true, hint: () => 'Hier entsteht der Bruchstein. Abbauen, er bildet sich sofort neu.' }
   };
 
@@ -422,5 +423,46 @@
     return [[def.item || def.name, 1, def.stack || (def.entity ? 0 : 64)]];
   }
 
-  global.MC = { DIRS, OPP, DIR_NAME, DIR_SHORT, BLOCKS: B, parse, texCanvas, hintFor, itemsFor };
+
+  /* ---------- Java-Befehle (Kreativ-Test) ---------- */
+  const MC_ID = { farmland: 'farmland[moisture=7]', oak_leaves: 'oak_leaves[persistent=true]', redstone: 'redstone_wire', hay_block: 'hay_block[axis=y]',
+    sugar_cane: 'sugar_cane', pumpkin_stem: 'pumpkin_stem', pointed_dripstone: 'pointed_dripstone[vertical_direction=down,thickness=tip]' };
+  const FACING_PROP = { hopper: 1, chest: 1, furnace: 1, dispenser: 1, piston: 1, observer: 1, ladder: 1, oak_wall_sign: 1, lectern: 1, blast_furnace: 1, spruce_fence_gate: 1 };
+  function javaState(c) {
+    const def = B[c.id];
+    if (!def || def.auto || def.entity) return null;
+    if (c.id === 'rail_cart') return 'rail[shape=' + (c.facing === 'e' || c.facing === 'w' ? 'east_west' : 'north_south') + ']';
+    if (MC_ID[c.id]) return MC_ID[c.id];
+    const f = MC.DIR_NAME_EN[c.facing || 'n'];
+    switch (def.shape) {
+      case 'stairs': return c.id + '[facing=' + f + ',half=' + (c.half || 'bottom') + ']';
+      case 'slab': return c.id + '[type=' + (c.half || 'bottom') + ']';
+      case 'door': return c.id + '[facing=' + f + ',half=' + (c.part || 'lower') + ']';
+      case 'bed': return c.id + '[facing=' + f + ',part=' + (c.part || 'foot') + ']';
+      case 'trapdoor': return c.id + '[facing=' + f + ',open=true,half=bottom]';
+      case 'button': return c.id + '[face=wall,facing=' + f + ']';
+    }
+    if (FACING_PROP[c.id] && c.facing) return c.id + '[facing=' + f + ']';
+    return c.id;
+  }
+  const LATE = { ladder: 1, wall_sign: 1, button: 1, trapdoor: 1, door: 1, lantern: 1, dust: 1, cross: 1, bamboo: 1, rail_cart: 1 };
+  /* Liefert .mcfunction-Zeilen. Der Bau beginnt 2 Blöcke östlich vom Ausführenden. */
+  function javaCommands(cells, ox) {
+    ox = ox == null ? 2 : ox;
+    const pos = (c, dx) => '~' + (c.x + ox + (dx || 0)) + ' ~' + c.y + ' ~' + c.z;
+    const rank = (c) => { const d = B[c.id]; return d.shape === 'liquid' ? 2 : LATE[d.shape] ? 1 : 0; };
+    const list = cells.slice().sort((a, b) => rank(a) - rank(b) || a.y - b.y || a.z - b.z || a.x - b.x);
+    const out = [];
+    list.forEach((c) => { const st = javaState(c); if (st) out.push('setblock ' + pos(c) + ' minecraft:' + st); });
+    cells.forEach((c) => {
+      const p = '~' + (c.x + ox) + '.5 ~' + c.y + ' ~' + c.z + '.5';
+      if (c.id === 'rail_cart') out.push('summon minecraft:hopper_minecart ' + p);
+      if (c.id === 'villager') out.push('summon minecraft:villager ' + p + ' {PersistenceRequired:1b}');
+      if (c.id === 'zombie') out.push('summon minecraft:zombie ' + p + ' {PersistenceRequired:1b,CustomName:\'"Zombie"\'}');
+      if (c.id === 'chicken') out.push('summon minecraft:chicken ' + p + ' {PersistenceRequired:1b}');
+    });
+    return out;
+  }
+
+  global.MC = { DIRS, OPP, DIR_NAME, DIR_SHORT, DIR_NAME_EN: { n: 'north', s: 'south', e: 'east', w: 'west', u: 'up', d: 'down' }, BLOCKS: B, parse, texCanvas, hintFor, itemsFor, javaCommands };
 })(window);

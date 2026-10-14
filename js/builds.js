@@ -715,7 +715,7 @@
 
   BUILDS.push({
     id: 'netherportal',
-    cat: 'building',
+    cat: 'project',
     name: 'Netherportal',
     tagline: '10 Obsidian, mit Laternen',
     difficulty: 'Leicht',
@@ -741,7 +741,7 @@
 
   BUILDS.push({
     id: 'leuchtfeuer',
-    cat: 'building',
+    cat: 'project',
     name: 'Leuchtfeuer-Pyramide',
     tagline: 'Stufe 4: Eile II oder Stärke',
     difficulty: 'Mittel',
@@ -770,7 +770,7 @@
 
   BUILDS.push({
     id: 'handelshalle',
-    cat: 'building',
+    cat: 'project',
     name: 'Handelshalle',
     tagline: '6 Dorfbewohner sicher in Zellen',
     difficulty: 'Mittel',
@@ -896,7 +896,7 @@
 
   BUILDS.push({
     id: 'bruecke',
-    cat: 'building',
+    cat: 'project',
     name: 'Holzbrücke',
     tagline: '13 Blöcke über Fluss oder Schlucht',
     difficulty: 'Leicht',
@@ -921,6 +921,263 @@
       b.fill(0, 3, 0, 12, 3, 2, 'spruce_planks');
       b.fill(0, 4, 0, 12, 4, 0, 'spruce_fence').fill(0, 4, 2, 12, 4, 2, 'spruce_fence');
       for (const x of [0, 6, 12]) { b.set(x, 5, 0, 'lantern').set(x, 5, 2, 'lantern'); }
+    }
+  });
+
+  BUILDS.push({
+    id: 'lagerraum',
+    cat: 'project',
+    name: 'Lagerraum',
+    tagline: '16 Doppeltruhen an drei Wänden',
+    difficulty: 'Leicht',
+    edition: 'Alle Versionen',
+    description: 'Ein Lagerraum aus Steinziegeln mit 32 Truhen, also 16 Doppeltruhen, an der Nord-, West- und Ostwand. In der Mitte stehen Werkbank, Ofen und Schmelzofen. Zusammen sind das 864 Plätze für je einen Stapel.',
+    how: [],
+    tips: [
+      'Truhen lassen sich übereinander stapeln und trotzdem öffnen.',
+      'Beschrifte die Truhen mit Schildern oder Rahmen, zum Beispiel „Stein“, „Holz“, „Erze“.',
+      'Zwei Truhen nebeneinander werden zur Doppeltruhe. Setze die zweite direkt neben die erste.'
+    ],
+    layerNotes: {
+      0: 'Boden aus Fichtenholzbrettern, Rand aus Steinziegeln.',
+      1: 'Untere Truhenreihe an drei Wänden, Tür im Süden.',
+      2: 'Obere Truhenreihe direkt auf die untere.',
+      4: 'Decke.'
+    },
+    build(b) {
+      b.fill(0, 0, 0, 9, 0, 7, 'stone_bricks').fill(1, 0, 1, 8, 0, 6, 'spruce_planks');
+      b.walls(0, 1, 0, 9, 3, 7, 'stone_bricks');
+      b.set(4, 1, 7, 'oak_door:n:lower').set(4, 2, 7, 'oak_door:n:upper');
+      b.set(2, 2, 7, 'glass_pane').set(7, 2, 7, 'glass_pane');
+      for (let y = 1; y <= 2; y++) {
+        b.fill(1, y, 1, 8, y, 1, 'chest:s');
+        b.fill(1, y, 2, 1, y, 5, 'chest:e');
+        b.fill(8, y, 2, 8, y, 5, 'chest:w');
+      }
+      b.set(3, 1, 4, 'crafting_table').set(5, 1, 4, 'furnace:s').set(6, 1, 4, 'blast_furnace:s');
+      b.fill(0, 4, 0, 9, 4, 7, 'spruce_planks');
+      b.set(2, 3, 3, 'lantern').set(7, 3, 3, 'lantern');
+    }
+  });
+
+  BUILDS.push({
+    id: 'kastell',
+    cat: 'building',
+    name: 'Kastell',
+    tagline: 'Burg mit 4 Türmen, Mauern und Bergfried',
+    difficulty: 'Fortgeschritten',
+    edition: 'Alle Versionen',
+    description: 'Eine kleine Burg auf 17 × 17 Blöcken: vier Ecktürme mit Leitern und Zinnen, 2 Blöcke dicke Mauern mit Wehrgang, ein Tor im Süden und ein Bergfried in der Mitte des Burghofs.',
+    how: [],
+    tips: [
+      'Baue zuerst die vier Türme bis Ebene 1, dann siehst du, ob das Quadrat stimmt.',
+      'Auf den Mauern kannst du hinter den Zinnen entlanglaufen.',
+      'Bruchstein ist billiger als Steinziegel. Mischen sieht auch gut aus.'
+    ],
+    layerNotes: {
+      0: 'Rasen für den Burghof, Steinziegel unter den Türmen.',
+      1: 'Türme (5 × 5), Mauern dazwischen, Tor im Süden, Türen in den Burghof. Leitern innen in den Türmen.',
+      5: 'Zwischenboden in den Türmen. Oberkante der Mauern = Wehrgang.',
+      6: 'Zinnen außen auf den Mauern.',
+      10: 'Turmplattformen, Leiterloch frei lassen.',
+      11: 'Zinnen auf den Türmen.'
+    },
+    build(b) {
+      b.fill(0, 0, 0, 16, 0, 16, 'grass_block');
+      const towers = [[0, 0], [12, 0], [0, 12], [12, 12]];
+      // Mauern
+      b.fill(5, 1, 1, 11, 5, 2, 'stone_bricks').fill(5, 1, 14, 11, 5, 15, 'stone_bricks');
+      b.fill(1, 1, 5, 2, 5, 11, 'stone_bricks').fill(14, 1, 5, 15, 5, 11, 'stone_bricks');
+      for (let i = 5; i <= 11; i += 2) { b.set(i, 6, 1, 'stone_bricks').set(i, 6, 15, 'stone_bricks').set(1, 6, i, 'stone_bricks').set(15, 6, i, 'stone_bricks'); }
+      b.fill(7, 1, 14, 9, 3, 15, null);
+      b.fill(7, 4, 14, 9, 4, 15, 'stone_brick_slab:top');
+      b.set(6, 1, 13, 'lantern').set(10, 1, 13, 'lantern');
+      // Türme
+      towers.forEach(([tx, tz]) => {
+        b.fill(tx, 0, tz, tx + 4, 0, tz + 4, 'stone_bricks');
+        b.walls(tx, 1, tz, tx + 4, 9, tz + 4, 'stone_bricks');
+        b.fill(tx + 1, 5, tz + 1, tx + 3, 5, tz + 3, 'spruce_planks');
+        b.fill(tx, 10, tz, tx + 4, 10, tz + 4, 'stone_bricks');
+        for (let x = tx; x <= tx + 4; x++) for (let z = tz; z <= tz + 4; z++) {
+          const edge = x === tx || x === tx + 4 || z === tz || z === tz + 4;
+          if (edge && (x + z) % 2 === 0) b.set(x, 11, z, 'stone_bricks');
+        }
+        b.set(tx + 2, 7, tz, 'glass_pane').set(tx, 7, tz + 2, 'glass_pane').set(tx + 4, 7, tz + 2, 'glass_pane').set(tx + 2, 7, tz + 4, 'glass_pane');
+        const lx = tx + 2, lz = tz + 2;
+        for (let y = 1; y <= 10; y++) b.set(lx, y, lz, 'ladder:n');
+      });
+      // Leitern brauchen eine Wand: Mittelsäule im Turm, Leiter davor
+      towers.forEach(([tx, tz]) => { for (let y = 1; y <= 9; y++) b.set(tx + 2, y, tz + 3, 'stone_bricks'); });
+      b.set(4, 1, 3, 'oak_door:w:lower').set(4, 2, 3, 'oak_door:w:upper');
+      b.set(12, 1, 3, 'oak_door:e:lower').set(12, 2, 3, 'oak_door:e:upper');
+      b.set(4, 1, 13, 'oak_door:w:lower').set(4, 2, 13, 'oak_door:w:upper');
+      b.set(12, 1, 13, 'oak_door:e:lower').set(12, 2, 13, 'oak_door:e:upper');
+      // Bergfried
+      b.walls(6, 1, 6, 10, 7, 10, 'cobblestone');
+      [[6, 6], [10, 6], [6, 10], [10, 10]].forEach(([x, z]) => b.fill(x, 1, z, x, 7, z, 'spruce_log'));
+      b.set(8, 1, 10, 'oak_door:n:lower').set(8, 2, 10, 'oak_door:n:upper');
+      b.set(8, 4, 6, 'glass_pane').set(6, 4, 8, 'glass_pane').set(10, 4, 8, 'glass_pane').set(8, 5, 10, 'glass_pane');
+      b.fill(5, 8, 5, 11, 8, 11, 'stone_brick_slab:bottom');
+      b.set(8, 1, 8, 'lantern');
+    }
+  });
+
+  BUILDS.push({
+    id: 'fachwerkhaus',
+    cat: 'building',
+    name: 'Fachwerkhaus',
+    tagline: 'Zwei Etagen, Obergeschoss kragt vor',
+    difficulty: 'Mittel',
+    edition: 'Alle Versionen',
+    description: 'Ein mittelalterliches Haus mit Erdgeschoss aus Bruchstein und einem Obergeschoss in Fachwerk-Optik: dunkle Fichtenbalken, helle Wandfelder. Das Obergeschoss steht vorne und hinten einen Block über.',
+    how: [],
+    tips: [
+      'Für die hellen Felder passen auch weiße Wolle, Birkenbretter oder Glattquarz.',
+      'Setze zuerst alle senkrechten Balken, dann die Felder dazwischen.',
+      'Die Leiter in der Ecke führt ins Obergeschoss.'
+    ],
+    layerNotes: {
+      0: 'Fundament aus Bruchstein.',
+      1: 'Erdgeschoss aus Bruchstein mit Balken an den Ecken, Tür im Norden.',
+      4: 'Boden des Obergeschosses, vorne und hinten 1 Block länger.',
+      5: 'Fachwerk: Fichtenbalken an Ecken und jeder zweiten Stelle, helle Felder dazwischen.',
+      8: 'Dach: Treppen zeigen zur Mitte, Giebel in Weiß.'
+    },
+    build(b) {
+      b.fill(0, 0, 0, 6, 0, 8, 'cobblestone');
+      b.walls(0, 1, 0, 6, 3, 8, 'cobblestone');
+      [[0, 0], [6, 0], [0, 8], [6, 8]].forEach(([x, z]) => b.fill(x, 1, z, x, 3, z, 'spruce_log'));
+      b.set(3, 1, 0, 'oak_door:s:lower').set(3, 2, 0, 'oak_door:s:upper');
+      b.set(1, 2, 0, 'glass_pane').set(5, 2, 0, 'glass_pane').set(0, 2, 4, 'glass_pane').set(6, 2, 4, 'glass_pane');
+      b.fill(0, 4, -1, 6, 4, 9, 'spruce_planks');
+      b.walls(0, 5, -1, 6, 7, 9, 'white_concrete');
+      for (let x = 0; x <= 6; x += 2) { b.fill(x, 5, -1, x, 7, -1, 'spruce_log'); b.fill(x, 5, 9, x, 7, 9, 'spruce_log'); }
+      for (let z = 1; z <= 7; z += 2) { b.fill(0, 5, z, 0, 7, z, 'spruce_log'); b.fill(6, 5, z, 6, 7, z, 'spruce_log'); }
+      b.fill(0, 7, -1, 6, 7, -1, 'spruce_planks').fill(0, 7, 9, 6, 7, 9, 'spruce_planks');
+      b.set(1, 6, -1, 'glass_pane').set(5, 6, -1, 'glass_pane').set(3, 6, 9, 'glass_pane').set(0, 6, 4, 'glass_pane').set(6, 6, 4, 'glass_pane');
+      for (let i = 0; i < 4; i++) {
+        b.fill(-1 + i, 8 + i, -2, -1 + i, 8 + i, 10, 'spruce_stairs:e');
+        b.fill(7 - i, 8 + i, -2, 7 - i, 8 + i, 10, 'spruce_stairs:w');
+      }
+      for (const z of [-1, 9]) for (let i = 0; i < 3; i++) b.fill(i, 8 + i, z, 6 - i, 8 + i, z, 'white_concrete');
+      b.fill(3, 11, -2, 3, 11, 10, 'spruce_planks').fill(3, 12, -2, 3, 12, 10, 'spruce_slab:bottom');
+      b.set(3, 9, -1, 'glass_pane');
+      for (let y = 1; y <= 4; y++) b.set(5, y, 7, 'ladder:w');
+      b.set(1, 1, 7, 'crafting_table').set(1, 1, 6, 'furnace:e').set(1, 1, 1, 'lantern');
+      b.set(2, 5, 6, 'red_bed:s:foot').set(2, 5, 7, 'red_bed:s:head').set(4, 5, 1, 'chest:s').set(4, 5, 7, 'lantern');
+      b.set(2, 2, -1, 'lantern');
+      b.set(2, 1, -1, 'oak_fence');
+    }
+  });
+
+  BUILDS.push({
+    id: 'gewaechshaus',
+    cat: 'building',
+    name: 'Gewächshaus-Kuppel',
+    tagline: 'Glaskuppel mit Acker und Wasser',
+    difficulty: 'Mittel',
+    edition: 'Alle Versionen',
+    description: 'Eine halbkugelförmige Glaskuppel mit 11 Blöcken Durchmesser. Innen liegt ein runder Acker um eine Wasserquelle, außen ein Rasenring mit Büschen. Oben in der Mitte hängt eine Seelaterne, damit die Pflanzen auch nachts wachsen.',
+    how: [],
+    tips: [
+      'Die Kuppel ist rund. Halte dich Ebene für Ebene genau an das 2D-Raster.',
+      'Durch die Seelaterne bleibt es hell genug, und es spawnen keine Monster.',
+      'Statt Weizen kannst du Karotten, Kartoffeln oder Rote Bete pflanzen.'
+    ],
+    layerNotes: {
+      0: 'Fundament: runde Scheibe aus Steinziegeln.',
+      1: 'Boden: Steinziegelring außen, Rasen, runder Acker, Wasser in der Mitte. Weg zur Tür.',
+      2: 'Unterste Glasreihe und Pflanzen. Tür im Norden.',
+      6: 'Oberste Ebene der Kuppel mit Seelaterne.'
+    },
+    build(b) {
+      const C = 5;
+      for (let x = 0; x <= 10; x++) for (let z = 0; z <= 10; z++) {
+        const d2 = Math.hypot(x - C, z - C);
+        if (d2 > 5.5) continue;
+        b.set(x, 0, z, 'stone_bricks');
+        if (d2 > 4.6) b.set(x, 1, z, 'stone_bricks');
+        else if (x === C && z === C) b.set(x, 1, z, 'water');
+        else if (d2 <= 3.6 && !(x === C && z < C)) { b.set(x, 1, z, 'farmland'); b.set(x, 2, z, 'wheat'); }
+        else b.set(x, 1, z, 'grass_block');
+        for (let y = 2; y <= 6; y++) {
+          const d3 = Math.hypot(x - C, y - 1, z - C);
+          if (d3 > 4.6 && d3 <= 5.5) b.set(x, y, z, 'glass');
+        }
+      }
+      for (let z = 1; z < C; z++) b.set(C, 1, z, 'dirt_path');
+      b.set(C, 2, 0, 'oak_door:s:lower').set(C, 3, 0, 'oak_door:s:upper');
+      b.set(C, 6, C, 'sea_lantern');
+      [[1, 5], [9, 5], [5, 9], [2, 8], [8, 8]].forEach(([x, z]) => { if (b.get(x, 1, z) === 'grass_block') b.set(x, 2, z, 'oak_leaves'); });
+    }
+  });
+
+  BUILDS.push({
+    id: 'pferdestall',
+    cat: 'building',
+    name: 'Pferdestall',
+    tagline: '4 Boxen mit Zauntoren und Heu',
+    difficulty: 'Leicht',
+    edition: 'Alle Versionen',
+    description: 'Ein offener Stall aus Fichtenholz mit vier Boxen, je 2 Blöcke breit. Vorne verläuft ein Gang, jede Box hat ein Zauntor und Strohballen. Passt auch für Esel, Maultiere oder Lamas.',
+    how: [],
+    tips: [
+      'Pferde mit einer Leine in die Box führen, dann das Zauntor schließen.',
+      'Strohballen sind Deko. Füttern geht mit Weizen, Äpfeln oder Heu aus der Hand.',
+      'Das Dach aus Stufen verhindert, dass auf ihm Monster spawnen.'
+    ],
+    layerNotes: {
+      0: 'Boden aus Erde, Gang vorne aus Trampelpfad.',
+      1: 'Pfosten vorne, Rückwand und Seitenwände, Trennzäune zwischen den Boxen, ein Zauntor pro Box.',
+      4: 'Dach aus Fichtenstufen.'
+    },
+    build(b) {
+      b.fill(0, 0, 0, 12, 0, 6, 'dirt').fill(0, 0, 0, 12, 0, 1, 'dirt_path');
+      b.fill(0, 1, 6, 12, 3, 6, 'spruce_planks').fill(0, 1, 0, 0, 3, 6, 'spruce_planks').fill(12, 1, 0, 12, 3, 6, 'spruce_planks');
+      for (const x of [0, 3, 6, 9, 12]) b.fill(x, 1, 0, x, 3, 0, 'spruce_log');
+      for (const x of [3, 6, 9]) { b.fill(x, 1, 2, x, 1, 5, 'spruce_fence'); b.fill(x, 1, 6, x, 3, 6, 'spruce_log'); }
+      for (const x0 of [1, 4, 7, 10]) { b.set(x0, 1, 2, 'spruce_fence_gate:s').set(x0 + 1, 1, 2, 'spruce_fence'); b.set(x0, 1, 5, 'hay_block').set(x0 + 1, 1, 5, 'hay_block').set(x0 + 1, 2, 5, 'hay_block'); }
+      b.fill(0, 4, -1, 12, 4, 6, 'spruce_slab:bottom');
+      for (const x of [2, 5, 8, 11]) b.set(x, 3, 1, 'lantern');
+    }
+  });
+
+  BUILDS.push({
+    id: 'baumhaus',
+    cat: 'building',
+    name: 'Baumhaus',
+    tagline: 'Hütte auf einer Riesen-Eiche',
+    difficulty: 'Mittel',
+    edition: 'Alle Versionen',
+    description: 'Ein 2 × 2 dicker Eichenstamm trägt eine Plattform mit Geländer und einer kleinen Hütte. Darüber wächst eine runde Laubkrone. Eine Leiter am Stamm führt direkt in die Hütte.',
+    how: [],
+    tips: [
+      'Laub mit einer Schere abbauen, damit du es wieder setzen kannst. Gesetztes Laub verwelkt nicht.',
+      'Den Stamm kannst du auch aus Fichte oder Tropenholz bauen.',
+      'Baue die Krone zum Schluss, sonst ist sie beim Bauen im Weg.'
+    ],
+    layerNotes: {
+      0: 'Stamm aus 2 × 2 Eichenstämmen, Leiter an der Südseite.',
+      7: 'Plattform 10 × 10 aus Brettern, Leiterloch frei lassen.',
+      8: 'Hütte aus Brettern um den Stamm, Geländer am Rand, Tür nach Süden.',
+      11: 'Dach aus Stufen.',
+      12: 'Laubkrone.'
+    },
+    build(b) {
+      b.fill(4, 0, 4, 5, 13, 5, 'oak_log');
+      for (let y = 0; y <= 7; y++) b.set(4, y, 6, 'ladder:s');
+      b.fill(0, 7, 0, 9, 7, 9, 'oak_planks').fill(4, 7, 4, 5, 7, 5, 'oak_log').set(4, 7, 6, 'ladder:s');
+      for (let x = 0; x <= 9; x++) for (let z = 0; z <= 9; z++) if (x === 0 || x === 9 || z === 0 || z === 9) b.set(x, 8, z, 'oak_fence');
+      b.walls(2, 8, 2, 7, 10, 7, 'oak_planks');
+      [[2, 2], [7, 2], [2, 7], [7, 7]].forEach(([x, z]) => b.fill(x, 8, z, x, 10, z, 'oak_log'));
+      b.set(3, 8, 7, 'oak_door:n:lower').set(3, 9, 7, 'oak_door:n:upper');
+      b.set(2, 9, 4, 'glass_pane').set(7, 9, 4, 'glass_pane').set(5, 9, 2, 'glass_pane').set(6, 9, 7, 'glass_pane');
+      b.fill(1, 11, 1, 8, 11, 8, 'oak_slab:bottom').fill(4, 11, 4, 5, 11, 5, 'oak_log');
+      b.set(3, 8, 3, 'lantern').set(6, 8, 6, 'chest:n');
+      for (let x = -1; x <= 10; x++) for (let z = -1; z <= 10; z++) for (let y = 12; y <= 16; y++) {
+        const d = Math.hypot(x - 4.5, (y - 12.5) * 1.3, z - 4.5);
+        if (d <= 5.2 && !b.get(x, y, z)) b.set(x, y, z, 'oak_leaves');
+      }
     }
   });
 

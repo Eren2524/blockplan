@@ -9,11 +9,11 @@
     set(k, v) { try { localStorage.setItem('blockplan.' + k, JSON.stringify(v)); } catch (e) { /* kein Speicher */ } }
   };
   const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  const CAT = { farm: 'Automatische Farmen', building: 'Gebäude' };
-  const CAT_ONE = { farm: 'Automatische Farm', building: 'Gebäude' };
+  const CAT = { farm: 'Automatische Farmen', project: 'Bauprojekte', building: 'Gebäude' };
+  const CAT_ONE = { farm: 'Automatische Farm', project: 'Bauprojekt', building: 'Gebäude' };
   const DIFF = { 'Leicht': 'easy', 'Mittel': 'mid', 'Fortgeschritten': 'hard' };
 
-  const state = { build: null, layer: 0, mode: 'all', sel: null, tab: 'layer', rotate: false, done: new Set() };
+  const state = { diff: '', build: null, layer: 0, mode: 'all', sel: null, tab: 'layer', rotate: false, done: new Set() };
   let viewer;
 
   /* ---------- Hilfen ---------- */
@@ -65,8 +65,8 @@
     const wrap = $('#buildList');
     wrap.textContent = '';
     let any = false;
-    ['farm', 'building'].forEach((cat) => {
-      const items = BUILDS.filter((b) => b.cat === cat && (!q || (b.name + ' ' + b.tagline + ' ' + b.description).toLowerCase().includes(q)));
+    ['farm', 'project', 'building'].forEach((cat) => {
+      const items = BUILDS.filter((b) => b.cat === cat && (!state.diff || b.difficulty === state.diff) && (!q || (b.name + ' ' + b.tagline + ' ' + b.description).toLowerCase().includes(q)));
       if (!items.length) return;
       any = true;
       const grp = el('div', 'list-group');
@@ -86,7 +86,8 @@
       });
       wrap.append(grp);
     });
-    if (!any) wrap.append(el('p', 'empty-note', 'Kein Bau passt zu „' + q + '“.'));
+    if (!any) wrap.append(el('p', 'empty-note', q ? 'Kein Bau passt zu „' + q + '“.' : 'Kein Bau mit dieser Schwierigkeit.'));
+    document.querySelectorAll('#diffSeg button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.diff === state.diff)));
   }
 
   /* ---------- Bau öffnen ---------- */
@@ -316,6 +317,13 @@
         g.fillStyle = '#26262a'; g.fillRect(cx - s * 0.15, cy - s * 0.15, s * 0.3, s * 0.3);
         break;
       }
+      case 'gate': {
+        g.fillStyle = def.color;
+        const ax = f === 'n' || f === 's';
+        if (ax) { g.fillRect(x, cy - s * 0.08, s, s * 0.16); g.fillRect(x, cy - s * 0.16, s * 0.14, s * 0.32); g.fillRect(x + s * 0.86, cy - s * 0.16, s * 0.14, s * 0.32); }
+        else { g.fillRect(cx - s * 0.08, y, s * 0.16, s); g.fillRect(cx - s * 0.16, y, s * 0.32, s * 0.14); g.fillRect(cx - s * 0.16, y + s * 0.86, s * 0.32, s * 0.14); }
+        break;
+      }
       case 'trapdoor':
         edgeRect(g, x, y, s, MC.OPP[f], 0.22, def.color);
         g.strokeStyle = def.color; g.lineWidth = 1; g.setLineDash([2, 2]); g.strokeRect(x + 2.5, y + 2.5, s - 5, s - 5); g.setLineDash([]);
@@ -521,6 +529,27 @@
     try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
   }
 
+  function copyText(text, okMsg) {
+    const fallback = () => {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.append(ta); ta.select();
+      let ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+      ta.remove();
+      toast(ok ? okMsg : 'Kopieren nicht möglich.');
+    };
+    try { navigator.clipboard.writeText(text).then(() => toast(okMsg), fallback); } catch (e) { fallback(); }
+  }
+
+  function copyCommands(layerOnly) {
+    const b = state.build;
+    const cells = layerOnly ? b.layers[state.layer] : b.cells;
+    const lines = MC.javaCommands(cells);
+    const head = ['# Blockplan: ' + b.name + (layerOnly ? ' – Ebene ' + state.layer : ''), '# Java Edition, Kreativmodus mit Cheats. Der Bau entsteht 2 Blöcke östlich von dir.'];
+    copyText(head.concat(lines).join('\n'), lines.length + ' Befehle kopiert');
+  }
+
   /* ---------- Funktionsweise ---------- */
   function renderHow() {
     const b = state.build;
@@ -601,6 +630,9 @@
     document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => setTab(b.dataset.tab)));
     $('#layerCanvas').addEventListener('click', gridPick);
     $('#copyBtn').addEventListener('click', copyList);
+    $('#cmdBtn').addEventListener('click', () => copyCommands(false));
+    $('#cmdLayerBtn').addEventListener('click', () => copyCommands(true));
+    document.querySelectorAll('#diffSeg button').forEach((b) => b.addEventListener('click', () => { state.diff = state.diff === b.dataset.diff ? '' : b.dataset.diff; renderList(); }));
     $('#menuBtn').addEventListener('click', openDrawer);
     $('#backdrop').addEventListener('click', () => { closeDrawer(); closeKeys(); });
     $('#keysBtn').addEventListener('click', openKeys);
