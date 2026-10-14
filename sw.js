@@ -1,7 +1,7 @@
 /* Blockplan – Offline-Modus. Beim ersten Besuch werden alle Dateien gespeichert,
    danach läuft die Seite auch ohne Internet. Neue Versionen werden im Hintergrund geladen.
    Nach Änderungen an Dateien die Versionsnummer erhöhen. */
-const VERSION = 'blockplan-2.1.0';
+const VERSION = 'blockplan-2.1.1';
 const FILES = [
   './', 'index.html', 'legal.html', 'manifest.webmanifest',
   'vendor/three.min.js', 'vendor/OrbitControls.js', 'vendor/fonts/fonts.css',
