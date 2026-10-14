@@ -1882,6 +1882,173 @@ I18N.add("en", {
     "7": "Ground surface, pond, house with floor hatch, honeycomb farm, Sugar Cane on the bank.",
     "11": "Flat roof with a row of lamps, Redstone and Daylight Detector."
    }
+  },
+  "koenigsschloss": {
+   "name": "Royal Castle",
+   "tagline": "Castle wall, 4 towers, throne room, 5 farms in the courtyard",
+   "description": "A huge castle in the style of big server projects: a castle wall with a battlement walk and crenellations, four corner towers, a gatehouse with a portcullis, and in the middle the keep with a throne room, library and bedchamber. In the courtyard, a Wheat farm, a Pumpkin farm, an Egg farm, a Sugar Cane farm and the automatic smelter keep you supplied. At night, the lamps on the battlement walk turn on by themselves.",
+   "how": [
+    "Night light: Redstone Lamps are set into the floor of the battlement walk. An inverted Daylight Detector at the end of each row turns them on at night.",
+    "Doorbell: A Button on the Note Block in front of the gate plays a note when visitors arrive.",
+    "The towers are connected to the battlement walk by Ladders and passages, so you can walk all the way around the castle.",
+    "The farms in the courtyard are built exactly like the individual modules. You'll find their explanations with the farms."
+   ],
+   "tips": [
+    "Build the floor and the wall first, then the corner towers, then the keep. The farms come last.",
+    "You'll need around 4,000 Stone Bricks. A Stonecutter saves a lot of material.",
+    "Right-click the Daylight Detector once so it turns blue (inverted)."
+   ],
+   "layerNotes": {
+    "0": "Floor: Grass in the courtyard, Cobblestone paths, the well in front of the keep, and the farm floors.",
+    "1": "The wall, towers and keep begin. Tower doors facing the courtyard, the door and the red carpet in the throne room.",
+    "5": "First intermediate floor in the keep, with a hole for the Ladder.",
+    "7": "Battlement walk: the top of the wall and stairs on the inside. The night lamps sit in the north and south sides.",
+    "8": "Crenellations on the wall, Redstone on the lamps, Daylight Detectors. Passages from the battlement walk into the towers.",
+    "12": "The tower roofs begin.",
+    "16": "The big roof of the keep."
+   }
+  },
+  "streamervilla": {
+   "name": "Streamer Villa",
+   "tagline": "Studio, secret room, pool, water elevator, basement farm",
+   "description": "A modern villa for content creators: downstairs a living room with a glass front and a pool, upstairs the streaming studio with a gaming setup and an \"ON AIR\" lamp, and on the roof a party terrace with fireworks. A water elevator connects all floors. Behind the bookshelf is a secret room with a piston door. From there, a trapdoor in the floor leads to the basement with the big Sugar Cane farm.",
+   "how": [
+    "\"ON AIR\" lamp: The Lever is attached directly to the Redstone Lamp. Lever on, lamp on.",
+    "Piston door: Lever on = bookshelf closed. Lever off: the Sticky Pistons pull the shelves aside.",
+    "Water elevator: Soul Sand shoots you upward. The doors hold the Water back, and you step out through them on every floor. At the top you come out on the roof.",
+    "Fireworks: The Button on the last Dispenser powers the Redstone on all three Dispensers, and they fire upward.",
+    "Night light: The inverted Daylight Detector turns on the lamps in the roof edge at night."
+   ],
+   "tips": [
+    "Fill the Dispensers on the roof with Firework Rockets.",
+    "It's best to fill the water column with source blocks from top to bottom (or use the Kelp trick).",
+    "The trapdoor to the basement is in the secret room. It looks like a normal floor."
+   ],
+   "layerNotes": {
+    "0": "Base plate, pool with Sea Lanterns, Soul Sand for the elevator, trapdoor to the basement (in the secret room).",
+    "1": "Ground floor: glass front to the north, door, elevator door, bookshelf wall with a piston door to the secret room.",
+    "6": "Ceiling of the ground floor, floor of the studio.",
+    "7": "Studio: gaming desk, screens made of Sea Lanterns, elevator door.",
+    "11": "Roof with night lamps in the edge.",
+    "12": "Roof terrace: railing, Redstone on the lamps, fireworks."
+   }
+  },
+  "luftschiff": {
+   "name": "Airship",
+   "tagline": "Flying ship with a balloon, cabin and chicken farm",
+   "description": "A steampunk airship high above the world: a wooden hull with a cargo hold, a deck with a railing, a captain's cabin, two masts, and above them a giant striped Wool balloon. At the stern the propellers spin, on deck Chickens lay Eggs into a Chest, and at the bow a firework show starts at the push of a Button.",
+   "how": [
+    "Fireworks at the bow: The Button powers the block behind it. The Redstone on that block passes the signal to both Dispensers.",
+    "Egg farm: The Chickens stand on Hoppers. The Eggs fall into the Hoppers and end up in the Chest.",
+    "Cargo hold: Jump through the trapdoor in the deck into the hull with the supply Chests."
+   ],
+   "tips": [
+    "Build the ship high in the sky. A tower of Dirt or Scaffolding helps at the start; remove it afterward.",
+    "You can get Wool quickly with a sheep farm or from Shepherd villagers.",
+    "Elytra and Firework Rockets are the easiest way to get up there."
+   ],
+   "layerNotes": {
+    "0": "Keel: the bottom row of the hull.",
+    "4": "Oak deck. The trapdoor leads into the cargo hold, and the Egg farm sits amidships.",
+    "5": "Railing, cabin, masts, Bell and the fireworks at the bow.",
+    "12": "The balloon starts on top of the masts.",
+    "16": "Middle of the balloon with red stripes."
+   }
+  },
+  "unterwasserstation": {
+   "name": "Underwater Station",
+   "tagline": "3 glass domes, tunnels, bubble lift to the surface",
+   "description": "A research station on the ocean floor: a large main dome with a kitchen and an enchanting corner, a sleeping dome and a farm dome with an Egg farm, connected by glass tunnels. Two Bubble Columns take you to the dock at the water's surface and back down in seconds.",
+   "how": [
+    "Bubble lift up: Soul Sand under Water creates a Bubble Column that shoots you upward.",
+    "Bubble lift down: a Magma Block creates a column that pulls you down.",
+    "Inside the dome, the columns run through glass tubes. The doors keep the Water out. Above the dome, the column continues straight up through the ocean.",
+    "Egg farm: Chickens on Hoppers, and the Eggs end up in the Chest. It works underwater too, as long as the dome is watertight."
+   ],
+   "tips": [
+    "Build the domes in the water first. Fill the inside with Sand and dig it out, and the water disappears.",
+    "A Potion of Water Breathing, plus Respiration and Depth Strider on your gear, make building much easier.",
+    "The Water blocks above the dome are the ocean itself. You don't need to place anything there."
+   ],
+   "layerNotes": {
+    "0": "Floors of the three domes and the tunnels. Soul Sand and Magma Block for the lifts in the main dome.",
+    "1": "First row of Glass, lift doors, furnishings, Egg farm in the east dome.",
+    "9": "Above the main dome: this is already ocean, and the columns continue on their own.",
+    "19": "Dock at the water's surface with Lanterns."
+   }
+  },
+  "farmhochhaus": {
+   "name": "Farm Skyscraper",
+   "tagline": "6 floors, 9 farms, 2 water elevators, Beacon",
+   "description": "A glass skyscraper where every floor has its own farm: the smelter in the lobby, the big Sugar Cane farm, Pumpkin and Bamboo, Wheat, Chicken breeding and Eggs, and the Honey farm at the very top. Outside, two water elevators go up and down, a Beacon shines on the roof, and at night the lamps in the roof edge turn on by themselves.",
+   "how": [
+    "Water elevator up (Soul Sand) and down (Magma Block) on the east side. On every floor you get in and out through a door.",
+    "At the top, the elevator drops you right onto the roof. To go down, jump into the second column there.",
+    "Each floor is its own farm. How each one works is explained with the individual farms.",
+    "Beacon: One layer of 9 Blocks of Iron is enough for the first level.",
+    "Sea Lanterns in every ceiling make sure everything grows and no mobs spawn."
+   ],
+   "tips": [
+    "Build floor by floor: first the floor, then the glass wall, then the farm.",
+    "Keep the walkway between the farms and the east wall clear; it leads to the elevator.",
+    "Fill the water columns last, once all the doors are in place."
+   ],
+   "layerNotes": {
+    "0": "Base plate, Soul Sand and Magma Block for the elevators.",
+    "1": "Lobby with entrance and automatic smelter.",
+    "9": "Floor 1: big Sugar Cane farm.",
+    "17": "Floor 2: Pumpkin and Bamboo farm.",
+    "25": "Floor 3: Wheat farm with a Button.",
+    "33": "Floor 4: Chicken breeding station and Egg farm.",
+    "41": "Floor 5: Honeycomb farm.",
+    "48": "Roof with night lamps.",
+    "49": "Roof terrace with a Beacon on Blocks of Iron."
+   }
+  },
+  "kirschtempel": {
+   "name": "Cherry Blossom Temple",
+   "tagline": "Three-story pagoda, torii, koi pond, Bamboo farm",
+   "description": "A Japanese temple hill on three stone terraces: a red torii gate at the front, stone lanterns along the path, and in the middle a three-story pagoda with curved roofs and a Bell. Four Cherry trees, a koi pond and an automatic Bamboo farm behind the temple round it all off.",
+   "how": [
+    "The roofs are hip roofs made of Dark Oak Stairs. Each story sits one row further in.",
+    "Bamboo farm: Observers notice when the Bamboo grows and trigger the Pistons. The Bamboo falls into the Minecarts with Hopper."
+   ],
+   "tips": [
+    "You'll find Cherry wood and Cherry Leaves in the Cherry Grove biome.",
+    "Bamboo is the perfect fuel for your Furnace.",
+    "Put a few fish in the koi pond (with a Bucket of Fish)."
+   ],
+   "layerNotes": {
+    "0": "Bottom terrace and meadow with the torii gate in front.",
+    "2": "Top terrace with the path, koi pond and the spots for the trees.",
+    "3": "Ground floor of the pagoda made of White Wool with Dark Oak posts. Door to the north.",
+    "7": "First roof.",
+    "12": "Second roof.",
+    "16": "Third roof with the spire."
+   }
+  },
+  "riesenbaumhaus": {
+   "name": "Giant Treehouse",
+   "tagline": "Hollow giant tree, 2 treehouses, lookout, farms",
+   "description": "A gigantic tree with a hollow trunk, with a Ladder running up through it to above the crown. Treehouses sit on two platforms: the workshop and kitchen below, the bedroom above. From the lookout at the very top you can see the whole area. At the foot of the trunk, a Pumpkin farm and a Honey farm are hard at work.",
+   "how": [
+    "The Ladder hangs inside on the north wall of the trunk. At each platform, a door leads outside.",
+    "The crown is a big sphere of Leaves. To keep it from decaying, it has to touch the trunk, or you build it with Leaves gathered with Silk Touch (placed Leaves don't decay).",
+    "Pumpkin farm: Observers detect the new Pumpkin, and Pistons push it off. Honey farm: Observers on the Beehives trigger Dispensers with Shears."
+   ],
+   "tips": [
+    "Placed Leaves never decay, so you can build the crown without worry.",
+    "Bees love trees and flowers. Plant even more flowers around the Honey farm.",
+    "Build the trunk all the way to the top first, then the platforms, then the crown."
+   ],
+   "layerNotes": {
+    "0": "Meadow, roots and farms at the foot of the tree.",
+    "1": "The trunk (5 × 5, hollow inside) with a Ladder and the entrance door to the south.",
+    "8": "Lower platform with the workshop hut.",
+    "16": "Upper platform with the bedroom.",
+    "21": "The crown begins.",
+    "32": "Lookout above the crown."
+   }
   }
  }
 });

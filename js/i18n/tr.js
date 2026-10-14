@@ -1882,6 +1882,173 @@ I18N.add("tr", {
     "7": "Yüzey, gölet, gizli kapaklı ev, Bal Peteği çiftliği, kıyıda Şeker Kamışı.",
     "11": "Lamba sıralı, Kızıltaşlı ve Gün Işığı Sensörlü düz çatı."
    }
+  },
+  "koenigsschloss": {
+   "name": "Kraliyet Şatosu",
+   "tagline": "Kale suru, 4 kule, taht salonu, avluda 5 çiftlik",
+   "description": "Büyük sunucu projeleri tarzında devasa bir şato: sur yolu ve mazgallarla bir kale suru, dört köşe kulesi, parmaklıklı bir kapı kulesi ve ortada taht salonu, kütüphane ve yatak odasıyla iç kale. Avluda bir buğday çiftliği, bir balkabağı çiftliği, bir yumurta çiftliği, bir şeker kamışı çiftliği ve otomatik eritme tesisi seni besler. Geceleri sur yolundaki lambalar kendiliğinden yanar.",
+   "how": [
+    "Gece ışığı: Sur yolunun zemininde Kızıltaş Lambaları var. Her sıranın sonundaki ters çevrilmiş Gün Işığı Sensörü onları geceleri yakar.",
+    "Kapı zili: Kapının önündeki Nota Bloğuna bağlı bir düğme, biri geldiğinde bir nota çalar.",
+    "Kuleler merdivenler ve geçitlerle sur yoluna bağlıdır. Böylece şatonun etrafında tam bir tur atabilirsin.",
+    "Avludaki çiftlikler tek tek modüllerle aynı şekilde kuruludur. Açıklamalarını çiftliklerde bulabilirsin."
+   ],
+   "tips": [
+    "Önce zemini ve suru, sonra köşe kulelerini, sonra iç kaleyi kur. Çiftlikler en sona kalır.",
+    "Yaklaşık 4.000 Taş Tuğlaya ihtiyacın var. Taş Kesici çok malzeme kazandırır.",
+    "Gün Işığı Sensörüne bir kez sağ tıkla, mavi olsun (ters çevrilmiş)."
+   ],
+   "layerNotes": {
+    "0": "Zemin: avluda çimen, Kırıktaştan yollar, iç kalenin önündeki kuyu ve çiftlik zeminleri.",
+    "1": "Sur, kuleler ve iç kale başlıyor. Kulelerin avluya açılan kapıları, taht salonunda kapı ve kırmızı halı.",
+    "5": "İç kalede merdiven için delikli ilk ara kat.",
+    "7": "Sur yolu: duvarın tepesi ve içeride basamaklar. Gece lambaları kuzey ve güney taraflarında.",
+    "8": "Surun üstünde mazgallar, lambaların üstünde Kızıltaş, Gün Işığı Sensörleri. Sur yolundan kulelere geçitler.",
+    "12": "Kule çatıları başlıyor.",
+    "16": "İç kalenin büyük çatısı."
+   }
+  },
+  "streamervilla": {
+   "name": "Yayıncı Villası",
+   "tagline": "Stüdyo, gizli oda, havuz, su asansörü, bodrum çiftliği",
+   "description": "İçerik üreticileri için modern bir villa: altta cam cepheli ve havuzlu oturma odası, üstte oyun köşesi ve “ON AIR” lambalı yayın stüdyosu, çatıda havai fişekli bir parti terası. Bir su asansörü tüm katları birbirine bağlar. Kitaplığın arkasında pistonlu kapısı olan gizli bir oda var. Oradan bir Tuzak Kapısı, büyük şeker kamışı çiftliğinin bulunduğu bodruma iner.",
+   "how": [
+    "“ON AIR” lambası: Şalter doğrudan Kızıltaş Lambasına bağlıdır. Şalter açık, lamba yanık.",
+    "Pistonlu kapı: Şalter açık = kitaplık kapalı. Şalter kapalı: Yapışkan Pistonlar rafları yana çeker.",
+    "Su asansörü: Ruh Kumu seni yukarı fırlatır. Kapılar suyu tutar, her katta onlardan çıkarsın. En üstte çatıya çıkarsın.",
+    "Havai fişek: Son Fırlatıcıdaki düğme üç Fırlatıcının üstündeki Kızıltaşa güç verir, hepsi yukarı ateşler.",
+    "Gece ışığı: Ters çevrilmiş Gün Işığı Sensörü geceleri çatı kenarındaki lambaları yakar."
+   ],
+   "tips": [
+    "Çatıdaki Fırlatıcıları Havai Fişek Roketleriyle doldur.",
+    "Su sütununu en iyisi yukarıdan aşağıya kaynaklarla doldur (ya da yosun hilesiyle).",
+    "Bodruma inen Tuzak Kapısı gizli odada. Normal zemin gibi görünür."
+   ],
+   "layerNotes": {
+    "0": "Zemin plakası, Deniz Fenerli havuz, asansör için Ruh Kumu, bodruma inen Tuzak Kapısı (gizli odada).",
+    "1": "Zemin kat: kuzeyde cam cephe, giriş kapısı, asansör kapısı, gizli odaya pistonlu kapısı olan kitaplık duvarı.",
+    "6": "Zemin katın tavanı, stüdyonun zemini.",
+    "7": "Stüdyo: oyun masası, Deniz Fenerinden ekranlar, asansör kapısı.",
+    "11": "Kenarında gece lambaları olan çatı.",
+    "12": "Çatı terası: korkuluk, lambaların üstünde Kızıltaş, havai fişek."
+   }
+  },
+  "luftschiff": {
+   "name": "Zeplin",
+   "tagline": "Balonlu, kamaralı ve tavuk çiftlikli uçan gemi",
+   "description": "Dünyanın çok üstünde steampunk bir zeplin: ambarlı ahşap bir gövde, korkuluklu bir güverte, bir kaptan kamarası, iki direk ve üstünde yünden devasa çizgili bir balon. Arkada pervaneler döner, güvertede tavuklar bir sandığa yumurtlar ve pruvada bir düğmeye basınca havai fişek fırlar.",
+   "how": [
+    "Pruvadaki havai fişek: Düğme arkasındaki bloğa güç verir. Bloğun üstündeki Kızıltaş sinyali iki Fırlatıcıya dağıtır.",
+    "Yumurta çiftliği: Tavuklar Hunilerin üstünde durur. Yumurtalar Hunilere düşer ve sandıkta toplanır.",
+    "Ambar: Güvertedeki Tuzak Kapısından erzak sandıklarının olduğu gövdeye atlarsın."
+   ],
+   "tips": [
+    "Gemiyi gökyüzünde yüksekte kur. Başta topraktan ya da İskeleden bir kule işine yarar, sonra onu kır.",
+    "Yünü bir koyun çiftliğiyle ya da çoban köylülerden hızlıca alırsın.",
+    "Yukarı çıkmanın en rahat yolu Elitra ve roketler."
+   ],
+   "layerNotes": {
+    "0": "Omurga: gövdenin en alt sırası.",
+    "4": "Meşe güverte. Tuzak Kapısı ambara iner, yumurta çiftliği geminin ortasında.",
+    "5": "Korkuluk, kamara, direkler, çan ve pruvadaki havai fişek.",
+    "12": "Balon direklerin üstünde başlıyor.",
+    "16": "Kırmızı çizgili balonun ortası."
+   }
+  },
+  "unterwasserstation": {
+   "name": "Sualtı İstasyonu",
+   "tagline": "3 cam kubbe, tüneller, yüzeye kabarcık asansörü",
+   "description": "Deniz tabanında bir araştırma istasyonu: mutfak ve büyü köşesiyle büyük bir ana kubbe, bir yatak kubbesi ve yumurta çiftlikli bir çiftlik kubbesi, hepsi cam tünellerle bağlı. İki kabarcık sütunu seni saniyeler içinde su yüzeyindeki iskeleye çıkarır ve geri indirir.",
+   "how": [
+    "Yukarı kabarcık asansörü: Su altındaki Ruh Kumu seni yukarı fırlatan bir kabarcık sütunu oluşturur.",
+    "Aşağı kabarcık asansörü: Magma Bloğu seni aşağı çeken bir sütun oluşturur.",
+    "Kubbenin içinde sütunlar cam boruların içindedir. Kapılar suyu dışarıda tutar. Kubbenin üstünde sütun doğrudan denizde devam eder.",
+    "Yumurta çiftliği: Hunilerin üstünde tavuklar, yumurtalar sandığa düşer. Kubbe su geçirmediği sürece su altında da çalışır."
+   ],
+   "tips": [
+    "Önce kubbeleri suyun içinde kur. İçini kumla doldur ve kumu kaz, böylece su kaybolur.",
+    "Su Altında Nefes Alma İksiri, Solunum ve botlarda Derin Gezgin inşaatı çok kolaylaştırır.",
+    "Kubbenin üstündeki su blokları denizin kendisi. Oraya bir şey koyman gerekmez."
+   ],
+   "layerNotes": {
+    "0": "Üç kubbenin ve tünellerin zeminleri. Ana kubbedeki asansörler için Ruh Kumu ve Magma Bloğu.",
+    "1": "İlk cam sırası, asansör kapıları, eşyalar, doğu kubbesinde yumurta çiftliği.",
+    "9": "Ana kubbenin üstü: Burası zaten deniz, sütunlar kendiliğinden devam eder.",
+    "19": "Su yüzeyinde fenerli iskele."
+   }
+  },
+  "farmhochhaus": {
+   "name": "Çiftlik Gökdeleni",
+   "tagline": "6 kat, 9 çiftlik, 2 su asansörü, Fener",
+   "description": "Her katında ayrı bir çiftlik olan camdan bir gökdelen: lobide eritme tesisi, büyük şeker kamışı çiftliği, balkabağı ve bambu, buğday, tavuk kuluçkası ve yumurta, en üstte de bal çiftliği. Dışarıda iki su asansörü inip çıkar, çatıda bir Fener parlar ve geceleri çatı kenarındaki lambalar kendiliğinden yanar.",
+   "how": [
+    "Doğu tarafında yukarı (Ruh Kumu) ve aşağı (Magma Bloğu) su asansörü. Her katta bir kapıdan biner ve inersin.",
+    "En üstte asansörden doğrudan çatıya çıkarsın. Aşağı inmek için oradan ikinci sütuna atla.",
+    "Her kat ayrı bir çiftlik. Nasıl çalıştıklarını tek tek çiftliklerde bulabilirsin.",
+    "Fener: İlk seviye için 9 Demir Bloğundan bir katman yeter.",
+    "Her tavandaki Deniz Fenerleri her şeyin büyümesini sağlar ve canavarların doğmasını engeller."
+   ],
+   "tips": [
+    "Kat kat kur: önce zemin, sonra cam duvar, sonra çiftlik.",
+    "Çiftliklerle doğu duvarı arasındaki koridoru boş bırak, asansöre oradan gidilir.",
+    "Su sütunlarını en sonda, tüm kapılar yerindeyken doldur."
+   ],
+   "layerNotes": {
+    "0": "Zemin plakası, asansörler için Ruh Kumu ve Magma Bloğu.",
+    "1": "Girişli ve otomatik eritme tesisli lobi.",
+    "9": "1. kat: büyük şeker kamışı çiftliği.",
+    "17": "2. kat: balkabağı ve bambu çiftliği.",
+    "25": "3. kat: düğmeli buğday çiftliği.",
+    "33": "4. kat: tavuk kuluçkası ve yumurta çiftliği.",
+    "41": "5. kat: bal peteği çiftliği.",
+    "48": "Gece lambalı çatı.",
+    "49": "Demir Bloklarının üstünde Fener olan çatı terası."
+   }
+  },
+  "kirschtempel": {
+   "name": "Kiraz Çiçeği Tapınağı",
+   "tagline": "Üç katlı pagoda, torii, koi göleti, bambu çiftliği",
+   "description": "Üç taş teras üzerinde bir Japon tapınak tepesi: önde kırmızı bir torii kapısı, yol boyunca taş fenerler, ortada kıvrık çatılı ve çanlı üç katlı bir pagoda. Dört kiraz ağacı, bir koi göleti ve tapınağın arkasındaki otomatik bambu çiftliği her şeyi tamamlar.",
+   "how": [
+    "Çatılar Kara Meşe merdivenlerinden yapılmış piramit çatılardır. Her kat bir sıra daha içeridedir.",
+    "Bambu çiftliği: Gözlemciler bambunun büyüdüğünü fark eder ve pistonları tetikler. Bambu Hunili Vagonlara düşer."
+   ],
+   "tips": [
+    "Kiraz odununu ve kiraz yapraklarını Kiraz Bahçesi biyomunda bulursun.",
+    "Bambu, fırının için mükemmel bir yakıttır.",
+    "Koi göletine birkaç balık koy (Balık Kovasıyla)."
+   ],
+   "layerNotes": {
+    "0": "En alt teras ve önünde torii kapısı olan çayır.",
+    "2": "Yol, koi göleti ve ağaçların yerleriyle en üst teras.",
+    "3": "Kara Meşe direkli, beyaz yünden pagodanın zemin katı. Kapı kuzeyde.",
+    "7": "Birinci çatı.",
+    "12": "İkinci çatı.",
+    "16": "Tepeli üçüncü çatı."
+   }
+  },
+  "riesenbaumhaus": {
+   "name": "Dev Ağaç Evi",
+   "tagline": "İçi boş dev ağaç, 2 ağaç evi, gözetleme yeri, çiftlikler",
+   "description": "İçi boş gövdesinden tacın üstüne kadar bir merdiven uzanan devasa bir ağaç. İki platformda ağaç evleri var: altta atölye ve mutfak, üstte yatak odası. En tepedeki gözetleme yerinden bütün çevreyi görürsün. Gövdenin dibinde bir balkabağı çiftliği ve bir bal çiftliği çalışır.",
+   "how": [
+    "Merdiven gövdenin kuzey duvarının iç tarafında asılıdır. Her platformda bir kapı dışarı açılır.",
+    "Taç büyük bir yaprak küresidir. Kaybolmaması için gövdeye değmesi gerekir ya da onu İpeksi Dokunuş ile toplanmış yapraklarla kurarsın (yerleştirilen yapraklar kaybolmaz).",
+    "Balkabağı çiftliği: Gözlemciler yeni balkabağını fark eder, pistonlar onu koparır. Bal çiftliği: Arı kovanlarının üstündeki Gözlemciler makaslı Fırlatıcıları çalıştırır."
+   ],
+   "tips": [
+    "Yerleştirilen yapraklar asla çürümez. Yani tacı gönül rahatlığıyla kurabilirsin.",
+    "Arılar ağaçları ve çiçekleri sever. Bal çiftliğinin etrafına daha fazla çiçek ek.",
+    "Önce gövdeyi en tepeye kadar kur, sonra platformları, sonra tacı."
+   ],
+   "layerNotes": {
+    "0": "Ağacın dibinde çayır, kökler ve çiftlikler.",
+    "1": "Gövde (5 × 5, içi boş), merdiven ve güneyde giriş kapısı.",
+    "8": "Atölye kulübeli alt platform.",
+    "16": "Yatak odalı üst platform.",
+    "21": "Taç başlıyor.",
+    "32": "Tacın üstünde gözetleme yeri."
+   }
   }
  }
 });
