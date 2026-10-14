@@ -300,6 +300,7 @@
         add(bx(Math.max(0, r[0]), Math.max(0, r[1]), Math.max(0, r[2]), Math.min(1, r[3]), Math.min(1, r[4]), Math.min(1, r[5]), mat('piston_wood', { opacity: 0.6 })));
         break;
       }
+      case 'trapdoor_top': add(bx(0, 0.8125, 0, 1, 1, 1, mat('trapdoor'))); break;
       case 'detector': add(bx(0, 0, 0, 1, 0.375, 1, faces())); break;
       case 'stonecutter': add(bx(0, 0, 0, 1, 0.5625, 1, faces())); add(bx(0.47, 0.5625, 0.1, 0.53, 0.95, 0.9, colorMat('#b8bcc2'))); break;
       case 'lever': {

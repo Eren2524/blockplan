@@ -298,10 +298,10 @@
     how: [
       'Hebel an: Der Block am Hebel wird stark gepowert. Der obere Kolben steht daneben, der Redstone darunter versorgt den unteren Kolben.',
       'Ausgefahrene klebrige Kolben halten die Türblöcke im Durchgang. Hebel aus: Die Kolben ziehen die Blöcke zur Seite, der Weg ist frei.',
-      'Von außen siehst du nur eine Nische mit Stein. Die Kolben liegen hinter der äußeren Wand.'
+      'Von außen siehst du nur eine Nische mit Stein und den Hebel daneben. Die Kolben liegen hinter der äußeren Wand.'
     ],
-    tips: ['Die Kolbentür ist auf die Java Edition ausgelegt.', 'Baue zuerst den Hügel, dann höhle den Raum aus.', 'Der Hebel innen links neben der Tür öffnet und schließt.'],
-    layerNotes: { 0: 'Boden, Redstone unter dem Hebelblock, Seelensand des Fahrstuhls.', 1: 'Kolbentür: klebrige Kolben nach Osten, ausgefahrene Köpfe, Türblock im Durchgang. Hebel innen.', 4: 'Ausgabe der Schmelze reicht bis hier.' },
+    tips: ['Die Kolbentür ist auf die Java Edition ausgelegt.', 'Baue zuerst den Hügel, dann höhle den Raum aus.', 'Der Hebel außen links neben der Nische öffnet und schließt. Hebel aus = offen. Bevor du hineingehst, Hebel ausschalten, beim Gehen wieder an.'],
+    layerNotes: { 0: 'Boden, Redstone unter dem Hebelblock, Seelensand des Fahrstuhls.', 1: 'Kolbentür: klebrige Kolben nach Osten, ausgefahrene Köpfe, Türblock im Durchgang. Hebel außen in der Wand.', 4: 'Ausgabe der Schmelze reicht bis hier.' },
     build(b) {
       const cx = 8, cz = 8;
       for (let x = -1; x <= 17; x++) for (let z = 2; z <= 16; z++) for (let y = 0; y <= 9; y++) {
@@ -315,7 +315,7 @@
       b.set(8, 1, 2, null).set(8, 2, 2, null);
       b.set(6, 1, 3, 'sticky_piston:e').set(6, 2, 3, 'sticky_piston:e').set(7, 1, 3, 'piston_head:e').set(7, 2, 3, 'piston_head:e');
       b.set(8, 1, 3, 'stone').set(8, 2, 3, 'stone');
-      b.set(5, 2, 3, 'stone').set(5, 1, 3, 'redstone').set(5, 2, 4, 'lever:s');
+      b.set(5, 2, 3, 'stone').set(5, 1, 3, 'redstone').set(5, 2, 2, 'lever:n');
       b.fill(6, 0, 0, 10, 0, 1, 'dirt_path');
       b.set(7, 1, 1, 'lantern').set(9, 1, 1, 'lantern');
       place(b, 'ofen', 4, 0, 9);
@@ -409,5 +409,6 @@
     }
   });
 
+  BP.place = place; BP.placeRaw = placeRaw; BP.nightLights = nightLights;
   BP.finishAll();
 })(window);

@@ -438,6 +438,9 @@
     blast_furnace: { name: 'Schmelzofen', shape: 'cube', tex: { front: 'blast_front', side: 'blast_side', top: 'blast_side', bottom: 'blast_side' }, color: '#5b5c60', hint: (f) => H.facingFront(f) + ' Arbeitsplatz für Rüstungsschmiede.' },
     fletching_table: { name: 'Bognertisch', shape: 'cube', tex: { top: 'fletching_top', bottom: 'oak_planks', side: 'fletching_side' }, color: '#d9c88a', hint: () => 'Arbeitsplatz für Pfeilmacher (Smaragde für Stöcke).' },
     smithing_table: { name: 'Schmiedetisch', shape: 'cube', tex: { top: 'smithing_top', bottom: 'smithing_side', side: 'smithing_side' }, color: '#2e2f35', hint: () => 'Arbeitsplatz für Werkzeugschmiede.' },
+    oak_trapdoor_closed: { name: 'Bodenklappe (Falltür)', shape: 'trapdoor_top', tex: { all: 'oak_planks' }, color: '#a8864f', item: 'Eichenholzfalltür', hint: () => 'Geschlossene Falltür in der oberen Blockhälfte: von unten an die obere Hälfte klicken. Sieht aus wie Holzboden.' },
+    stone_env: { name: 'Fels (vorhanden)', shape: 'cube', tex: { all: 'stone' }, color: '#7a7a7a', auto: true, env: 'stone', hint: () => 'Vorhandener Fels oder Berg. Am besten grabst du den Bau in einen echten Berg, dann sparst du diese Blöcke.' },
+    grass_env: { name: 'Gras (vorhanden)', shape: 'cube', tex: { top: 'grass_top', bottom: 'dirt', side: 'grass_side' }, color: '#6aa84f', auto: true, env: 'grass_block', hint: () => 'Vorhandener Boden. Nur nachbauen, wenn er fehlt.' },
     redstone_lamp: { name: 'Redstone-Lampe', shape: 'cube', tex: { all: 'lamp_on' }, color: '#e8a24a', emissive: true, hint: () => 'Leuchtet, sobald sie Strom bekommt (hier: nachts über den Tageslichtsensor).' },
     daylight_detector: { name: 'Tageslichtsensor (umgedreht)', shape: 'detector', tex: { top: 'detector_top', bottom: 'detector_side', side: 'detector_side' }, color: '#5a7f9e', item: 'Tageslichtsensor', hint: () => 'Nach dem Setzen einmal rechtsklicken: Er wird blau und gibt dann nachts Strom ab.' },
     note_block: { name: 'Notenblock', shape: 'cube', tex: { all: 'note_block' }, color: '#6b4a2a', hint: () => 'Der Block darüber muss frei bleiben, sonst bleibt er stumm. Rechtsklick ändert den Ton.' },
@@ -530,7 +533,9 @@
   const FACING_PROP = { hopper: 1, chest: 1, furnace: 1, dispenser: 1, piston: 1, observer: 1, ladder: 1, oak_wall_sign: 1, lectern: 1, blast_furnace: 1, spruce_fence_gate: 1, beehive: 1, anvil: 1, sticky_piston: 1, stonecutter: 1 };
   function javaState(c) {
     const def = B[c.id];
-    if (!def || def.auto || def.entity) return null;
+    if (!def || def.entity) return null;
+    if (def.env) return def.env;
+    if (def.auto) return null;
     if (c.id === 'rail_cart') return 'rail[shape=' + (c.facing === 'e' || c.facing === 'w' ? 'east_west' : 'north_south') + ']';
     if (def.shape === 'rail') return c.id + '[shape=' + (c.facing === 'e' || c.facing === 'w' ? 'east_west' : 'north_south') + (c.id === 'powered_rail' ? ',powered=true' : '') + ']';
     if (MC_ID[c.id]) return MC_ID[c.id];
@@ -541,6 +546,7 @@
       case 'door': return c.id + '[facing=' + f + ',half=' + (c.part || 'lower') + ']';
       case 'bed': return c.id + '[facing=' + f + ',part=' + (c.part || 'foot') + ']';
       case 'trapdoor': return c.id + '[facing=' + f + ',open=true,half=bottom]';
+      case 'trapdoor_top': return 'oak_trapdoor[facing=' + f + ',open=false,half=top]';
       case 'button': return c.id + '[face=wall,facing=' + f + ']';
       case 'lever': return c.id + '[face=wall,facing=' + f + ',powered=true]';
     }

@@ -34,6 +34,11 @@ Wer lieber einen lokalen Server nutzt: `python3 -m http.server` im Ordner und da
 
 ## Enthaltene Baupläne
 
+**Geheimhäuser** (versteckte Räume, Geheimgänge, Redstone und Farmen, `js/builds-secret.js`):
+Agentenhaus (Bodenklappe, Geheimkeller, Kolben-Tresor, Zuckerrohrfarm), Wasserfall-Versteck (Höhle hinter dem
+Wasserfall, Bambusfarm, Fahrstuhl), Brunnen-Bunker (Blasensäule in die Basis, Kürbis- und Eierfarm),
+Teichhaus (Tür am Teichgrund, Aquarium-Raum, Bodenklappe, Bienenfarm, Nachtlicht).
+
 **Mega-Bauten** (Gebäude mit eingebauten Farmen und Redstone, `js/builds-mega.js`):
 Redstone-Villa, Bauernhof-Anwesen, Golem-Festung, Monsterturm-Festung, Fabrikhalle (Bambus heizt die Öfen),
 Gelehrten-Bibliothek, Bienen-Gewächshaus, Party-Turm, Kolbentür-Bunker, Ranch, Steinmetz-Werkstatt, Vulkan-Schmiede.
@@ -96,5 +101,6 @@ Verfügbare Blöcke, Texturen und Platzierungshinweise stehen in `js/blocks.js`.
 - `js/builds.js`: Farmen, Bauprojekte und die ersten Gebäude, Builder und Bauzeit-Schätzung
 - `js/builds-community.js`: Gebäude im Community-Stil, weitere Farmen und Projekte, Dach-Helfer
 - `js/builds-mega.js`: Mega-Bauten, setzt geprüfte Farm-Module in Gebäude ein
+- `js/builds-secret.js`: Geheimhäuser mit Kolben-Tresor-Helfer
 - `js/viewer.js`: 3D-Ansicht (Three.js r128)
 - `js/app.js`: Oberfläche, 2D-Raster, Material, Fortschritt

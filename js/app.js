@@ -9,8 +9,8 @@
     set(k, v) { try { localStorage.setItem('blockplan.' + k, JSON.stringify(v)); } catch (e) { /* kein Speicher */ } }
   };
   const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  const CAT = { mega: 'Mega-Bauten', farm: 'Automatische Farmen', project: 'Bauprojekte', building: 'Gebäude' };
-  const CAT_ONE = { mega: 'Mega-Bau', farm: 'Automatische Farm', project: 'Bauprojekt', building: 'Gebäude' };
+  const CAT = { secret: 'Geheimhäuser', mega: 'Mega-Bauten', farm: 'Automatische Farmen', project: 'Bauprojekte', building: 'Gebäude' };
+  const CAT_ONE = { secret: 'Geheimhaus', mega: 'Mega-Bau', farm: 'Automatische Farm', project: 'Bauprojekt', building: 'Gebäude' };
   const DIFF = { 'Leicht': 'easy', 'Mittel': 'mid', 'Fortgeschritten': 'hard' };
 
   const state = { diff: '', build: null, layer: 0, mode: 'all', sel: null, tab: 'layer', rotate: false, done: new Set() };
@@ -72,7 +72,7 @@
     const wrap = $('#buildList');
     wrap.textContent = '';
     let any = false;
-    ['mega', 'farm', 'project', 'building'].forEach((cat) => {
+    ['secret', 'mega', 'farm', 'project', 'building'].forEach((cat) => {
       const items = BUILDS.filter((b) => b.cat === cat && (!state.diff || b.difficulty === state.diff) && (!q || (b.name + ' ' + b.tagline + ' ' + b.description).toLowerCase().includes(q)));
       if (!items.length) return;
       any = true;
@@ -334,6 +334,11 @@
         g.fillStyle = '#26262a'; g.fillRect(cx - s * 0.15, cy - s * 0.15, s * 0.3, s * 0.3);
         break;
       }
+      case 'trapdoor_top':
+        g.fillStyle = def.color; g.fillRect(x, y, s, s);
+        g.strokeStyle = '#3b2c18'; g.lineWidth = 1.5; g.strokeRect(x + 2.5, y + 2.5, s - 5, s - 5);
+        g.fillStyle = '#3b2c18'; g.fillRect(cx - 1, cy - 1, 2, 2);
+        break;
       case 'detector':
         g.fillStyle = def.color; g.fillRect(x + 1, y + 1, s - 2, s - 2);
         g.fillStyle = '#9ec7e6'; g.fillRect(x + s * 0.2, y + s * 0.2, s * 0.25, s * 0.25); g.fillRect(x + s * 0.55, y + s * 0.55, s * 0.25, s * 0.25);
@@ -458,7 +463,7 @@
         arrow(g, cx, cy, r * 0.75, f || 'd', '#f2f2f2');
         break;
       default: {
-        if (def.ghost || def.auto) {
+        if (def.ghost || (def.auto && !def.env)) {
           g.setLineDash([3, 2]); g.strokeStyle = def.color; g.lineWidth = 2; g.strokeRect(x + 2.5, y + 2.5, s - 5, s - 5); g.setLineDash([]);
           g.globalAlpha = 0.25; g.fillStyle = def.color; g.fillRect(x, y, s, s); g.globalAlpha = 1;
           break;
