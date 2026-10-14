@@ -1,7 +1,7 @@
 /* Blockplan – Offline-Modus. Beim ersten Besuch werden alle Dateien gespeichert,
    danach läuft die Seite auch ohne Internet. Neue Versionen werden im Hintergrund geladen.
    Nach Änderungen an Dateien die Versionsnummer erhöhen. */
-const VERSION = 'blockplan-2.1.2';
+const VERSION = 'blockplan-2.1.3';
 const FILES = [
   './', 'index.html', 'legal.html', 'manifest.webmanifest',
   'vendor/three.min.js', 'vendor/OrbitControls.js', 'vendor/fonts/fonts.css',
@@ -12,7 +12,7 @@ const FILES = [
 ];
 
 self.addEventListener('install', (e) => {
-  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(FILES)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(VERSION).then((c) => c.addAll(FILES.map((f) => new Request(f, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (e) => {
@@ -22,7 +22,18 @@ self.addEventListener('activate', (e) => {
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
+  const page = req.mode === 'navigate' || /\.html$/.test(new URL(req.url).pathname);
   e.respondWith(caches.open(VERSION).then(async (cache) => {
+    // Seiten zuerst aus dem Netz (damit Änderungen sofort sichtbar sind), offline aus dem Speicher
+    if (page) {
+      try {
+        const res = await fetch(req, { cache: 'no-cache' });
+        if (res.ok) cache.put(req, res.clone());
+        return res;
+      } catch (err) {
+        return (await cache.match(req, { ignoreSearch: true })) || cache.match('index.html');
+      }
+    }
     const hit = await cache.match(req, { ignoreSearch: true });
     const net = fetch(req).then((res) => { if (res.ok) cache.put(req, res.clone()); return res; }).catch(() => null);
     if (hit) { e.waitUntil(net); return hit; }
