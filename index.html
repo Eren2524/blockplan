@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Blockplan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="3D-Bauanleitungen für Minecraft-Farmen und Gebäude, Ebene für Ebene.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Pixelify+Sans:wght@500;700&display=swap">
+<style>
+/* Layout: drei Spalten – Bauliste | 3D-Bühne | Bauplan-Panel. Schmal: Bühne oben, Panel darunter, Liste als Schublade. */
+:root {
+  --bg: #e5e9e4;
+  --surface: #f6f7f3;
+  --surface-2: #eceee9;
+  --ink: #1b221f;
+  --muted: #5b6661;
+  --line: #cbd2cc;
+  --accent: #b4271e;
+  --accent-soft: #f3d9d6;
+  --on-accent: #ffffff;
+  --ok: #1c7c46;
+  --ok-soft: #d5ecdd;
+  --warn: #9a6200;
+  --warn-soft: #f4e5c7;
+  --stage: #d2dad5;
+  --grid: #7c8a84;
+  --font-display: "Pixelify Sans", "Courier New", monospace;
+  --font-body: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r: 6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131719; --surface: #1a2023; --surface-2: #21292c; --ink: #e3e9e6; --muted: #95a29c; --line: #2d373a;
+    --accent: #e4473c; --accent-soft: #3a1d1b; --on-accent: #ffffff; --ok: #3cba71; --ok-soft: #173325;
+    --warn: #e2a53b; --warn-soft: #3a2d14; --stage: #0e1214; --grid: #55635e; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #131719; --surface: #1a2023; --surface-2: #21292c; --ink: #e3e9e6; --muted: #95a29c; --line: #2d373a;
+  --accent: #e4473c; --accent-soft: #3a1d1b; --on-accent: #ffffff; --ok: #3cba71; --ok-soft: #173325;
+  --warn: #e2a53b; --warn-soft: #3a2d14; --stage: #0e1214; --grid: #55635e; color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.5 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+button, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+[hidden] { display: none !important; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+
+.app {
+  display: grid; height: 100%;
+  grid-template-columns: 276px minmax(0, 1fr) 400px;
+  grid-template-rows: auto minmax(0, 1fr);
+  grid-template-areas: "top top top" "side stage panel";
+}
+
+/* ---------- Kopfzeile ---------- */
+.topbar {
+  grid-area: top; display: flex; align-items: center; gap: 12px;
+  padding-block: 10px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  border-bottom: 1px solid var(--line); background: var(--surface);
+}
+.brand { display: flex; align-items: center; gap: 10px; flex: none; }
+.brand-mark {
+  width: 18px; height: 18px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+}
+.brand-mark i { background: var(--accent); border-radius: 1px; }
+.brand-mark i:nth-child(odd) { background: transparent; }
+.brand-mark i:nth-child(5) { background: var(--accent); }
+.brand-name { font: 700 22px/1 var(--font-display); letter-spacing: 0.02em; }
+.top-title { flex: 1; min-width: 0; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--muted); }
+.top-actions { display: flex; gap: 8px; flex: none; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: var(--r);
+  border: 1px solid var(--line); background: var(--surface-2); font-size: 14px; font-weight: 700; line-height: 1.2;
+}
+.btn:hover { border-color: var(--muted); }
+.btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn svg { width: 16px; height: 16px; flex: none; }
+.only-narrow { display: none; }
+
+/* ---------- Bauliste ---------- */
+.sidebar {
+  grid-area: side; overflow: auto; background: var(--surface); border-right: 1px solid var(--line);
+  padding-block: 14px 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: 16px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.search {
+  width: 100%; padding: 9px 12px; border-radius: var(--r); border: 1px solid var(--line); background: var(--bg);
+}
+.list-group { display: flex; flex-direction: column; gap: 4px; }
+.list-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); padding: 4px 2px;
+}
+.item {
+  text-align: left; width: 100%; border: 1px solid transparent; background: transparent; border-radius: var(--r);
+  padding: 9px 10px; display: grid; gap: 2px;
+}
+.item:hover { background: var(--surface-2); }
+.item[aria-current="true"] { background: var(--bg); border-color: var(--line); box-shadow: inset 3px 0 0 var(--accent); }
+.item-name { font-weight: 700; }
+.item-tag { font-size: 13px; color: var(--muted); }
+.item-meta { display: flex; gap: 8px; align-items: center; font: 12px/1.4 var(--font-mono); color: var(--muted); margin-top: 2px; }
+.pill { display: inline-block; font: 700 11px/1 var(--font-body); padding: 3px 7px; border-radius: 999px; letter-spacing: 0.02em; }
+.pill.easy { background: var(--ok-soft); color: var(--ok); }
+.pill.mid { background: var(--warn-soft); color: var(--warn); }
+.pill.hard { background: var(--accent-soft); color: var(--accent); }
+.empty-note { color: var(--muted); font-size: 14px; padding: 8px 2px; }
+
+/* ---------- Bühne ---------- */
+.stage { grid-area: stage; position: relative; min-height: 0; background: var(--stage); overflow: hidden; }
+#viewport { position: absolute; inset: 0; touch-action: none; }
+#viewport canvas { display: block; }
+.stage-tools { position: absolute; top: 12px; left: 12px; right: 12px; display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; pointer-events: none; }
+.seg { display: inline-flex; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); padding: 3px; gap: 2px; pointer-events: auto; }
+.seg button { border: 0; background: transparent; padding: 6px 10px; border-radius: 4px; font-size: 13px; font-weight: 700; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.seg button:hover:not([aria-pressed="true"]) { color: var(--ink); }
+.hud {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+  display: flex; align-items: center; gap: 6px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; padding: 6px; box-shadow: 0 6px 20px rgb(0 0 0 / 0.15);
+}
+.hud-btn { width: 48px; height: 48px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); display: grid; place-items: center; }
+.hud-btn:hover { border-color: var(--muted); }
+.hud-btn svg { width: 22px; height: 22px; }
+.hud-label { min-width: 132px; text-align: center; padding-inline: 6px; }
+.hud-label b { display: block; font: 700 24px/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.hud-label span { font-size: 12px; color: var(--muted); }
+.stage-hint { position: absolute; left: 14px; bottom: 18px; font-size: 12px; color: var(--muted); max-width: 30%; pointer-events: none; }
+
+/* ---------- Panel ---------- */
+.panel {
+  grid-area: panel; overflow: auto; background: var(--surface); border-left: 1px solid var(--line);
+  padding-block: 18px 32px; padding-left: 20px; padding-right: max(20px, env(safe-area-inset-right, 0px));
+  display: flex; flex-direction: column; gap: 18px;
+}
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.panel h1 { font: 700 30px/1.1 var(--font-display); margin-top: 4px; }
+.desc { color: var(--muted); margin: 8px 0 0; max-width: 65ch; }
+.stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border: 1px solid var(--line); border-radius: var(--r); }
+.stat { padding: 8px 12px; min-width: 0; }
+.stat:nth-child(even) { border-left: 1px solid var(--line); }
+.stat:nth-child(n+3) { border-top: 1px solid var(--line); }
+.stat dt { font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.stat dd { margin: 2px 0 0; font: 600 15px/1.3 var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.progress { display: grid; gap: 6px; }
+.progress-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
+.progress-row button { border: 0; background: none; padding: 0; color: var(--muted); text-decoration: underline; font-size: 13px; }
+.bar { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; border: 1px solid var(--line); }
+.bar i { display: block; height: 100%; width: 0; background: var(--ok); transition: width 0.25s ease; }
+.chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip {
+  min-width: 32px; height: 30px; padding: 0 6px; border-radius: 4px; border: 1px solid var(--line); background: var(--bg);
+  font: 600 13px/1 var(--font-mono); font-variant-numeric: tabular-nums;
+}
+.chip.done { background: var(--ok-soft); border-color: var(--ok); color: var(--ok); }
+.chip[aria-current="true"] { background: var(--ink); border-color: var(--ink); color: var(--surface); }
+
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); }
+.tabs button { border: 0; background: none; padding: 8px 10px; font-weight: 700; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.tabpane { display: flex; flex-direction: column; gap: 14px; }
+
+.layer-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.layer-head h2 { font: 700 20px/1.2 var(--font-display); }
+.layer-head h2 small { font: 400 13px var(--font-body); color: var(--muted); margin-left: 6px; }
+.check { display: inline-flex; align-items: center; gap: 8px; font-weight: 700; font-size: 14px; padding: 6px 10px; border-radius: var(--r); border: 1px solid var(--line); background: var(--bg); cursor: pointer; user-select: none; }
+.check input { width: 18px; height: 18px; accent-color: var(--ok); margin: 0; }
+.check.on { border-color: var(--ok); background: var(--ok-soft); color: var(--ok); }
+.note { border-left: 3px solid var(--accent); background: var(--surface-2); padding: 10px 12px; border-radius: 0 var(--r) var(--r) 0; font-size: 14px; }
+.grid-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r); background: var(--bg); padding: 8px; }
+#layerCanvas { display: block; touch-action: manipulation; cursor: crosshair; }
+.grid-caption { font-size: 12px; color: var(--muted); }
+
+.info { border: 1px solid var(--line); border-radius: var(--r); padding: 12px; display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 4px 12px; background: var(--bg); }
+.info .sw { width: 34px; height: 34px; border-radius: 4px; grid-row: span 2; border: 1px solid rgb(0 0 0 / 0.2); image-rendering: pixelated; }
+.info-name { font-weight: 700; }
+.info-pos { font: 12px var(--font-mono); color: var(--muted); }
+.info-hint { grid-column: 1 / -1; font-size: 14px; margin-top: 6px; }
+.info-tags { grid-column: 1 / -1; display: flex; gap: 6px; flex-wrap: wrap; }
+.info-empty { color: var(--muted); font-size: 14px; }
+
+.mats { display: grid; gap: 2px; }
+.mat-row { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 6px 4px; border-bottom: 1px solid var(--line); }
+.mat-row:last-child { border-bottom: 0; }
+.mat-sw { width: 22px; height: 22px; border-radius: 3px; border: 1px solid rgb(0 0 0 / 0.2); image-rendering: pixelated; }
+.mat-name { min-width: 0; }
+.mat-count { text-align: right; font: 600 14px/1.2 var(--font-mono); font-variant-numeric: tabular-nums; }
+.mat-count small { display: block; font-weight: 400; font-size: 11px; color: var(--muted); }
+.sub { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.row-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.prose ol, .prose ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; }
+.prose p { margin: 0; }
+.legend { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.legend div { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.legend canvas { flex: none; border-radius: 3px; }
+.ver { font-size: 12px; color: var(--muted); }
+
+/* ---------- Overlays ---------- */
+.backdrop { position: fixed; inset: 0; background: rgb(0 0 0 / 0.4); z-index: 20; }
+.dialog {
+  position: fixed; z-index: 30; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(460px, calc(100% - 32px)); max-height: calc(100% - 32px); overflow: auto;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px;
+  box-shadow: 0 20px 60px rgb(0 0 0 / 0.3);
+}
+.dialog h2 { font: 700 22px var(--font-display); margin-bottom: 12px; }
+.keys { display: grid; grid-template-columns: auto 1fr; gap: 8px 14px; align-items: center; font-size: 14px; }
+kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 4px; padding: 2px 6px; white-space: nowrap; }
+.toast {
+  position: fixed; z-index: 40; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  background: var(--ink); color: var(--surface); padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 14px;
+}
+
+@media (max-width: 1180px) {
+  .app { grid-template-columns: minmax(0, 1fr) 380px; grid-template-areas: "top top" "stage panel"; }
+  .only-narrow { display: inline-flex; }
+  .sidebar {
+    position: fixed; z-index: 25; top: 0; bottom: 0; left: 0; width: min(320px, 86vw);
+    padding-top: max(16px, env(safe-area-inset-top, 0px)); transform: translateX(-102%); transition: transform 0.2s ease;
+    box-shadow: 0 0 40px rgb(0 0 0 / 0.25);
+  }
+  .sidebar.open { transform: none; }
+}
+@media (max-width: 780px) {
+  html, body { height: auto; }
+  .app { display: block; height: auto; }
+  .topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; }
+  .top-actions .btn span { display: none; }
+  .stage {
+    height: 58vh; min-height: 340px;
+    margin-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
+    margin-top: 12px; border-radius: 10px; border: 1px solid var(--line);
+  }
+  .stage-hint { display: none; }
+  .panel { border-left: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: transparent; }
+  .hud-label { min-width: 104px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <button class="btn only-narrow" id="menuBtn" aria-label="Bauliste öffnen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Bauten</span>
+    </button>
+    <div class="brand"><div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="brand-name">Blockplan</span></div>
+    <div class="top-title" id="topTitle"></div>
+    <div class="top-actions">
+      <button class="btn" id="wakeBtn" aria-pressed="false" title="Verhindert, dass Handy oder Tablet beim Bauen ausgehen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span>Bildschirm an</span>
+      </button>
+      <button class="btn" id="keysBtn" title="Tastenkürzel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg><span>Tasten</span>
+      </button>
+    </div>
+  </header>
+
+  <aside class="sidebar" id="sidebar" aria-label="Bauliste">
+    <input class="search" id="search" type="search" placeholder="Farm oder Gebäude suchen" aria-label="Suchen">
+    <div id="buildList"></div>
+    <p class="ver">Die Farmen sind für die Java Edition ausgelegt. Gebäude funktionieren in jeder Version.</p>
+  </aside>
+
+  <main class="stage">
+    <div id="viewport" aria-label="3D-Ansicht des Baus"></div>
+    <div class="stage-tools">
+      <div class="seg" id="modeSeg" role="group" aria-label="Ansicht">
+        <button data-mode="all" title="Ganzer Bau (A)">Alles</button>
+        <button data-mode="upto" title="Alle Ebenen bis zur aktuellen (B)">Bis Ebene</button>
+        <button data-mode="only" title="Nur die aktuelle Ebene (N)">Nur Ebene</button>
+      </div>
+      <div class="seg" id="camSeg" role="group" aria-label="Kamera">
+        <button data-cam="iso" title="Schräg von oben (I)">Schräg</button>
+        <button data-cam="top" title="Von oben, Norden oben (T)">Oben</button>
+        <button data-cam="front" title="Von Süden (F)">Vorne</button>
+        <button data-cam="rotate" id="rotBtn" title="Langsam drehen (R)">Drehen</button>
+      </div>
+    </div>
+    <div class="hud" role="group" aria-label="Ebene wechseln">
+      <button class="hud-btn" id="prevBtn" aria-label="Ebene darunter">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <div class="hud-label"><b id="hudNum">0 / 0</b><span id="hudSub">Ebene</span></div>
+      <button class="hud-btn" id="nextBtn" aria-label="Ebene darüber">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+    <div class="stage-hint">Ziehen: drehen · Scrollen: zoomen · Rechtsklick ziehen: verschieben · Block anklicken: Infos</div>
+  </main>
+
+  <section class="panel" id="panel" aria-live="polite">
+    <div>
+      <div class="eyebrow" id="eyebrow"></div>
+      <h1 id="title"></h1>
+      <p class="desc" id="desc"></p>
+    </div>
+    <dl class="stats" id="stats"></dl>
+    <div class="progress">
+      <div class="progress-row"><span id="progText"></span><button id="resetBtn">Fortschritt zurücksetzen</button></div>
+      <div class="bar"><i id="progBar"></i></div>
+      <div class="chips" id="chips" aria-label="Ebenen"></div>
+    </div>
+    <div>
+      <div class="tabs" role="tablist">
+        <button role="tab" data-tab="layer" aria-selected="true">Ebene</button>
+        <button role="tab" data-tab="mats" aria-selected="false">Material</button>
+        <button role="tab" data-tab="how" aria-selected="false">So funktioniert's</button>
+      </div>
+    </div>
+    <div class="tabpane" id="tab-layer">
+      <div class="layer-head">
+        <h2 id="layerTitle"></h2>
+        <label class="check" id="doneLabel"><input type="checkbox" id="doneBox"> Ebene fertig</label>
+      </div>
+      <div class="note" id="layerNote" hidden></div>
+      <div class="grid-wrap" id="gridWrap"><canvas id="layerCanvas"></canvas></div>
+      <div class="grid-caption">Blick von oben, Norden ist oben. Blassere Felder zeigen die Ebene darunter. Feld antippen für Infos.</div>
+      <div id="info"></div>
+      <div>
+        <div class="sub">Material für diese Ebene</div>
+        <div class="mats" id="layerMats"></div>
+      </div>
+    </div>
+    <div class="tabpane" id="tab-mats" hidden>
+      <div class="row-actions"><button class="btn" id="copyBtn">Einkaufsliste kopieren</button></div>
+      <div class="mats" id="allMats"></div>
+      <div id="mobsWrap" hidden>
+        <div class="sub">Kreaturen</div>
+        <div class="mats" id="mobMats"></div>
+      </div>
+    </div>
+    <div class="tabpane prose" id="tab-how" hidden>
+      <div id="howWrap"><div class="sub">Funktionsweise</div><ol id="howList"></ol></div>
+      <div id="tipWrap"><div class="sub">Tipps</div><ul id="tipList"></ul></div>
+      <div>
+        <div class="sub">Zeichen im 2D-Raster</div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <p class="ver" id="edition"></p>
+    </div>
+  </section>
+</div>
+
+<div class="backdrop" id="backdrop" hidden></div>
+<div class="dialog" id="keysDialog" role="dialog" aria-modal="true" aria-labelledby="keysTitle" hidden>
+  <h2 id="keysTitle">Tastenkürzel</h2>
+  <div class="keys">
+    <span><kbd>→</kbd> <kbd>Bild ↑</kbd></span><span>Nächste Ebene</span>
+    <span><kbd>←</kbd> <kbd>Bild ↓</kbd></span><span>Vorherige Ebene</span>
+    <span><kbd>Pos1</kbd> <kbd>Ende</kbd></span><span>Erste / letzte Ebene</span>
+    <span><kbd>Leertaste</kbd></span><span>Ebene als fertig markieren</span>
+    <span><kbd>A</kbd> <kbd>B</kbd> <kbd>N</kbd></span><span>Alles / Bis Ebene / Nur Ebene</span>
+    <span><kbd>I</kbd> <kbd>T</kbd> <kbd>F</kbd></span><span>Kamera schräg / oben / vorne</span>
+    <span><kbd>R</kbd></span><span>Drehen an/aus</span>
+    <span><kbd>Esc</kbd></span><span>Auswahl aufheben</span>
+  </div>
+  <p class="ver" style="margin-top:14px">Tipp: Im Spiel mit F3 siehst du, in welche Richtung du schaust („Facing“). Norden ist in jedem Plan oben.</p>
+  <div class="row-actions" style="margin-top:14px"><button class="btn" id="keysClose">Schließen</button></div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="js/blocks.js"></script>
+<script src="js/builds.js"></script>
+<script src="js/viewer.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
