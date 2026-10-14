@@ -329,6 +329,187 @@
     }
   });
 
+  BUILDS.push({
+    id: 'bambus',
+    cat: 'farm',
+    name: 'Bambusfarm',
+    tagline: 'Brennstoff ohne Ende für die Schmelze',
+    difficulty: 'Leicht',
+    edition: 'Java 1.20+',
+    description: 'Gleicher Aufbau wie die Zuckerrohrfarm, nur ohne Wasser. Bambus wächst schnell und ist ein guter Brennstoff: Zwei Bambus schmelzen ein Item. Schließ die Truhe mit einer Trichterkette an die Brennstoff-Truhe der Automatischen Schmelze an, dann läuft alles von allein.',
+    how: [
+      'Die Beobachter schauen auf die Höhe des dritten Bambusblocks.',
+      'Wächst dort ein Block, schaltet der Impuls über Redstone und Stein alle Kolben.',
+      'Kolben zerbrechen Bambus. Alles über dem Kolben fällt ab, der unterste Block bleibt stehen.',
+      'Trichterloren unter der Erde sammeln die Items durch den Block hindurch ein.'
+    ],
+    tips: [
+      'Bambus braucht kein Wasser, aber Licht. Die Glaswand vorne lässt Licht durch.',
+      'Bambus findest du im Dschungel oder bekommst ihn vom Fahrenden Händler.',
+      'Wenn der Bambus zu hoch wird, prüfe, ob alle Beobachter nach Norden schauen.'
+    ],
+    layerNotes: {
+      0: 'Trichterkette nach Osten in die Truhe.',
+      1: 'Schienen mit Trichterloren. Die Blöcke an beiden Enden halten die Loren fest.',
+      2: 'Erde für den Bambus, dahinter eine Reihe Stein.',
+      3: 'Bambus pflanzen. Glas vorne.',
+      4: 'Kolben schieben nach Norden zum Bambus. Dahinter Stein.',
+      5: 'Beobachter schauen nach Norden, roter Punkt nach Süden. Redstone auf den Stein.'
+    },
+    build(b) {
+      b.fill(0, 0, 1, 7, 0, 1, 'hopper:e').set(8, 0, 1, 'chest:n');
+      b.fill(0, 1, 1, 7, 1, 1, 'rail_cart:e').set(-1, 1, 1, 'stone').set(8, 1, 1, 'glass');
+      b.fill(-1, 2, 0, 8, 2, 0, 'stone');
+      b.fill(0, 2, 1, 7, 2, 1, 'dirt').fill(0, 2, 2, 7, 2, 3, 'stone');
+      b.set(-1, 2, 1, 'stone').set(8, 2, 1, 'stone');
+      b.fill(0, 3, 1, 7, 3, 1, 'bamboo').fill(0, 3, 2, 7, 3, 2, 'stone');
+      b.fill(0, 3, 0, 7, 5, 0, 'glass');
+      b.fill(-1, 3, 0, -1, 5, 1, 'glass').fill(8, 3, 0, 8, 5, 1, 'glass');
+      b.fill(0, 4, 1, 7, 5, 1, 'bamboo_auto');
+      b.fill(0, 4, 2, 7, 4, 2, 'piston:n').fill(0, 4, 3, 7, 4, 3, 'stone');
+      b.fill(0, 5, 2, 7, 5, 2, 'observer:n').fill(0, 5, 3, 7, 5, 3, 'redstone');
+    }
+  });
+
+  BUILDS.push({
+    id: 'mobturm',
+    cat: 'farm',
+    name: 'Mob-Fallturm',
+    tagline: 'Knochen, Pfeile, Schießpulver, Fäden',
+    difficulty: 'Fortgeschritten',
+    edition: 'Java 1.18+',
+    description: 'Eine dunkle Spawn-Etage mit vier Wasserkanälen. Monster laufen auf die offenen Falltüren, fallen ins Wasser und werden in den 2 × 2 Schacht in der Mitte gespült. Nach 30 Blöcken Fall sind sie tot. Die Beute landet unten in den Trichtern und dann in den Truhen.',
+    how: [
+      'Monster spawnen seit 1.18 nur bei Lichtstufe 0. Deshalb sind Dach und Wände dicht.',
+      'Monster halten offene Falltüren für Boden und laufen darauf. Dann fallen sie ins Wasser.',
+      'Jeder Kanal ist genau 8 Felder lang. Das Wasser endet am Schacht und läuft nicht hinein.',
+      'Die Spawnflächen sind nur 2 Blöcke hoch und 2 breit. Endermen haben keinen Platz.',
+      'Ein Fall aus 30 Blöcken macht 27 Schaden. Das tötet Zombies, Skelette, Creeper und Spinnen.'
+    ],
+    tips: [
+      'Warte unten an den Truhen. Du musst mindestens 24 Blöcke von der Spawn-Etage entfernt sein.',
+      'Am besten über einem Ozean bauen. Höhlen in der Nähe ausleuchten, sonst spawnen Monster dort.',
+      'Leg Fackeln oder Stufen aufs Dach, sonst spawnen dort nachts Monster.',
+      'Die Spawn-Etage ist absichtlich dunkel. Nimm zum Bauen Fackeln mit und entferne sie danach.',
+      'Schwierigkeit mindestens „Leicht“.'
+    ],
+    layerNotes: {
+      0: 'Standfläche für dich unten am Turm.',
+      1: 'Zwei Doppeltruhen in der Mitte.',
+      2: 'Vier Trichter nach unten in die Truhen. Schacht aus Steinziegeln darum.',
+      3: 'Leuchtstein in der Schachtwand verhindert, dass unten Monster spawnen. Glas zum Zuschauen.',
+      5: 'Ab hier nur noch den Schacht hochziehen bis Ebene 31 (2 × 2 innen frei).',
+      32: 'Boden der Spawn-Etage. Das 2 × 2 Loch über dem Schacht frei lassen.',
+      33: 'Kanäle: Wasserquellen nur ganz außen an jedem Kanal. Daneben die 2 breiten Spawnflächen aus Bruchstein. Außenwand.',
+      34: 'Offene Falltüren über jedem Kanalfeld, jeweils an die Spawnfläche geklappt.',
+      36: 'Dach komplett dicht machen.'
+    },
+    build(b) {
+      const shape = new Map();
+      const put = (x, z, t) => shape.set(x + ',' + z, t);
+      for (let i = 1; i <= 8; i++) {
+        for (const c of [9, 10]) { put(c, i, 'ch'); put(c, 19 - i, 'ch'); put(i, c, 'ch'); put(19 - i, c, 'ch'); }
+        for (const c of [7, 8, 11, 12]) { put(c, i, 'st'); put(c, 19 - i, 'st'); put(i, c, 'st'); put(19 - i, c, 'st'); }
+      }
+      for (const x of [9, 10]) for (const z of [9, 10]) put(x, z, 'sh');
+      const kind = (x, z) => shape.get(x + ',' + z);
+      const B = 32;
+      // Spawn-Etage
+      for (let x = -1; x <= 20; x++) for (let z = -1; z <= 20; z++) {
+        const k = kind(x, z);
+        let near = false;
+        for (let dx = -1; dx <= 1; dx++) for (let dz = -1; dz <= 1; dz++) if (kind(x + dx, z + dz)) near = true;
+        if (!k && !near) continue;
+        if (k !== 'sh') b.set(x, B, z, 'stone');
+        b.set(x, B + 4, z, 'cobblestone');
+        if (!k) b.fill(x, B + 1, z, x, B + 3, z, 'cobblestone');
+        else if (k === 'st') b.set(x, B + 1, z, 'cobblestone');
+        else if (k === 'ch') {
+          const end = x === 1 || x === 18 || z === 1 || z === 18;
+          b.set(x, B + 1, z, end ? 'water' : 'water_flow');
+        }
+      }
+      // Falltüren: Brett liegt an der Spawnfläche
+      for (let i = 1; i <= 8; i++) {
+        for (const z of [i, 19 - i]) { b.set(9, B + 2, z, 'oak_trapdoor:e'); b.set(10, B + 2, z, 'oak_trapdoor:w'); }
+        for (const x of [i, 19 - i]) { b.set(x, B + 2, 9, 'oak_trapdoor:s'); b.set(x, B + 2, 10, 'oak_trapdoor:n'); }
+      }
+      // Schacht
+      b.walls(8, 2, 8, 11, B - 1, 11, 'stone_bricks');
+      b.set(8, 3, 10, 'glowstone').set(9, 3, 11, 'glass').set(10, 3, 11, 'glass').set(9, 4, 11, 'glass').set(10, 4, 11, 'glass');
+      // Unten: Trichter, Truhen, Standfläche
+      b.fill(9, 2, 9, 10, 2, 10, 'hopper:d');
+      b.set(9, 1, 9, 'chest:n').set(10, 1, 9, 'chest:n').set(9, 1, 10, 'chest:s').set(10, 1, 10, 'chest:s');
+      b.fill(6, 0, 6, 13, 0, 14, 'stone');
+    }
+  });
+
+  BUILDS.push({
+    id: 'lava',
+    cat: 'farm',
+    name: 'Lavafarm',
+    tagline: 'Tropfstein füllt Kessel mit Lava',
+    difficulty: 'Leicht',
+    edition: 'Java & Bedrock 1.17+',
+    description: 'Unter einem Block mit Lava darüber hängt ein spitzer Tropfstein. Er tropft langsam Lava in den Kessel darunter. Die Lavaquelle wird dabei nicht verbraucht. Vier Kessel liefern genug Lava als Brennstoff, für Obsidian oder für die Eisenfarm.',
+    how: [
+      'Lava muss direkt über dem Block liegen, an dem der Tropfstein hängt.',
+      'Der Kessel steht unter der Spitze. Er darf bis zu 11 Blöcke tiefer stehen.',
+      'Die Lavaquellen bleiben erhalten, du brauchst sie nur einmal.'
+    ],
+    tips: [
+      'Kessel mit einem leeren Eimer leeren. Ein voller Kessel ist genau ein Lavaeimer.',
+      'Es dauert eine Weile. Je mehr Kessel, desto mehr Lava. Die Farm arbeitet nur, wenn du in der Nähe bist.',
+      'Spitzen Tropfstein findest du in Tropfsteinhöhlen.'
+    ],
+    layerNotes: {
+      0: 'Boden aus Stein.',
+      1: 'Vier Kessel mit einem Feld Abstand. Säulen an den Enden.',
+      2: 'Spitzer Tropfstein hängt über jedem Kessel.',
+      3: 'Steinreihe: An deren Unterseite hängen die Tropfsteine.',
+      4: 'Becken: Lavaquellen genau über den Tropfsteinen, Stein dazwischen und drumherum.'
+    },
+    build(b) {
+      b.fill(-1, 0, -1, 7, 0, 1, 'stone');
+      for (const x of [0, 2, 4, 6]) { b.set(x, 1, 0, 'cauldron').set(x, 2, 0, 'pointed_dripstone').set(x, 4, 0, 'lava'); }
+      b.fill(-1, 1, 0, -1, 2, 0, 'stone_bricks').fill(7, 1, 0, 7, 2, 0, 'stone_bricks');
+      b.fill(-1, 3, 0, 7, 3, 0, 'stone');
+      b.fill(-1, 4, -1, 7, 4, -1, 'stone').fill(-1, 4, 1, 7, 4, 1, 'stone');
+      for (const x of [-1, 1, 3, 5, 7]) b.set(x, 4, 0, 'stone');
+    }
+  });
+
+  BUILDS.push({
+    id: 'bruchstein',
+    cat: 'farm',
+    name: 'Bruchstein-Generator',
+    tagline: 'Wasser + Lava = unendlich Stein',
+    difficulty: 'Leicht',
+    edition: 'Java & Bedrock',
+    description: 'Der klassische Generator: Lava fließt auf ein Feld, das an fließendes Wasser grenzt, und wird sofort zu Bruchstein. Abbauen, kurz warten, wieder abbauen. Perfekt als Nachschub für alle Bauten hier.',
+    how: [
+      'Das Wasser fällt in die Grube und breitet sich deshalb nicht seitlich aus.',
+      'Fließende Lava neben Wasser wird zu Bruchstein, eine Lavaquelle würde zu Obsidian.',
+      'Die Lavaquelle berührt das Wasser nie und bleibt darum erhalten.'
+    ],
+    tips: [
+      'Zuerst das Wasser setzen, dann die Lava.',
+      'Mit einer Effizienz-Spitzhacke geht es am schnellsten.',
+      'Entsteht Obsidian, hat das Wasser die Lavaquelle erreicht: Grube und Abstände prüfen.'
+    ],
+    layerNotes: {
+      0: 'Untere Steinplatte.',
+      1: 'Boden mit einer Grube (1 Block tief) an der dritten Stelle.',
+      2: 'Westen: Lavaquelle. Daneben bildet sich Bruchstein. Osten: Wasserquelle, die in die Grube fließt. Rand rundherum.'
+    },
+    build(b) {
+      b.fill(-1, 0, -1, 4, 0, 1, 'stone');
+      b.fill(-1, 1, -1, 4, 1, 1, 'stone').set(2, 1, 0, 'water_flow');
+      b.walls(-1, 2, -1, 4, 2, 1, 'stone_bricks');
+      b.set(0, 2, 0, 'lava').set(1, 2, 0, 'cobble_auto').set(2, 2, 0, 'water_flow').set(3, 2, 0, 'water');
+    }
+  });
+
   /* ================================================================
      GEBÄUDE
      ================================================================ */
@@ -529,6 +710,217 @@
         b.set(3, y, 3, 'glowstone');
       }
       b.fill(2, 18, 2, 4, 18, 4, 'red_concrete').set(3, 19, 3, 'stone_brick_slab:bottom');
+    }
+  });
+
+  BUILDS.push({
+    id: 'netherportal',
+    cat: 'building',
+    name: 'Netherportal',
+    tagline: '10 Obsidian, mit Laternen',
+    difficulty: 'Leicht',
+    edition: 'Alle Versionen',
+    description: 'Der kleinstmögliche Rahmen für ein Netherportal: 4 breit, 5 hoch. Die Ecken brauchen kein Obsidian, darum reichen 10 Blöcke. Mit Feuerzeug innen anzünden.',
+    how: [],
+    tips: [
+      'Ohne Diamantspitzhacke: Wasser über Lavaquellen gießen und den Rahmen direkt aus Obsidian gießen.',
+      'Ein Portal im Nether bei X/8 und Z/8 verbindet sich mit diesem Portal.'
+    ],
+    layerNotes: {
+      0: 'Sockel aus Steinziegeln, zwei Obsidian als Boden des Rahmens.',
+      1: 'Seiten des Rahmens. Das Innere bleibt leer.',
+      4: 'Oberkante: zwei Obsidian. Dann innen mit Feuerzeug anzünden.'
+    },
+    build(b) {
+      b.fill(-1, 0, -1, 4, 0, 1, 'stone_bricks').fill(1, 0, 0, 2, 0, 0, 'obsidian');
+      b.fill(0, 1, 0, 0, 3, 0, 'obsidian').fill(3, 1, 0, 3, 3, 0, 'obsidian').fill(1, 4, 0, 2, 4, 0, 'obsidian');
+      b.fill(1, 1, 0, 2, 3, 0, 'nether_portal:e');
+      b.set(-1, 1, -1, 'lantern').set(4, 1, -1, 'lantern');
+    }
+  });
+
+  BUILDS.push({
+    id: 'leuchtfeuer',
+    cat: 'building',
+    name: 'Leuchtfeuer-Pyramide',
+    tagline: 'Stufe 4: Eile II oder Stärke',
+    difficulty: 'Mittel',
+    edition: 'Alle Versionen',
+    description: 'Eine volle Pyramide aus 164 Mineralblöcken mit dem Leuchtfeuer oben. Stufe 4 schaltet alle Effekte frei, zum Beispiel Eile II für schnelles Abbauen. Reichweite 50 Blöcke.',
+    how: [
+      'Jede Ebene der Pyramide ist eine Stufe: 3 × 3, 5 × 5, 7 × 7, 9 × 9.',
+      'Über dem Leuchtfeuer muss freier Himmel sein. Glas darf darüber liegen und färbt den Strahl.'
+    ],
+    tips: [
+      'Erst die 3 × 3 Spitze bauen und testen, dann nach unten erweitern.',
+      'Zum Aktivieren einen Eisenbarren, Goldbarren, Smaragd, Diamant oder Netheritbarren ins Leuchtfeuer legen.'
+    ],
+    layerNotes: {
+      0: 'Unterste Stufe 9 × 9 (81 Blöcke).',
+      1: '7 × 7 (49 Blöcke).',
+      2: '5 × 5 (25 Blöcke).',
+      3: '3 × 3 (9 Blöcke).',
+      4: 'Leuchtfeuer in die Mitte.'
+    },
+    build(b) {
+      for (let i = 0; i < 4; i++) b.fill(i, i, i, 8 - i, i, 8 - i, 'iron_block');
+      b.set(4, 4, 4, 'beacon');
+    }
+  });
+
+  BUILDS.push({
+    id: 'handelshalle',
+    cat: 'building',
+    name: 'Handelshalle',
+    tagline: '6 Dorfbewohner sicher in Zellen',
+    difficulty: 'Mittel',
+    edition: 'Java & Bedrock',
+    description: 'Sechs Zellen für Dorfbewohner, jede mit eigenem Arbeitsplatz davor. Du handelst durch die Lücke über dem Arbeitsplatz. Die Dorfbewohner kommen nicht heraus, weil über der Lücke nur ein Block Platz ist.',
+    how: [
+      'Der Block vor dem Dorfbewohner bestimmt seinen Beruf.',
+      'Über dem Arbeitsplatz ist nur ein Block frei. Ein Dorfbewohner ist fast zwei Blöcke groß und passt nicht hindurch.',
+      'Dorfbewohner füllen ihre Angebote am Arbeitsplatz wieder auf. Betten brauchen sie dafür nicht.'
+    ],
+    tips: [
+      'Dorfbewohner mit Lore oder Boot bis vor die Zelle bringen und hineinschieben, dann den Deckel schließen.',
+      'Bibliothekar mit schlechtem Angebot? Lesepult abbauen und neu setzen, solange du noch nicht gehandelt hast.',
+      'Die Laternen auf dem Gang verhindern, dass Zombies spawnen.'
+    ],
+    layerNotes: {
+      0: 'Boden aus Steinziegeln, vorne ein Gang zum Handeln.',
+      1: 'Arbeitsplätze vorne, Dorfbewohner dahinter. Glas zwischen den Zellen, Rückwand aus Steinziegeln.',
+      2: 'Vorne bleibt die Lücke über dem Arbeitsplatz offen.',
+      3: 'Deckel über Zellen und Arbeitsplätzen.'
+    },
+    build(b) {
+      b.fill(0, 0, -2, 12, 0, 2, 'stone_bricks');
+      b.fill(0, 1, 2, 12, 3, 2, 'stone_bricks');
+      const stations = ['lectern', 'lectern', 'composter', 'blast_furnace:n', 'fletching_table', 'smithing_table'];
+      for (let i = 0; i < 6; i++) {
+        const x = 1 + i * 2;
+        b.set(x, 1, 0, stations[i]).set(x, 1, 1, 'villager');
+      }
+      for (let x = 0; x <= 12; x += 2) b.fill(x, 1, 0, x, 2, 1, 'glass');
+      b.fill(0, 3, 0, 12, 3, 1, 'stone_bricks');
+      b.fill(0, 4, 0, 12, 4, 2, 'stone_brick_slab:bottom');
+      for (const x of [0, 6, 12]) b.set(x, 1, -2, 'lantern');
+    }
+  });
+
+  BUILDS.push({
+    id: 'windmuehle',
+    cat: 'building',
+    name: 'Windmühle',
+    tagline: 'Holzturm mit vier Flügeln',
+    difficulty: 'Fortgeschritten',
+    edition: 'Alle Versionen',
+    description: 'Eine Windmühle mit breitem Sockel, schmalerem Oberteil, Pyramidendach und vier Flügeln aus Zäunen und Wolle an der Nordseite. Passt gut neben eine Weizenfarm.',
+    how: [],
+    tips: [
+      'Die Flügel drehen sich im Uhrzeigersinn: Jeder Flügel hat sein Tuch auf derselben Drehseite.',
+      'Zäune verbinden sich nur seitlich. Senkrechte Flügel bestehen aus einzelnen Pfosten.',
+      'Baue die Flügel von der Nabe aus nach außen, dann brauchst du kein Gerüst.'
+    ],
+    layerNotes: {
+      0: 'Boden 7 × 7 aus Bruchstein.',
+      1: 'Unterteil: Stämme an den Ecken, Bretter dazwischen, Tür im Süden.',
+      6: 'Stufen als Sims auf dem Unterteil. Oberteil 5 × 5 beginnt.',
+      8: 'Nabe und Achse der Flügel an der Nordseite.',
+      10: 'Pyramidendach aus Fichtentreppen.'
+    },
+    build(b) {
+      b.fill(0, 0, 0, 6, 0, 6, 'cobblestone');
+      b.walls(0, 1, 0, 6, 5, 6, 'oak_planks');
+      [[0, 0], [6, 0], [0, 6], [6, 6]].forEach(([x, z]) => b.fill(x, 1, z, x, 5, z, 'spruce_log'));
+      b.set(3, 1, 6, 'oak_door:n:lower').set(3, 2, 6, 'oak_door:n:upper');
+      b.set(0, 3, 3, 'glass_pane').set(6, 3, 3, 'glass_pane').set(3, 3, 0, 'glass_pane');
+      for (let x = 0; x <= 6; x++) for (let z = 0; z <= 6; z++) if (x === 0 || x === 6 || z === 0 || z === 6) b.set(x, 6, z, 'spruce_slab:bottom');
+      b.walls(1, 6, 1, 5, 9, 5, 'oak_planks');
+      [[1, 1], [5, 1], [1, 5], [5, 5]].forEach(([x, z]) => b.fill(x, 6, z, x, 9, z, 'spruce_log'));
+      b.set(3, 7, 5, 'glass_pane').set(1, 8, 3, 'glass_pane').set(5, 8, 3, 'glass_pane');
+      for (let x = 1; x <= 5; x++) { b.set(x, 10, 1, 'spruce_stairs:s').set(x, 10, 5, 'spruce_stairs:n'); }
+      for (let z = 2; z <= 4; z++) { b.set(1, 10, z, 'spruce_stairs:e').set(5, 10, z, 'spruce_stairs:w'); }
+      b.fill(2, 10, 2, 4, 10, 4, 'spruce_planks');
+      for (let x = 2; x <= 4; x++) { b.set(x, 11, 2, 'spruce_stairs:s').set(x, 11, 4, 'spruce_stairs:n'); }
+      b.set(2, 11, 3, 'spruce_stairs:e').set(4, 11, 3, 'spruce_stairs:w').set(3, 11, 3, 'spruce_planks').set(3, 12, 3, 'spruce_slab:bottom');
+      // Flügel
+      b.set(3, 8, 0, 'spruce_planks').set(3, 8, -1, 'spruce_planks');
+      for (let i = 1; i <= 4; i++) {
+        b.set(3, 8 + i, -1, 'oak_fence').set(4, 8 + i, -1, 'white_wool');
+        b.set(3, 8 - i, -1, 'oak_fence').set(2, 8 - i, -1, 'white_wool');
+        b.set(3 - i, 8, -1, 'oak_fence').set(3 - i, 9, -1, 'white_wool');
+        b.set(3 + i, 8, -1, 'oak_fence').set(3 + i, 7, -1, 'white_wool');
+      }
+    }
+  });
+
+  BUILDS.push({
+    id: 'modernhaus',
+    cat: 'building',
+    name: 'Modernes Haus',
+    tagline: 'Beton, Glas, Dachterrasse',
+    difficulty: 'Mittel',
+    edition: 'Alle Versionen',
+    description: 'Zwei Etagen aus weißem Beton mit großen Fensterfronten. Das Obergeschoss ist versetzt und ragt nach Osten über den Eingang hinaus. Oben links gibt es eine Dachterrasse mit Glasgeländer.',
+    how: [],
+    tips: [
+      'Beton bekommst du, wenn Trockenbeton Wasser berührt.',
+      'Statt Beton gehen auch Quarz oder Glattstein.',
+      'Die Leiter innen führt durch ein Loch in der Decke nach oben.'
+    ],
+    layerNotes: {
+      0: 'Bodenplatte aus grauem Beton, vorne ein kleiner Garten.',
+      1: 'Erdgeschoss: Glasfront nach Norden, Tür links.',
+      4: 'Decke des Erdgeschosses, nach Osten verlängert. Leiterloch frei lassen.',
+      5: 'Obergeschoss, Glasgeländer an der Terrasse im Westen.',
+      8: 'Flachdach mit Überstand.'
+    },
+    build(b) {
+      b.fill(0, 0, -2, 12, 0, 8, 'gray_concrete');
+      b.fill(0, 0, -2, 12, 0, -1, 'grass_block');
+      [1, 4, 8, 11].forEach((x) => b.set(x, 1, -2, 'oak_leaves'));
+      b.walls(0, 1, 0, 10, 3, 8, 'white_concrete');
+      b.fill(3, 1, 0, 9, 3, 0, 'glass');
+      b.set(1, 1, 0, 'oak_door:s:lower').set(1, 2, 0, 'oak_door:s:upper');
+      b.fill(0, 2, 3, 0, 2, 5, 'glass').fill(10, 2, 3, 10, 2, 5, 'glass').fill(3, 2, 8, 7, 2, 8, 'glass');
+      b.fill(0, 4, 0, 12, 4, 8, 'white_concrete');
+      b.fill(12, 1, 0, 12, 3, 0, 'gray_concrete').fill(12, 1, 8, 12, 3, 8, 'gray_concrete');
+      b.walls(3, 5, 0, 12, 7, 8, 'white_concrete');
+      b.fill(4, 5, 0, 11, 7, 0, 'glass').fill(12, 6, 2, 12, 6, 6, 'glass').fill(5, 6, 8, 10, 6, 8, 'glass');
+      b.fill(0, 5, 0, 2, 5, 0, 'glass_pane').fill(0, 5, 1, 0, 5, 8, 'glass_pane').fill(1, 5, 8, 2, 5, 8, 'glass_pane');
+      b.fill(2, 8, -1, 13, 8, 9, 'gray_concrete');
+      for (let y = 1; y <= 5; y++) b.set(9, y, 7, 'ladder:n');
+      b.set(2, 1, 6, 'lantern').set(8, 1, 6, 'chest:n').set(6, 1, 7, 'crafting_table').set(5, 5, 6, 'red_bed:s:foot').set(5, 5, 7, 'red_bed:s:head').set(8, 5, 3, 'lantern');
+    }
+  });
+
+  BUILDS.push({
+    id: 'bruecke',
+    cat: 'building',
+    name: 'Holzbrücke',
+    tagline: '13 Blöcke über Fluss oder Schlucht',
+    difficulty: 'Leicht',
+    edition: 'Alle Versionen',
+    description: 'Eine 3 breite Brücke aus Fichtenholz auf drei Steinpfeilern, mit Bögen aus umgedrehten Treppen, Geländer und Laternen. Länger machen: einfach Pfeiler im Abstand von 6 Blöcken wiederholen.',
+    how: [],
+    tips: [
+      'Erst die Pfeiler bis zur Wasseroberfläche bauen, dann die Fahrbahn von einem Ufer aus legen.',
+      'Die Bögen sind umgedrehte Treppen: an die obere Hälfte der Blockseite klicken.'
+    ],
+    layerNotes: {
+      0: 'Drei Pfeiler aus Steinziegeln (z. B. im Flussbett).',
+      2: 'Bögen: umgedrehte Treppen an den Pfeilern.',
+      3: 'Fahrbahn aus Fichtenholzbrettern.',
+      4: 'Geländer aus Fichtenzäunen.',
+      5: 'Laternen auf den Pfosten über den Pfeilern.'
+    },
+    build(b) {
+      for (const x of [0, 6, 12]) b.fill(x, 0, 0, x, 2, 2, 'stone_bricks');
+      for (const x of [1, 7]) b.fill(x, 2, 0, x, 2, 2, 'spruce_stairs:w:top');
+      for (const x of [5, 11]) b.fill(x, 2, 0, x, 2, 2, 'spruce_stairs:e:top');
+      b.fill(0, 3, 0, 12, 3, 2, 'spruce_planks');
+      b.fill(0, 4, 0, 12, 4, 0, 'spruce_fence').fill(0, 4, 2, 12, 4, 2, 'spruce_fence');
+      for (const x of [0, 6, 12]) { b.set(x, 5, 0, 'lantern').set(x, 5, 2, 'lantern'); }
     }
   });
 

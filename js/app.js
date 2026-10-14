@@ -316,6 +316,27 @@
         g.fillStyle = '#26262a'; g.fillRect(cx - s * 0.15, cy - s * 0.15, s * 0.3, s * 0.3);
         break;
       }
+      case 'trapdoor':
+        edgeRect(g, x, y, s, MC.OPP[f], 0.22, def.color);
+        g.strokeStyle = def.color; g.lineWidth = 1; g.setLineDash([2, 2]); g.strokeRect(x + 2.5, y + 2.5, s - 5, s - 5); g.setLineDash([]);
+        break;
+      case 'cauldron':
+        g.fillStyle = def.color; g.fillRect(x + 1, y + 1, s - 2, s - 2);
+        g.fillStyle = '#1b1b1d'; g.fillRect(x + s * 0.22, y + s * 0.22, s * 0.56, s * 0.56);
+        break;
+      case 'bamboo':
+        if (def.auto) { g.setLineDash([3, 2]); g.strokeStyle = def.color; g.lineWidth = 1.5; g.strokeRect(x + 2.5, y + 2.5, s - 5, s - 5); g.setLineDash([]); }
+        g.globalAlpha = def.auto ? 0.5 : 1; g.fillStyle = def.color; g.beginPath(); g.arc(cx, cy, s * 0.18, 0, Math.PI * 2); g.fill(); g.globalAlpha = 1;
+        break;
+      case 'portal':
+        g.fillStyle = def.color; g.globalAlpha = 0.75;
+        if (f === 'e' || f === 'w') g.fillRect(x, cy - s * 0.15, s, s * 0.3); else g.fillRect(cx - s * 0.15, y, s * 0.3, s);
+        g.globalAlpha = 1;
+        break;
+      case 'beacon':
+        g.fillStyle = '#bfeff3'; g.fillRect(x, y, s, s);
+        g.fillStyle = def.color; g.fillRect(x + s * 0.25, y + s * 0.25, s * 0.5, s * 0.5);
+        break;
       case 'entity':
         g.fillStyle = def.color; g.beginPath(); g.arc(cx, cy, r * 0.78, 0, Math.PI * 2); g.fill();
         g.strokeStyle = '#1b1b1b'; g.lineWidth = 1; g.stroke();

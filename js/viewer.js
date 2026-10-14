@@ -291,6 +291,34 @@
         if (hanging) add(bx(0.47, y0 + 0.5625, 0.47, 0.53, 1, 0.53, colorMat('#4a4a50')));
         break;
       }
+      case 'trapdoor': {
+        const s = orient(MC.OPP[f], 0.8125, 1);
+        add(bx(s[0], 0, s[2], s[3], 1, s[5], mat('trapdoor')));
+        break;
+      }
+      case 'cauldron': {
+        const m = mat('cauldron');
+        add(bx(0, 0.1875, 0, 1, 0.3125, 1, m));
+        add(bx(0, 0.1875, 0, 0.125, 1, 1, m)); add(bx(0.875, 0.1875, 0, 1, 1, 1, m));
+        add(bx(0.125, 0.1875, 0, 0.875, 1, 0.125, m)); add(bx(0.125, 0.1875, 0.875, 0.875, 1, 1, m));
+        [[0, 0], [0.75, 0], [0, 0.75], [0.75, 0.75]].forEach(([a, b]) => add(bx(a, 0, b, a + 0.25, 0.1875, b + 0.25, m)));
+        break;
+      }
+      case 'bamboo': {
+        const o = def.auto ? { opacity: 0.5 } : undefined;
+        add(bx(0.40625, 0, 0.40625, 0.59375, 1, 0.59375, ORDER.map((d) => mat(d === 'u' || d === 'd' ? def.tex.top : def.tex.side, o))));
+        break;
+      }
+      case 'portal': {
+        const m = mat('portal', { transparent: true, opacity: 0.7, basic: true });
+        add(f === 'e' || f === 'w' ? bx(0, 0, 0.375, 1, 1, 0.625, m) : bx(0.375, 0, 0, 0.625, 1, 1, m));
+        break;
+      }
+      case 'beacon': {
+        add(bx(0.1875, 0.1875, 0.1875, 0.8125, 0.8125, 0.8125, mat('beacon_core', { basic: true })));
+        add(bx(0, 0, 0, 1, 1, 1, mat('beacon', { transparent: true })));
+        break;
+      }
       case 'entity': {
         (ENTITY[def.kind] || []).forEach((p) => add(bx(p[0], p[1], p[2], p[3], p[4], p[5], colorMat(p[6]))));
         break;
@@ -461,6 +489,14 @@
       this.layerGrid.visible = mode !== 'all';
       this.layerGrid.position.y = cur + 0.003;
     }
+    // Hohe Bauten: Kamera wandert mit der aktuellen Ebene mit
+    if (this.build && this.build.size[1] > 10) {
+      const H = this.build.size[1];
+      const ty = mode === 'all' ? H * 0.42 : Math.min(H, cur + 1);
+      const dy = ty - this.controls.target.y;
+      this.controls.target.y += dy;
+      this.camera.position.y += dy;
+    }
     this.dirty = true;
   };
 
@@ -474,7 +510,7 @@
   Viewer.prototype.preset = function (name) {
     if (!this.build) return;
     const [W, H, Dp] = this.build.size;
-    const center = new THREE.Vector3(W / 2, Math.min(H, 12) / 2.4, Dp / 2);
+    const center = new THREE.Vector3(W / 2, H * 0.42, Dp / 2);
     const fit = this.camera.aspect < 1 ? 1 / Math.max(0.55, this.camera.aspect) : 1;
     const r = (Math.max(W, H, Dp) * 1.35 + 4) * fit;
     this.controls.target.copy(center);

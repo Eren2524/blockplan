@@ -229,7 +229,38 @@
     lantern: (g, r) => { R(g, 0, 0, 16, 16, hex('#2f2f33')); R(g, 3, 3, 10, 10, hex('#f1b54b')); R(g, 5, 5, 6, 6, hex('#ffe3a0')); },
     sign: (g, r) => { planks(g, r, '#a8864f'); R(g, 3, 4, 10, 1, hex('#3a2a14')); R(g, 3, 7, 8, 1, hex('#3a2a14')); R(g, 3, 10, 9, 1, hex('#3a2a14')); },
     button: (g, r) => noise(g, r, '#7f7f7f', 0.06),
-    cart: (g, r) => { noise(g, r, '#5d5d62', 0.12); frame(g, '#3c3c40', 1); }
+    cart: (g, r) => { noise(g, r, '#5d5d62', 0.12); frame(g, '#3c3c40', 1); },
+    bamboo: (g, r) => {
+      for (let x = 0; x < 16; x++) for (let y = 0; y < 16; y++) P(g, x, y, mul(hex('#5f9e2f'), (x % 5 === 0 ? 0.8 : 1) * (1 + (r() - 0.5) * 0.1)));
+      R(g, 0, 5, 16, 1, hex('#3f6e1d')); R(g, 0, 13, 16, 1, hex('#3f6e1d'));
+    },
+    bamboo_top: (g, r) => { noise(g, r, '#9cc25a', 0.1); frame(g, '#5f9e2f', 2); },
+    trapdoor: (g, r) => {
+      planks(g, r, '#a07a45'); frame(g, '#6b4f2b', 1);
+      R(g, 3, 3, 3, 3, hex('#3b2c18')); R(g, 10, 3, 3, 3, hex('#3b2c18')); R(g, 3, 10, 3, 3, hex('#3b2c18')); R(g, 10, 10, 3, 3, hex('#3b2c18'));
+    },
+    cauldron: (g, r) => { noise(g, r, '#45464b', 0.12); frame(g, '#2d2e31', 1); },
+    dripstone: (g) => {
+      g.clearRect(0, 0, 16, 16);
+      for (let y = 0; y < 16; y++) { const w = Math.max(1, Math.round(7 - y * 0.42)); R(g, 8 - w, y, w * 2, 1, hex(y % 4 === 0 ? '#8a6a52' : '#a5836a')); }
+    },
+    obsidian: (g, r) => { noise(g, r, '#1c1528', 0.25); specks(g, r, '#3d2a5c', 24); specks(g, r, '#0c0912', 14); },
+    portal: (g, r) => { noise(g, r, '#7a2fd0', 0.25); specks(g, r, '#c68cff', 30); },
+    iron_block: (g, r) => { noise(g, r, '#d6d8da', 0.04); frame(g, '#b3b6b9', 1); R(g, 1, 1, 14, 1, hex('#eceef0')); },
+    beacon: (g, r) => { g.clearRect(0, 0, 16, 16); R(g, 0, 0, 16, 16, [180, 235, 240], 0.25); frame(g, '#e8fbff', 1); },
+    beacon_core: (g, r) => { noise(g, r, '#7fe8e0', 0.12); R(g, 5, 5, 6, 6, hex('#e6fffd')); },
+    wool: (g, r) => { noise(g, r, '#eaeceb', 0.07); specks(g, r, '#d2d5d4', 30); },
+    gray_concrete: (g, r) => noise(g, r, '#3b3f44', 0.04),
+    lectern_top: (g, r) => { planks(g, r, '#a8864f'); R(g, 3, 4, 10, 8, hex('#e9e1c8')); R(g, 7, 4, 2, 8, hex('#8a5a2a')); },
+    lectern_side: (g, r) => { planks(g, r, '#a8864f'); R(g, 0, 12, 16, 4, hex('#6b4f2b')); R(g, 5, 2, 6, 10, hex('#8b6a3a')); },
+    composter_side: (g, r) => { planks(g, r, '#8a6a3c'); frame(g, '#5a4426', 1); for (let x = 3; x < 16; x += 4) R(g, x, 1, 1, 14, hex('#5a4426')); },
+    composter_top: (g, r) => { noise(g, r, '#4b3a1e', 0.2); frame(g, '#8a6a3c', 2); specks(g, r, '#6a8f2f', 10); },
+    blast_front: (g, r) => { noise(g, r, '#5b5c60', 0.1); frame(g, '#3a3b3e', 1); R(g, 4, 7, 8, 6, hex('#151515')); R(g, 4, 7, 8, 1, hex('#9a9da0')); R(g, 2, 2, 12, 2, hex('#9a9da0')); },
+    blast_side: (g, r) => { noise(g, r, '#5b5c60', 0.1); frame(g, '#3a3b3e', 1); R(g, 0, 7, 16, 2, hex('#7d8084')); },
+    fletching_top: (g, r) => { planks(g, r, '#d9c88a'); R(g, 3, 3, 2, 10, hex('#f4f4f4')); R(g, 9, 5, 2, 8, hex('#c9302c')); },
+    fletching_side: (g, r) => { planks(g, r, '#c9b77a'); R(g, 2, 3, 12, 6, hex('#e9e1c8')); },
+    smithing_top: (g, r) => { noise(g, r, '#2e2f35', 0.1); frame(g, '#1d1e22', 1); R(g, 3, 3, 10, 10, hex('#3c3e45')); },
+    smithing_side: (g, r) => { planks(g, r, '#4a3424'); R(g, 0, 0, 16, 4, hex('#2e2f35')); }
   };
 
   const texCache = new Map();
@@ -338,7 +369,25 @@
 
     villager: { name: 'Dorfbewohner', shape: 'entity', kind: 'villager', color: '#7b5a3a', entity: true, hint: () => 'Dorfbewohner hierher bringen, z. B. mit Boot oder Lore. Kinder zählen nicht.' },
     zombie: { name: 'Zombie', shape: 'entity', kind: 'zombie', color: '#4f8a4a', entity: true, hint: () => 'Zombie hierher locken und mit einem Namensschild benennen, damit er nicht verschwindet.' },
-    chicken: { name: 'Huhn', shape: 'entity', kind: 'chicken', color: '#f2f2f2', entity: true, hint: () => 'Eier in das Gehege werfen, bis Küken schlüpfen.' }
+    chicken: { name: 'Huhn', shape: 'entity', kind: 'chicken', color: '#f2f2f2', entity: true, hint: () => 'Eier in das Gehege werfen, bis Küken schlüpfen.' },
+
+    bamboo: { name: 'Bambus', shape: 'bamboo', tex: { side: 'bamboo', top: 'bamboo_top' }, color: '#5f9e2f', hint: () => 'Bambus auf die Erde pflanzen.' },
+    bamboo_auto: { name: 'Bambus (wächst)', shape: 'bamboo', tex: { side: 'bamboo', top: 'bamboo_top' }, color: '#5f9e2f', auto: true, ghost: true, hint: () => 'Wächst von selbst nach. Nicht platzieren.' },
+    oak_trapdoor: { name: 'Falltür (offen)', shape: 'trapdoor', tex: { all: 'trapdoor' }, color: '#a07a45', item: 'Eichenholzfalltür', hint: (f) => 'Auf die untere Hälfte der Blockseite im ' + DIR_NAME[OPP[f]] + ' klicken, dann rechtsklicken, damit sie offen an der Wand steht.' },
+    cauldron: { name: 'Kessel', shape: 'cauldron', tex: { all: 'cauldron' }, color: '#45464b', hint: () => 'Direkt unter die Spitze des Tropfsteins stellen. Später mit einem leeren Eimer ernten.' },
+    pointed_dripstone: { name: 'Spitzer Tropfstein', shape: 'cross', tex: { all: 'dripstone' }, color: '#a5836a', hint: () => 'Von unten an den Block kleben (an die Unterseite klicken), Spitze zeigt nach unten.' },
+    obsidian: { name: 'Obsidian', shape: 'cube', tex: { all: 'obsidian' }, color: '#2a1e3c', hint: () => 'Nur mit einer Diamant- oder Netheritspitzhacke abbaubar. Alternativ Wasser auf Lavaquellen gießen.' },
+    nether_portal: { name: 'Portal', shape: 'portal', tex: { all: 'portal' }, color: '#8a3cdc', auto: true, hint: () => 'Mit Feuerzeug den Rahmen innen anzünden. Das Portal entsteht von selbst.' },
+    iron_block: { name: 'Eisenblock', shape: 'cube', tex: { all: 'iron_block' }, color: '#d6d8da', hint: () => 'Geht auch mit Gold-, Smaragd-, Diamant- oder Netheritblöcken, auch gemischt.' },
+    beacon: { name: 'Leuchtfeuer', shape: 'beacon', tex: { all: 'beacon' }, color: '#7fe8e0', emissive: true, stack: 64, hint: () => 'In die Mitte oben setzen. Darüber muss freier Himmel sein (Glas ist erlaubt).' },
+    white_wool: { name: 'Weiße Wolle', shape: 'cube', tex: { all: 'wool' }, color: '#eaeceb' },
+    gray_concrete: { name: 'Grauer Beton', shape: 'cube', tex: { all: 'gray_concrete' }, color: '#3b3f44' },
+    lectern: { name: 'Lesepult', shape: 'cube', tex: { top: 'lectern_top', bottom: 'oak_planks', side: 'lectern_side' }, color: '#a8864f', hint: () => 'Arbeitsplatz für Bibliothekare.' },
+    composter: { name: 'Komposter', shape: 'cube', tex: { top: 'composter_top', bottom: 'oak_planks', side: 'composter_side' }, color: '#8a6a3c', hint: () => 'Arbeitsplatz für Bauern.' },
+    blast_furnace: { name: 'Schmelzofen', shape: 'cube', tex: { front: 'blast_front', side: 'blast_side', top: 'blast_side', bottom: 'blast_side' }, color: '#5b5c60', hint: (f) => H.facingFront(f) + ' Arbeitsplatz für Rüstungsschmiede.' },
+    fletching_table: { name: 'Bognertisch', shape: 'cube', tex: { top: 'fletching_top', bottom: 'oak_planks', side: 'fletching_side' }, color: '#d9c88a', hint: () => 'Arbeitsplatz für Pfeilmacher (Smaragde für Stöcke).' },
+    smithing_table: { name: 'Schmiedetisch', shape: 'cube', tex: { top: 'smithing_top', bottom: 'smithing_side', side: 'smithing_side' }, color: '#2e2f35', hint: () => 'Arbeitsplatz für Werkzeugschmiede.' },
+    cobble_auto: { name: 'Bruchstein (entsteht)', shape: 'cube', tex: { all: 'cobble' }, color: '#8a8a8a', auto: true, ghost: true, hint: () => 'Hier entsteht der Bruchstein. Abbauen, er bildet sich sofort neu.' }
   };
 
   for (const id in B) B[id].id = id;

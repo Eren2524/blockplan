@@ -38,8 +38,13 @@ Wer lieber einen lokalen Server nutzt: `python3 -m http.server` im Ordner und da
 - Eierfarm
 - Weizenfarm mit Knopf (Wasserspülung)
 - Automatische Schmelze (4 Öfen)
+- Bambusfarm (Brennstoff für die Schmelze)
+- Mob-Fallturm (30 Blöcke Fall, Beute in Truhen)
+- Lavafarm (Tropfstein + Kessel)
+- Bruchstein-Generator
 
-**Gebäude**: Starterhaus, Wachturm, Dorfbrunnen, Scheune, Leuchtturm
+**Gebäude**: Starterhaus, Wachturm, Dorfbrunnen, Scheune, Leuchtturm, Netherportal,
+Leuchtfeuer-Pyramide, Handelshalle, Windmühle, Modernes Haus, Holzbrücke
 
 ## Eigene Baupläne hinzufügen
 
