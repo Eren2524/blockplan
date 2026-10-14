@@ -1217,5 +1217,5 @@
   finishAll();
 
   global.BUILDS = BUILDS;
-  global.BP = { Builder, circle, finishAll };
+  global.BP = { Builder, circle, finishAll, estimateMinutes };
 })(window);

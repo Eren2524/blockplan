@@ -6,9 +6,11 @@
 <title>Blockplan</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="3D-Bauanleitungen für Minecraft-Farmen und Gebäude, Ebene für Ebene.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&family=Pixelify+Sans:wght@500;700&display=swap">
+<meta name="theme-color" content="#b4271e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="vendor/fonts/fonts.css">
 <style>
 /* Layout: drei Spalten – Bauliste | 3D-Bühne | Bauplan-Panel. Schmal: Bühne oben, Panel darunter, Liste als Schublade. */
 :root {
@@ -252,6 +254,70 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
   background: var(--ink); color: var(--surface); padding: 10px 16px; border-radius: 8px; font-weight: 700; font-size: 14px;
 }
 
+/* ---------- Neu: Sprache, Merkliste, Ausrichtung, Dialoge ---------- */
+.lang-sel { padding: 6px 8px; border-radius: var(--r); border: 1px solid var(--line); background: var(--surface-2); font-size: 14px; font-weight: 700; max-width: 120px; }
+.count { font: 700 11px/1 var(--font-mono); background: var(--accent); color: var(--on-accent); border-radius: 999px; padding: 2px 6px; }
+.count:empty { display: none; }
+.badge { font: 700 11px/1 var(--font-body); background: var(--accent-soft); color: var(--accent); border-radius: 999px; padding: 4px 8px; white-space: nowrap; }
+.side-tools { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.btn.small { padding: 5px 9px; font-size: 13px; }
+.btn.ghost { background: transparent; }
+.btn.block { width: 100%; justify-content: center; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.import-box { border: 1px dashed var(--line); border-radius: var(--r); padding: 10px; display: grid; gap: 6px; }
+.import-box small { color: var(--muted); font-size: 12px; }
+.side-foot { margin-top: auto; display: grid; gap: 6px; font-size: 12px; color: var(--muted); }
+.side-foot .links { display: flex; gap: 12px; flex-wrap: wrap; }
+.side-foot a, .linkish { color: var(--muted); text-decoration: underline; background: none; border: 0; padding: 0; font-size: 12px; }
+.item-star { color: var(--warn); }
+.stage-tools .row { display: flex; gap: 8px; flex-wrap: wrap; pointer-events: none; }
+.stage.drop::after { content: ''; position: absolute; inset: 8px; border: 3px dashed var(--accent); border-radius: 10px; pointer-events: none; }
+.title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.title-row .btn { flex: none; margin-top: 4px; }
+.btn[aria-pressed="true"].fav { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+.note.orient { border-left-color: var(--warn); }
+.dialog.wide { width: min(560px, calc(100% - 32px)); }
+.dialog p { margin: 0 0 10px; }
+.dialog-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.fav-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); }
+.fav-check { display: flex; gap: 8px; align-items: center; min-width: 0; font-weight: 700; }
+.fav-check span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fav-check input { width: 18px; height: 18px; accent-color: var(--ok); flex: none; }
+.tiers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 12px 0; }
+.tier { border: 1px solid var(--line); border-radius: var(--r); padding: 12px 10px; display: grid; gap: 2px; text-align: center; background: var(--bg); color: var(--ink); text-decoration: none; }
+a.tier:hover { border-color: var(--accent); }
+.tier b { font: 700 18px var(--font-display); }
+.tier span { font: 600 13px var(--font-mono); }
+.tier small { font-size: 11px; color: var(--muted); }
+.tier.off { opacity: 0.65; }
+.code-row { display: flex; gap: 8px; }
+.code-row input { flex: 1; min-width: 0; padding: 8px 10px; border-radius: var(--r); border: 1px solid var(--line); background: var(--bg); font-family: var(--font-mono); text-transform: uppercase; }
+.themes { display: flex; flex-wrap: wrap; gap: 6px; }
+.theme-sw { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--bg); border-radius: 999px; padding: 4px 10px 4px 4px; font-size: 13px; font-weight: 700; }
+.theme-sw i { width: 18px; height: 18px; border-radius: 50%; background: var(--sw); }
+.theme-sw[aria-pressed="true"] { border-color: var(--ink); }
+.theme-sw[data-theme="default"] { --sw: #b4271e; } .theme-sw[data-theme="emerald"] { --sw: #17904a; } .theme-sw[data-theme="diamond"] { --sw: #1f8fa6; }
+.theme-sw[data-theme="gold"] { --sw: #b98400; } .theme-sw[data-theme="amethyst"] { --sw: #7a4cc2; } .theme-sw[data-theme="nether"] { --sw: #7a1f2b; }
+:root[data-accent="emerald"] { --accent: #17904a; --accent-soft: #d3eedd; }
+:root[data-accent="diamond"] { --accent: #1f8fa6; --accent-soft: #d2ecf1; }
+:root[data-accent="gold"] { --accent: #a67600; --accent-soft: #f4e6c4; }
+:root[data-accent="amethyst"] { --accent: #7a4cc2; --accent-soft: #e6dcf5; }
+:root[data-accent="nether"] { --accent: #8f2433; --accent-soft: #f1d6da; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-accent="emerald"] { --accent: #3cc775; --accent-soft: #163525; }
+  :root:not([data-theme="light"])[data-accent="diamond"] { --accent: #4cc6dd; --accent-soft: #123138; }
+  :root:not([data-theme="light"])[data-accent="gold"] { --accent: #e9b53d; --accent-soft: #3a2d12; }
+  :root:not([data-theme="light"])[data-accent="amethyst"] { --accent: #a985ea; --accent-soft: #2b2140; }
+  :root:not([data-theme="light"])[data-accent="nether"] { --accent: #e0566a; --accent-soft: #3a1a1f; }
+}
+:root[data-theme="dark"][data-accent="emerald"] { --accent: #3cc775; --accent-soft: #163525; }
+:root[data-theme="dark"][data-accent="diamond"] { --accent: #4cc6dd; --accent-soft: #123138; }
+:root[data-theme="dark"][data-accent="gold"] { --accent: #e9b53d; --accent-soft: #3a2d12; }
+:root[data-theme="dark"][data-accent="amethyst"] { --accent: #a985ea; --accent-soft: #2b2140; }
+:root[data-theme="dark"][data-accent="nether"] { --accent: #e0566a; --accent-soft: #3a1a1f; }
+.tag-ok { display: inline-block; font-size: 12px; font-weight: 700; color: var(--ok); background: var(--ok-soft); border-radius: 999px; padding: 2px 8px; }
+.export-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+
 @media (max-width: 1180px) {
   .app { grid-template-columns: minmax(0, 1fr) 380px; grid-template-areas: "top top" "stage panel"; }
   .only-narrow { display: inline-flex; }
@@ -266,7 +332,13 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
   html, body { height: auto; }
   .app { display: block; height: auto; }
   .topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; }
-  .top-actions .btn span { display: none; }
+  .top-actions .btn span:not(.count) { display: none; }
+  #menuBtn span, .top-title { display: none; }
+  .topbar { gap: 8px; justify-content: space-between; }
+  .top-actions .btn, #menuBtn { padding: 7px 9px; }
+  .top-actions { gap: 6px; }
+  .badge { display: none; }
+  .tiers { grid-template-columns: 1fr; }
   .stage {
     height: 58vh; min-height: 340px;
     margin-inline: max(16px, env(safe-area-inset-left, 0px)) max(16px, env(safe-area-inset-right, 0px));
@@ -276,60 +348,91 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
   .panel { border-left: 0; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: transparent; }
   .hud-label { min-width: 104px; }
 }
+@media (max-width: 480px) {
+  .brand-name { display: none; }
+  .lang-sel { max-width: 78px; padding-inline: 4px; }
+  .top-actions { gap: 4px; }
+}
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
 <div class="app">
   <header class="topbar">
-    <button class="btn only-narrow" id="menuBtn" aria-label="Bauliste öffnen">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span>Bauten</span>
+    <button class="btn only-narrow" id="menuBtn" data-i18n-aria="top.buildsAria">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg><span data-i18n="top.builds">Bauten</span>
     </button>
-    <div class="brand"><div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="brand-name">Blockplan</span></div>
+    <div class="brand"><div class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span class="brand-name">Blockplan</span><span class="badge" id="supBadge" data-i18n="sup.badge" hidden>Unterstützer</span></div>
     <div class="top-title" id="topTitle"></div>
     <div class="top-actions">
-      <button class="btn" id="wakeBtn" aria-pressed="false" title="Verhindert, dass Handy oder Tablet beim Bauen ausgehen">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span>Bildschirm an</span>
+      <select class="lang-sel" id="langSel" data-i18n-aria="top.lang" aria-label="Sprache"></select>
+      <button class="btn" id="favsBtn" data-i18n-title="top.favsTitle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg><span data-i18n="top.favs">Merkliste</span><span class="count" id="favCount"></span>
       </button>
-      <button class="btn" id="keysBtn" title="Tastenkürzel">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg><span>Tasten</span>
+      <button class="btn" id="supportBtn" data-i18n-title="top.supportTitle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span data-i18n="top.support">Unterstützen</span>
+      </button>
+      <button class="btn" id="wakeBtn" aria-pressed="false" data-i18n-title="top.wakeTitle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span data-i18n="top.wake">Bildschirm an</span>
+      </button>
+      <button class="btn" id="keysBtn" data-i18n-title="top.keysTitle">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg><span data-i18n="top.keys">Tasten</span>
       </button>
     </div>
   </header>
 
   <aside class="sidebar" id="sidebar" aria-label="Bauliste">
-    <input class="search" id="search" type="search" placeholder="Farm oder Gebäude suchen" aria-label="Suchen">
-    <div class="seg diff" id="diffSeg" role="group" aria-label="Nach Schwierigkeit filtern">
-      <button data-diff="Leicht">Leicht</button>
-      <button data-diff="Mittel">Mittel</button>
-      <button data-diff="Fortgeschritten">Profi</button>
+    <input class="search" id="search" type="search" data-i18n-ph="side.search" data-i18n-aria="side.searchAria" placeholder="Farm oder Gebäude suchen">
+    <div class="side-tools">
+      <div class="seg diff" id="diffSeg" role="group" data-i18n-aria="side.diffAria">
+        <button data-diff="Leicht" data-i18n="diff.Leicht">Leicht</button>
+        <button data-diff="Mittel" data-i18n="diff.Mittel">Mittel</button>
+        <button data-diff="Fortgeschritten" data-i18n="diff.Fortgeschritten">Profi</button>
+      </div>
+      <button class="btn small" id="favOnly" aria-pressed="false" data-i18n="side.favOnly">★ Nur gemerkte</button>
+    </div>
+    <div class="import-box">
+      <button class="btn block" id="importBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M4 19h16"/></svg><span data-i18n="side.import">Eigenen Bau importieren</span></button>
+      <small data-i18n="side.importHint">.litematic, .schem oder .nbt</small>
+      <input type="file" id="importFile" accept=".litematic,.schem,.schematic,.nbt" multiple hidden>
     </div>
     <div id="buildList"></div>
-    <p class="ver">Die Farmen sind für die Java Edition ausgelegt. Gebäude funktionieren in jeder Version.</p>
+    <div class="side-foot">
+      <p class="ver" data-i18n="side.edition">Die Farmen sind für die Java Edition ausgelegt. Gebäude funktionieren in jeder Version.</p>
+      <div class="links"><button class="linkish" id="aboutBtn" data-i18n="side.about">Über Blockplan</button><a id="legalLink" href="legal.html" data-i18n="side.legal">Impressum &amp; Datenschutz</a></div>
+      <p class="ver" data-i18n="side.disclaimer">Kein offizielles Minecraft-Produkt. Nicht von Mojang oder Microsoft genehmigt oder mit ihnen verbunden.</p>
+    </div>
   </aside>
 
   <main class="stage">
-    <div id="viewport" aria-label="3D-Ansicht des Baus"></div>
+    <div id="viewport" data-i18n-aria="stage.viewport"></div>
     <div class="stage-tools">
-      <div class="seg" id="modeSeg" role="group" aria-label="Ansicht">
-        <button data-mode="all" title="Ganzer Bau (A)">Alles</button>
-        <button data-mode="upto" title="Alle Ebenen bis zur aktuellen (B)">Bis Ebene</button>
-        <button data-mode="only" title="Nur die aktuelle Ebene (N)">Nur Ebene</button>
+      <div class="row">
+        <div class="seg" id="modeSeg" role="group" data-i18n-aria="mode.aria">
+          <button data-mode="all" data-i18n="mode.all" data-i18n-title="mode.allTitle">Alles</button>
+          <button data-mode="upto" data-i18n="mode.upto" data-i18n-title="mode.uptoTitle">Bis Ebene</button>
+          <button data-mode="only" data-i18n="mode.only" data-i18n-title="mode.onlyTitle">Nur Ebene</button>
+        </div>
+        <div class="seg" id="orientSeg" role="group" data-i18n-aria="orient.aria">
+          <button id="rotBtn90" aria-pressed="false" data-i18n-title="orient.rotTitle">↻ 90°</button>
+          <button id="mirrorBtn" aria-pressed="false" data-i18n="orient.mirror" data-i18n-title="orient.mirrorTitle">⇋ Spiegeln</button>
+          <button id="orientReset" data-i18n="orient.reset" hidden>Original</button>
+        </div>
       </div>
-      <div class="seg" id="camSeg" role="group" aria-label="Kamera">
-        <button data-cam="iso" title="Schräg von oben (I)">Schräg</button>
-        <button data-cam="top" title="Von oben, Norden oben (T)">Oben</button>
-        <button data-cam="front" title="Von Norden, meist die Eingangsseite (F)">Vorne</button>
-        <button data-cam="rotate" id="rotBtn" title="Langsam drehen (R)">Drehen</button>
-        <button id="videoBtn" aria-pressed="false" title="Bau-Video abspielen (V)">▶ Video</button>
+      <div class="seg" id="camSeg" role="group" data-i18n-aria="cam.aria">
+        <button data-cam="iso" data-i18n="cam.iso" data-i18n-title="cam.isoTitle">Schräg</button>
+        <button data-cam="top" data-i18n="cam.top" data-i18n-title="cam.topTitle">Oben</button>
+        <button data-cam="front" data-i18n="cam.front" data-i18n-title="cam.frontTitle">Vorne</button>
+        <button data-cam="rotate" id="rotBtn" data-i18n="cam.rotate" data-i18n-title="cam.rotateTitle">Kreisen</button>
+        <button id="videoBtn" aria-pressed="false" data-i18n="cam.video" data-i18n-title="cam.videoTitle">▶ Video</button>
       </div>
     </div>
-    <div class="hud" role="group" aria-label="Ebene wechseln">
-      <button class="hud-btn" id="prevBtn" aria-label="Ebene darunter">
+    <div class="hud" role="group" data-i18n-aria="hud.aria">
+      <button class="hud-btn" id="prevBtn" data-i18n-aria="hud.prev">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 5l-7 7 7 7"/></svg>
       </button>
-      <div class="hud-label"><b id="hudNum">0 / 0</b><span id="hudSub">Ebene</span></div>
-      <button class="hud-btn" id="nextBtn" aria-label="Ebene darüber">
+      <div class="hud-label"><b id="hudNum">0 / 0</b><span id="hudSub"></span></div>
+      <button class="hud-btn" id="nextBtn" data-i18n-aria="hud.next">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg>
       </button>
     </div>
@@ -339,71 +442,82 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
       <small id="vCapBlock"></small>
     </div>
     <div class="video-bar" id="videoBar" hidden>
-      <button class="hud-btn" id="vPlay" aria-label="Pause">❚❚</button>
-      <div class="v-track" id="vTrack" role="slider" aria-label="Video-Fortschritt"><i id="vProg"></i></div>
-      <button class="hud-btn v-small" id="vSpeed" aria-label="Geschwindigkeit">1×</button>
-      <button class="hud-btn v-small" id="vClose" aria-label="Video schließen">✕</button>
+      <button class="hud-btn" id="vPlay">❚❚</button>
+      <div class="v-track" id="vTrack" role="slider" data-i18n-aria="video.track"><i id="vProg"></i></div>
+      <button class="hud-btn v-small" id="vSpeed" data-i18n-aria="video.speed">1×</button>
+      <button class="hud-btn v-small" id="vClose" data-i18n-aria="video.close">✕</button>
     </div>
-    <div class="stage-hint">Ziehen: drehen · Scrollen: zoomen · Rechtsklick ziehen: verschieben · Block anklicken: Infos</div>
+    <div class="stage-hint" data-i18n="stage.hint"></div>
   </main>
 
   <section class="panel" id="panel" aria-live="polite">
     <div>
       <div class="eyebrow" id="eyebrow"></div>
-      <h1 id="title"></h1>
+      <div class="title-row"><h1 id="title"></h1><button class="btn small fav" id="favBtn" aria-pressed="false"></button></div>
       <p class="desc" id="desc"></p>
     </div>
+    <div class="note orient" id="orientNote" hidden></div>
     <dl class="stats" id="stats"></dl>
+    <div class="row-actions" id="customTools" hidden>
+      <button class="btn small" id="shareBtn" data-i18n="share.btn">Link teilen</button>
+      <button class="btn small ghost" id="deleteBtn" data-i18n="imp.delete">Eigenen Bau löschen</button>
+    </div>
     <div class="progress">
-      <div class="progress-row"><span id="progText"></span><button id="resetBtn">Fortschritt zurücksetzen</button></div>
+      <div class="progress-row"><span id="progText"></span><button id="resetBtn" data-i18n="prog.reset">Fortschritt zurücksetzen</button></div>
       <div class="bar"><i id="progBar"></i></div>
-      <div class="chips" id="chips" aria-label="Ebenen"></div>
+      <div class="chips" id="chips" data-i18n-aria="prog.chips"></div>
     </div>
     <div>
       <div class="tabs" role="tablist">
-        <button role="tab" data-tab="layer" aria-selected="true">Ebene</button>
-        <button role="tab" data-tab="mats" aria-selected="false">Material</button>
-        <button role="tab" data-tab="how" aria-selected="false">So funktioniert's</button>
+        <button role="tab" data-tab="layer" aria-selected="true" data-i18n="tab.layer">Ebene</button>
+        <button role="tab" data-tab="mats" aria-selected="false" data-i18n="tab.mats">Material</button>
+        <button role="tab" data-tab="how" aria-selected="false" data-i18n="tab.how">So funktioniert's</button>
       </div>
     </div>
     <div class="tabpane" id="tab-layer">
       <div class="layer-head">
         <h2 id="layerTitle"></h2>
-        <label class="check" id="doneLabel"><input type="checkbox" id="doneBox"> Ebene fertig</label>
+        <label class="check" id="doneLabel"><input type="checkbox" id="doneBox"> <span data-i18n="layer.done">Ebene fertig</span></label>
       </div>
       <div class="note" id="layerNote" hidden></div>
       <div class="grid-wrap" id="gridWrap"><canvas id="layerCanvas"></canvas></div>
-      <div class="grid-caption">Blick von oben, Norden ist oben. Blassere Felder zeigen die Ebene darunter. Feld antippen für Infos.</div>
+      <div class="grid-caption" data-i18n="layer.caption"></div>
       <div id="info"></div>
       <div>
-        <div class="sub">Material für diese Ebene</div>
+        <div class="sub" data-i18n="layer.mats">Material für diese Ebene</div>
         <div class="mats" id="layerMats"></div>
       </div>
     </div>
     <div class="tabpane" id="tab-mats" hidden>
-      <div class="row-actions"><button class="btn" id="copyBtn">Einkaufsliste kopieren</button></div>
+      <div class="row-actions"><button class="btn" id="copyBtn" data-i18n="mats.copy">Einkaufsliste kopieren</button></div>
       <div class="note">
-        <b>Erst im Kreativmodus testen?</b> Kopiere die Befehle und füge sie in eine Datapack-Funktion ein
-        (<code>data/blockplan/function/bau.mcfunction</code>, dann <code>/function blockplan:bau</code>).
-        Der Bau entsteht 2 Blöcke östlich von dir. Nur Java Edition.
-        <div class="row-actions" style="margin-top:10px"><button class="btn" id="cmdBtn">Befehle: ganzer Bau</button><button class="btn" id="cmdLayerBtn">Befehle: aktuelle Ebene</button></div>
+        <b data-i18n="exp.title">Export &amp; Kreativ-Test</b>
+        <p style="margin:4px 0 0" data-i18n="exp.text"></p>
+        <div class="export-grid">
+          <button class="btn" id="expLitematic" data-i18n="exp.litematic">Litematica (.litematic)</button>
+          <button class="btn" id="expSchem" data-i18n="exp.schem">WorldEdit (.schem)</button>
+          <button class="btn" id="expDatapack" data-i18n="exp.datapack">Datapack (.zip)</button>
+        </div>
+        <p class="ver" style="margin:8px 0 0" id="dpText"></p>
+        <div class="export-grid"><button class="btn small" id="cmdBtn" data-i18n="exp.cmdAll">Befehle: ganzer Bau</button><button class="btn small" id="cmdLayerBtn" data-i18n="exp.cmdLayer">Befehle: aktuelle Ebene</button></div>
       </div>
       <div class="mats" id="allMats"></div>
       <div id="mobsWrap" hidden>
-        <div class="sub">Kreaturen</div>
+        <div class="sub" data-i18n="mats.mobs">Kreaturen</div>
         <div class="mats" id="mobMats"></div>
       </div>
     </div>
     <div class="tabpane prose" id="tab-how" hidden>
       <div class="note">
-        <b>Video-Tutorial:</b> Sieh dir an, wie der Bau Block für Block entsteht, mit Hinweisen zu jeder Ebene.
-        <div class="row-actions" style="margin-top:10px"><button class="btn" id="howVideoBtn">▶ Bau-Video abspielen</button><a class="btn" id="ytLink" href="#" target="_blank" rel="noopener">Tutorials auf YouTube</a></div>
+        <b data-i18n="how.videoTitle">Video-Tutorial:</b> <span data-i18n="how.videoText"></span>
+        <div class="row-actions" style="margin-top:10px"><button class="btn" id="howVideoBtn" data-i18n="how.videoBtn">▶ Bau-Video abspielen</button><a class="btn" id="ytLink" href="#" target="_blank" rel="noopener" data-i18n="how.yt">Tutorials auf YouTube</a></div>
       </div>
-      <p class="ver" id="community" hidden>Eigener Entwurf im Stil beliebter Community-Bauten.</p>
-      <div id="howWrap"><div class="sub">Funktionsweise</div><ol id="howList"></ol></div>
-      <div id="tipWrap"><div class="sub">Tipps</div><ul id="tipList"></ul></div>
+      <p class="ver" id="community" hidden data-i18n="how.community"></p>
+      <p class="ver" id="translated" hidden data-i18n="how.translated"></p>
+      <div id="howWrap"><div class="sub" data-i18n="how.how">Funktionsweise</div><ol id="howList"></ol></div>
+      <div id="tipWrap"><div class="sub" data-i18n="how.tips">Tipps</div><ul id="tipList"></ul></div>
       <div>
-        <div class="sub">Zeichen im 2D-Raster</div>
+        <div class="sub" data-i18n="how.legend">Zeichen im 2D-Raster</div>
         <div class="legend" id="legend"></div>
       </div>
       <p class="ver" id="edition"></p>
@@ -412,29 +526,75 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
 </div>
 
 <div class="backdrop" id="backdrop" hidden></div>
+
 <div class="dialog" id="keysDialog" role="dialog" aria-modal="true" aria-labelledby="keysTitle" hidden>
-  <h2 id="keysTitle">Tastenkürzel</h2>
+  <h2 id="keysTitle" data-i18n="keys.title">Tastenkürzel</h2>
   <div class="keys">
-    <span><kbd>→</kbd> <kbd>Bild ↑</kbd></span><span>Nächste Ebene</span>
-    <span><kbd>←</kbd> <kbd>Bild ↓</kbd></span><span>Vorherige Ebene</span>
-    <span><kbd>Pos1</kbd> <kbd>Ende</kbd></span><span>Erste / letzte Ebene</span>
-    <span><kbd>Leertaste</kbd></span><span>Ebene als fertig markieren</span>
-    <span><kbd>A</kbd> <kbd>B</kbd> <kbd>N</kbd></span><span>Alles / Bis Ebene / Nur Ebene</span>
-    <span><kbd>I</kbd> <kbd>T</kbd> <kbd>F</kbd></span><span>Kamera schräg / oben / vorne</span>
-    <span><kbd>R</kbd></span><span>Drehen an/aus</span>
-    <span><kbd>V</kbd></span><span>Bau-Video starten/stoppen</span>
-    <span><kbd>Esc</kbd></span><span>Auswahl aufheben</span>
+    <span><kbd>→</kbd> <kbd data-i18n="keys.pgup">Bild ↑</kbd></span><span data-i18n="keys.next"></span>
+    <span><kbd>←</kbd> <kbd data-i18n="keys.pgdn">Bild ↓</kbd></span><span data-i18n="keys.prev"></span>
+    <span><kbd data-i18n="keys.pos1">Pos1</kbd> <kbd data-i18n="keys.end">Ende</kbd></span><span data-i18n="keys.home"></span>
+    <span><kbd data-i18n="keys.spaceKey">Leertaste</kbd></span><span data-i18n="keys.space"></span>
+    <span><kbd>A</kbd> <kbd>B</kbd> <kbd>N</kbd></span><span data-i18n="keys.modes"></span>
+    <span><kbd>I</kbd> <kbd>T</kbd> <kbd>F</kbd></span><span data-i18n="keys.cams"></span>
+    <span><kbd>D</kbd> <kbd>S</kbd></span><span data-i18n="keys.orient"></span>
+    <span><kbd>R</kbd></span><span data-i18n="keys.rotate"></span>
+    <span><kbd>V</kbd></span><span data-i18n="keys.video"></span>
+    <span><kbd>Esc</kbd></span><span data-i18n="keys.esc"></span>
   </div>
-  <p class="ver" style="margin-top:14px">Tipp: Im Spiel mit F3 siehst du, in welche Richtung du schaust („Facing“). Norden ist in jedem Plan oben.</p>
-  <div class="row-actions" style="margin-top:14px"><button class="btn" id="keysClose">Schließen</button></div>
+  <p class="ver" style="margin-top:14px" data-i18n="keys.tip"></p>
+  <div class="dialog-actions"><button class="btn" data-close data-i18n="common.close">Schließen</button></div>
+</div>
+
+<div class="dialog wide" id="favDialog" role="dialog" aria-modal="true" aria-labelledby="favTitle" hidden>
+  <h2 id="favTitle" data-i18n="fav.title">Merkliste</h2>
+  <p class="ver" id="favEmpty" data-i18n="fav.empty"></p>
+  <div id="favList"></div>
+  <div id="favTotalWrap">
+    <div class="sub" style="margin-top:14px" data-i18n="fav.total">Gemeinsame Einkaufsliste</div>
+    <p class="ver" data-i18n="fav.totalHint"></p>
+    <div class="mats" id="favMats"></div>
+  </div>
+  <div class="dialog-actions"><button class="btn primary" id="favCopy" data-i18n="fav.copy">Gesamtliste kopieren</button><button class="btn" data-close data-i18n="common.close">Schließen</button></div>
+</div>
+
+<div class="dialog wide" id="supDialog" role="dialog" aria-modal="true" aria-labelledby="supTitle" hidden>
+  <h2 id="supTitle" data-i18n="sup.title">Blockplan unterstützen</h2>
+  <p data-i18n="sup.text"></p>
+  <div class="tiers" id="supTiers"></div>
+  <p class="ver"><span data-i18n="sup.where"></span> <a id="supPage" href="#" target="_blank" rel="noopener" hidden>↗</a></p>
+  <div class="sub" data-i18n="sup.codeLabel">Unterstützer-Code</div>
+  <div class="code-row"><input type="text" id="supCode" autocomplete="off" data-i18n-ph="sup.codePh" data-i18n-aria="sup.codeLabel"><button class="btn" id="supRedeem" data-i18n="sup.codeBtn">Freischalten</button></div>
+  <div id="supThemeWrap" hidden>
+    <div class="sub" style="margin-top:14px" data-i18n="sup.themes">Unterstützer-Farben</div>
+    <div class="themes" id="supThemes"></div>
+  </div>
+  <div class="dialog-actions"><button class="btn" data-close data-i18n="common.close">Schließen</button></div>
+</div>
+
+<div class="dialog" id="aboutDialog" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" hidden>
+  <h2 id="aboutTitle" data-i18n="about.title">Über Blockplan</h2>
+  <p data-i18n="about.text"></p>
+  <p data-i18n="about.privacy"></p>
+  <p class="ver" data-i18n="side.disclaimer"></p>
+  <p class="ver"><span id="aboutVer"></span> <span class="tag-ok" id="offlineTag" data-i18n="about.offline" hidden>Offline bereit</span></p>
+  <div class="dialog-actions">
+    <button class="btn primary" id="installBtn" data-i18n="about.install" hidden>Als App installieren</button>
+    <a class="btn" id="legalLink2" href="legal.html" data-i18n="side.legal">Impressum &amp; Datenschutz</a>
+    <button class="btn" data-close data-i18n="common.close">Schließen</button>
+  </div>
 </div>
 <div class="toast" id="toast" hidden></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script src="js/config.js"></script>
+<script src="js/i18n.js"></script>
 <script src="js/blocks.js"></script>
 <script src="js/builds.js"></script>
 <script src="js/builds-community.js"></script>
+<script src="js/builds-mega.js"></script>
+<script src="js/builds-secret.js"></script>
+<script src="js/formats.js"></script>
 <script src="js/viewer.js"></script>
 <script src="js/app.js"></script>
 </body>

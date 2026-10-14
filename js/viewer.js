@@ -255,7 +255,7 @@
       }
       case 'piston': {
         const head = orient(f, 0.75, 1), body = orient(f, 0, 0.75);
-        add(bx(head[0], head[1], head[2], head[3], head[4], head[5], ORDER.map((d) => mat(d === f ? 'piston_face' : 'piston_wood'))));
+        add(bx(head[0], head[1], head[2], head[3], head[4], head[5], ORDER.map((d) => mat(d === f ? (def.sticky ? 'sticky_face' : 'piston_face') : 'piston_wood'))));
         add(bx(body[0], body[1], body[2], body[3], body[4], body[5], ORDER.map((d) => mat(d === MC.OPP[f] ? 'piston_back' : 'piston_body'))));
         break;
       }
@@ -289,6 +289,25 @@
         add(bx(0.3125, y0, 0.3125, 0.6875, y0 + 0.4375, 0.6875, mat('lantern', { basic: true })));
         add(bx(0.375, y0 + 0.4375, 0.375, 0.625, y0 + 0.5625, 0.625, colorMat('#2f2f33')));
         if (hanging) add(bx(0.47, y0 + 0.5625, 0.47, 0.53, 1, 0.53, colorMat('#4a4a50')));
+        break;
+      }
+      case 'piston_head': {
+        const plate = orient(f, 0.75, 1), rod = orient(f, -0.25, 0.75, 0.375);
+        add(bx(plate[0], plate[1], plate[2], plate[3], plate[4], plate[5], mat('piston_wood', { opacity: 0.6 })));
+        const ax = f === 'e' || f === 'w' ? 'x' : f === 'u' || f === 'd' ? 'y' : 'z';
+        const r = [0.375, 0.375, 0.375, 0.625, 0.625, 0.625];
+        if (ax === 'x') { r[0] = rod[0]; r[3] = rod[3]; } else if (ax === 'z') { r[2] = rod[2]; r[5] = rod[5]; } else { r[1] = rod[1]; r[4] = rod[4]; }
+        add(bx(Math.max(0, r[0]), Math.max(0, r[1]), Math.max(0, r[2]), Math.min(1, r[3]), Math.min(1, r[4]), Math.min(1, r[5]), mat('piston_wood', { opacity: 0.6 })));
+        break;
+      }
+      case 'trapdoor_top': add(bx(0, 0.8125, 0, 1, 1, 1, mat('trapdoor'))); break;
+      case 'detector': add(bx(0, 0, 0, 1, 0.375, 1, faces())); break;
+      case 'stonecutter': add(bx(0, 0, 0, 1, 0.5625, 1, faces())); add(bx(0.47, 0.5625, 0.1, 0.53, 0.95, 0.9, colorMat('#b8bcc2'))); break;
+      case 'lever': {
+        const s0 = orient(MC.OPP[f], 0.8125, 1, 0.3125);
+        add(bx(s0[0], 0.25, s0[2], s0[3], 0.75, s0[5], mat('cobble')));
+        const st = orient(f, 0.15, 0.6, 0.45);
+        add(bx(st[0], 0.55, st[2], st[3], 0.65, st[5], colorMat('#6b5232')));
         break;
       }
       case 'carpet': add(bx(0, 0, 0, 1, 0.0625, 1, faces())); break;
