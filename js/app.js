@@ -52,6 +52,13 @@
     toast._t = setTimeout(() => { t.hidden = true; }, 2200);
   }
 
+  function fmtTime(min) {
+    if (min < 60) return 'ca. ' + min + ' Min.';
+    const h = Math.floor(min / 60), m = min % 60;
+    return 'ca. ' + h + ' Std.' + (m ? ' ' + m + ' Min.' : '');
+  }
+  const ytLink = (b) => b.youtube || 'https://www.youtube.com/results?search_query=' + encodeURIComponent('minecraft ' + b.name + ' tutorial deutsch');
+
   /* ---------- Theme ---------- */
   function applyTheme() {
     if (!viewer) return;
@@ -79,7 +86,7 @@
         btn.setAttribute('aria-current', state.build && state.build.id === b.id ? 'true' : 'false');
         btn.append(el('span', 'item-name', b.name), el('span', 'item-tag', b.tagline));
         const meta = el('span', 'item-meta');
-        meta.append(el('span', 'pill ' + DIFF[b.difficulty], b.difficulty), el('span', null, b.size[0] + '×' + b.size[2] + '×' + b.size[1]));
+        meta.append(el('span', 'pill ' + DIFF[b.difficulty], b.difficulty), el('span', null, b.size[0] + '×' + b.size[2] + '×' + b.size[1]), el('span', null, '⏱ ' + (b.minutes < 60 ? b.minutes + ' Min.' : Math.floor(b.minutes / 60) + ' h ' + (b.minutes % 60 ? b.minutes % 60 : ''))));
         btn.append(meta);
         btn.addEventListener('click', () => open(b.id));
         grp.append(btn);
@@ -92,6 +99,7 @@
 
   /* ---------- Bau öffnen ---------- */
   function open(id) {
+    stopVideo();
     const b = BUILDS.find((x) => x.id === id) || BUILDS[0];
     index(b);
     state.build = b;
@@ -123,14 +131,23 @@
       ['Grundfläche', b.size[0] + ' × ' + b.size[2]],
       ['Höhe', b.size[1] + ' Ebenen'],
       ['Blöcke', String(placed(b.cells).length)],
+      ['Bauzeit', fmtTime(b.minutes)],
       ['Version', b.edition]
     ];
-    pairs.forEach(([k, v]) => { const d = el('div', 'stat'); d.append(el('dt', null, k), el('dd', null, v)); d.title = k + ': ' + v; st.append(d); });
+    pairs.forEach(([k, v], i) => {
+      const d = el('div', 'stat' + (i === 4 ? ' wide' : ''));
+      d.append(el('dt', null, k), el('dd', null, v));
+      d.title = k === 'Bauzeit' ? 'Geschätzt: nur Platzieren, mit allem Material im Inventar. Sammeln ist nicht eingerechnet.' : k + ': ' + v;
+      st.append(d);
+    });
+    $('#ytLink').href = ytLink(b);
+    $('#community').hidden = !b.community;
     $('#edition').textContent = 'Ausgelegt für ' + b.edition + '. Koordinaten sind relativ: Die Ecke ganz im Nordwesten unten ist X 0 · Y 0 · Z 0 (rot markiert).';
   }
 
   /* ---------- Ebenen ---------- */
   function setLayer(n, fromUser) {
+    if (video && fromUser) stopVideo();
     const b = state.build;
     const H = b.size[1];
     state.layer = Math.max(0, Math.min(H - 1, n));
@@ -317,6 +334,26 @@
         g.fillStyle = '#26262a'; g.fillRect(cx - s * 0.15, cy - s * 0.15, s * 0.3, s * 0.3);
         break;
       }
+      case 'carpet':
+        g.fillStyle = def.color; g.fillRect(x, y, s, s);
+        g.fillStyle = 'rgba(255,255,255,0.18)'; for (let i = 0; i < s; i += 4) g.fillRect(x, y + i, s, 1);
+        break;
+      case 'rail': {
+        g.strokeStyle = def.color; g.lineWidth = Math.max(1.5, s * 0.1);
+        const along = f === 'e' || f === 'w';
+        g.beginPath();
+        if (along) { g.moveTo(x, y + s * 0.28); g.lineTo(x + s, y + s * 0.28); g.moveTo(x, y + s * 0.72); g.lineTo(x + s, y + s * 0.72); }
+        else { g.moveTo(x + s * 0.28, y); g.lineTo(x + s * 0.28, y + s); g.moveTo(x + s * 0.72, y); g.lineTo(x + s * 0.72, y + s); }
+        g.stroke();
+        break;
+      }
+      case 'bell':
+        g.fillStyle = def.color; g.beginPath(); g.arc(cx, cy, s * 0.28, 0, Math.PI * 2); g.fill();
+        break;
+      case 'anvil':
+        g.fillStyle = def.color;
+        if (f === 'e' || f === 'w') g.fillRect(x + s * 0.2, y, s * 0.6, s); else g.fillRect(x, y + s * 0.2, s, s * 0.6);
+        break;
       case 'gate': {
         g.fillStyle = def.color;
         const ax = f === 'n' || f === 's';
@@ -359,10 +396,11 @@
         g.fillStyle = 'rgba(0,0,0,0.25)'; g.fillRect(x, y, s, s);
         break;
       case 'pane':
+      case 'wall':
       case 'fence': {
         g.fillStyle = def.color;
         const t = def.shape === 'pane' ? 0.16 : 0.22;
-        const conn = ['n', 's', 'e', 'w'].filter((d) => { const n = nbSame(d); return n && (D(n).shape === 'cube' || D(n).shape === def.shape || D(n).shape === 'door'); });
+        const conn = ['n', 's', 'e', 'w'].filter((d) => { const n = nbSame(d); return n && (D(n).shape === 'cube' || D(n).shape === def.shape || D(n).shape === 'door' || D(n).shape === 'gate'); });
         const arms = conn.length ? conn : (def.shape === 'pane' ? ['e', 'w'] : []);
         arms.forEach((d) => {
           if (d === 'n') g.fillRect(cx - s * t / 2, y, s * t, s / 2);
@@ -580,6 +618,74 @@
     });
   }
 
+  /* ---------- Bau-Video ---------- */
+  let video = null;
+  const ICON = {
+    pause: '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>',
+    play: '<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M7 5l12 7-12 7z"/></svg>',
+    again: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg>'
+  };
+  const setPlayIcon = (k, label) => { $('#vPlay').innerHTML = ICON[k]; $('#vPlay').setAttribute('aria-label', label); };
+  function startVideo() {
+    const b = state.build, total = b.cells.length;
+    const seconds = Math.max(15, Math.min(80, total * 0.06));
+    video = { n: 0, total, rate: total / seconds, speed: 1, playing: true, last: 0 };
+    $('#videoBar').hidden = false; $('#videoCap').hidden = false; $('.hud').hidden = true;
+    $('#vSpeed').textContent = '1×';
+    setPlayIcon('pause', 'Pause');
+    $('#videoBtn').setAttribute('aria-pressed', 'true');
+    $('.stage').classList.add('playing');
+    viewer.select(null);
+    viewer.preset('iso');
+    viewer.setAutoRotate(true);
+    viewer.reveal(0);
+    requestAnimationFrame(tickVideo);
+  }
+  function stopVideo() {
+    if (!video) return;
+    video = null;
+    $('#videoBar').hidden = true; $('#videoCap').hidden = true; $('.hud').hidden = false;
+    $('#videoBtn').setAttribute('aria-pressed', 'false');
+    $('.stage').classList.remove('playing');
+    viewer.setAutoRotate(state.rotate);
+    viewer.setLayer(state.layer, state.mode, true);
+    viewer.select(state.sel);
+  }
+  function toggleVideoPlay() {
+    if (!video) return;
+    if (video.n >= video.total) video.n = 0;
+    video.playing = !video.playing;
+    setPlayIcon(video.playing ? 'pause' : 'play', video.playing ? 'Pause' : 'Abspielen');
+    viewer.setAutoRotate(video.playing);
+  }
+  function tickVideo(ts) {
+    if (!video) return;
+    const dt = video.last ? Math.min(0.1, (ts - video.last) / 1000) : 0;
+    video.last = ts;
+    if (video.playing) video.n = Math.min(video.total, video.n + dt * video.rate * video.speed);
+    const n = Math.floor(video.n);
+    viewer.reveal(n);
+    const b = state.build, c = b.cells[Math.max(0, n - 1)];
+    if (c) {
+      viewer.focusY(c.y + 1);
+      const note = (b.layerNotes && b.layerNotes[c.y]) || (b.layers[c.y].length + ' Blöcke auf dieser Ebene');
+      const d = D(c);
+      $('#vCapTitle').textContent = 'Ebene ' + c.y + ' von ' + (b.size[1] - 1);
+      $('#vCapNote').textContent = note;
+      $('#vCapBlock').textContent = 'Jetzt: ' + d.name + (c.facing && d.hint ? ' → ' + MC.DIR_NAME[c.facing] : '');
+    }
+    $('#vProg').style.width = (video.n / video.total * 100) + '%';
+    if (video.n >= video.total && video.playing) {
+      video.playing = false;
+      viewer.setAutoRotate(false);
+      setPlayIcon('again', 'Nochmal abspielen');
+      $('#vCapTitle').textContent = 'Fertig!';
+      $('#vCapNote').textContent = 'So sieht der fertige Bau aus. Schließe das Video und baue Ebene für Ebene nach.';
+      $('#vCapBlock').textContent = '';
+    }
+    requestAnimationFrame(tickVideo);
+  }
+
   /* ---------- Tabs, Drawer, Dialog ---------- */
   function setTab(t) {
     state.tab = t;
@@ -623,13 +729,19 @@
     $('#doneBox').addEventListener('change', (e) => toggleDone(e.target.checked));
     $('#resetBtn').addEventListener('click', () => { state.done.clear(); store.set('done.' + state.build.id, []); setLayer(0, false); toast('Fortschritt zurückgesetzt'); });
     document.querySelectorAll('#modeSeg button').forEach((b) => b.addEventListener('click', () => { state.mode = b.dataset.mode; setLayer(state.layer, false); }));
-    document.querySelectorAll('#camSeg button').forEach((b) => b.addEventListener('click', () => {
+    document.querySelectorAll('#camSeg button[data-cam]').forEach((b) => b.addEventListener('click', () => {
       if (b.dataset.cam === 'rotate') { state.rotate = !state.rotate; viewer.setAutoRotate(state.rotate); b.setAttribute('aria-pressed', String(state.rotate)); }
       else viewer.preset(b.dataset.cam);
     }));
     document.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => setTab(b.dataset.tab)));
     $('#layerCanvas').addEventListener('click', gridPick);
     $('#copyBtn').addEventListener('click', copyList);
+    $('#videoBtn').addEventListener('click', () => (video ? stopVideo() : startVideo()));
+    $('#vPlay').addEventListener('click', toggleVideoPlay);
+    $('#vClose').addEventListener('click', stopVideo);
+    $('#vSpeed').addEventListener('click', () => { if (!video) return; video.speed = video.speed >= 4 ? 1 : video.speed * 2; $('#vSpeed').textContent = video.speed + '×'; });
+    $('#vTrack').addEventListener('click', (e) => { if (!video) return; const r = e.currentTarget.getBoundingClientRect(); video.n = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width)) * video.total; });
+    $('#howVideoBtn').addEventListener('click', startVideo);
     $('#cmdBtn').addEventListener('click', () => copyCommands(false));
     $('#cmdLayerBtn').addEventListener('click', () => copyCommands(true));
     document.querySelectorAll('#diffSeg button').forEach((b) => b.addEventListener('click', () => { state.diff = state.diff === b.dataset.diff ? '' : b.dataset.diff; renderList(); }));
@@ -656,7 +768,8 @@
         i: () => viewer.preset('iso'), t: () => viewer.preset('top'), f: () => viewer.preset('front'),
         r: () => { state.rotate = !state.rotate; viewer.setAutoRotate(state.rotate); $('#rotBtn').setAttribute('aria-pressed', String(state.rotate)); },
         '?': openKeys,
-        Escape: () => { if (!$('#keysDialog').hidden) closeKeys(); else if ($('#sidebar').classList.contains('open')) closeDrawer(); else select(null); }
+        v: () => (video ? stopVideo() : startVideo()),
+        Escape: () => { if (video) stopVideo(); else if (!$('#keysDialog').hidden) closeKeys(); else if ($('#sidebar').classList.contains('open')) closeDrawer(); else select(null); }
       };
       const fn = map[k] || map[k.toLowerCase()];
       if (fn) {
