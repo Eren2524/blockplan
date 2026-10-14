@@ -256,7 +256,9 @@ I18N.add("tr", {
   "theme.nether": "Nether",
   "err.three": "3D kütüphanesi yüklenemedi. Sayfayı yenile.",
   "lang.loading": "Dil yükleniyor …",
-  "lang.fail": "Dil yüklenemedi."
+  "lang.fail": "Dil yüklenemedi.",
+  "cat.special": "Özel Yapılar",
+  "one.special": "Özel Yapı"
  },
  "hints": {
   "front": {

@@ -256,7 +256,9 @@ I18N.add("en", {
   "theme.nether": "Nether",
   "err.three": "The 3D library couldn't be loaded. Please reload the page.",
   "lang.loading": "Loading language …",
-  "lang.fail": "Couldn't load language."
+  "lang.fail": "Couldn't load language.",
+  "cat.special": "Special builds",
+  "one.special": "Special build"
  },
  "hints": {
   "front": {

@@ -256,7 +256,9 @@ I18N.add("pl", {
   "theme.nether": "Nether",
   "err.three": "Nie udało się wczytać biblioteki 3D. Odśwież stronę.",
   "lang.loading": "Wczytywanie języka …",
-  "lang.fail": "Nie udało się wczytać języka."
+  "lang.fail": "Nie udało się wczytać języka.",
+  "cat.special": "Budowle specjalne",
+  "one.special": "Budowla specjalna"
  },
  "hints": {
   "front": {

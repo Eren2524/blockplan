@@ -256,7 +256,9 @@ I18N.add("fr", {
   "theme.nether": "Nether",
   "err.three": "Impossible de charger la bibliothèque 3D. Recharge la page.",
   "lang.loading": "Chargement de la langue …",
-  "lang.fail": "Impossible de charger la langue."
+  "lang.fail": "Impossible de charger la langue.",
+  "cat.special": "Constructions spéciales",
+  "one.special": "Construction spéciale"
  },
  "hints": {
   "front": {

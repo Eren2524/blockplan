@@ -801,5 +801,6 @@
     }
   });
 
+  Object.assign(BP, { roofZ, roofX, pyramid });
   BP.finishAll();
 })(window);

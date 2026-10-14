@@ -1,7 +1,7 @@
 /* Blockplan – Einstellungen für die Veröffentlichung. Hier trägst du deine Links ein,
    alles andere funktioniert ohne Änderung. Anleitung: VEROEFFENTLICHEN.md */
 window.BLOCKPLAN_CONFIG = {
-  version: '2.0.0',
+  version: '2.1.0',
 
   /* Unterstützer-Abo: Trage die Bezahl-Links deines Anbieters ein (z. B. Ko-fi, Patreon, Steady).
      Leere Links blenden die Stufe als „noch nicht eingerichtet“ ein. */
