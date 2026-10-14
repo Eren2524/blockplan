@@ -260,7 +260,51 @@
     fletching_top: (g, r) => { planks(g, r, '#d9c88a'); R(g, 3, 3, 2, 10, hex('#f4f4f4')); R(g, 9, 5, 2, 8, hex('#c9302c')); },
     fletching_side: (g, r) => { planks(g, r, '#c9b77a'); R(g, 2, 3, 12, 6, hex('#e9e1c8')); },
     smithing_top: (g, r) => { noise(g, r, '#2e2f35', 0.1); frame(g, '#1d1e22', 1); R(g, 3, 3, 10, 10, hex('#3c3e45')); },
-    smithing_side: (g, r) => { planks(g, r, '#4a3424'); R(g, 0, 0, 16, 4, hex('#2e2f35')); }
+    smithing_side: (g, r) => { planks(g, r, '#4a3424'); R(g, 0, 0, 16, 4, hex('#2e2f35')); },
+    sandstone: (g, r) => { noise(g, r, '#d8c98f', 0.06); R(g, 0, 0, 16, 2, hex('#c9b878')); R(g, 0, 13, 16, 3, hex('#c2b070')); },
+    sandstone_top: (g, r) => noise(g, r, '#ded0a0', 0.05),
+    birch_planks: (g, r) => planks(g, r, '#c8b77a'),
+    birch_log: (g, r) => { noise(g, r, '#dcd8cc', 0.05); for (let i = 0; i < 9; i++) R(g, (r() * 13) | 0, (r() * 16) | 0, 2 + ((r() * 3) | 0), 1, hex('#3d3a33')); },
+    birch_log_top: (g, r) => logTop(g, r, '#d6c48a', '#dcd8cc'),
+    dark_oak_planks: (g, r) => planks(g, r, '#4a3020'),
+    dark_oak_log: (g, r) => logSide(g, r, '#3a2a1a'),
+    dark_oak_log_top: (g, r) => logTop(g, r, '#5a3d24', '#3a2a1a'),
+    cherry_planks: (g, r) => planks(g, r, '#e4b4a8'),
+    cherry_log: (g, r) => logSide(g, r, '#3b2028'),
+    cherry_log_top: (g, r) => logTop(g, r, '#d79a90', '#3b2028'),
+    cherry_leaves: (g, r) => { noise(g, r, '#f2b6cf', 0.18); specks(g, r, '#e58fb4', 26); },
+    bricks: (g, r) => bricks(g, r, '#9a4a3a', '#c9b8a8', 8, 4),
+    snow: (g, r) => noise(g, r, '#f4f8fa', 0.03),
+    bookshelf: (g, r) => {
+      planks(g, r, '#a8864f');
+      const cols = ['#8a2a2a', '#2a4a8a', '#2a7a3a', '#c9a13a', '#5a2a6a'];
+      for (const y of [1, 9]) for (let x = 1; x < 15; x += 2) R(g, x, y, 2, 6, hex(cols[(r() * cols.length) | 0]));
+    },
+    barrel_side: (g, r) => { planks(g, r, '#7a5a34'); R(g, 0, 3, 16, 1, hex('#3c3c3c')); R(g, 0, 12, 16, 1, hex('#3c3c3c')); },
+    barrel_top: (g, r) => { noise(g, r, '#8a6a3c', 0.08); frame(g, '#3c3c3c', 1); R(g, 6, 6, 4, 4, hex('#4a3420')); },
+    anvil: (g, r) => { noise(g, r, '#45464a', 0.08); frame(g, '#2f3033', 1); },
+    bell: (g, r) => { noise(g, r, '#e8c04a', 0.1); R(g, 0, 13, 16, 3, hex('#b88e22')); },
+    quartz: (g, r) => noise(g, r, '#ece6de', 0.03),
+    smooth_stone: (g, r) => { noise(g, r, '#a3a3a3', 0.04); frame(g, '#8f8f8f', 1); },
+    beehive_side: (g, r) => { planks(g, r, '#b98c4c'); R(g, 0, 0, 16, 2, hex('#d7b25a')); },
+    beehive_front: (g, r) => { planks(g, r, '#b98c4c'); R(g, 0, 0, 16, 2, hex('#d7b25a')); R(g, 5, 9, 6, 3, hex('#2a1e10')); },
+    beehive_top: (g, r) => { noise(g, r, '#d7b25a', 0.1); frame(g, '#a7782f', 1); },
+    soul_soil: (g, r) => { noise(g, r, '#4b3a2e', 0.18); specks(g, r, '#2e231b', 18); },
+    blue_ice: (g, r) => { noise(g, r, '#74b4f0', 0.08); specks(g, r, '#a8d4fa', 20); },
+    basalt: (g, r) => { for (let x = 0; x < 16; x++) for (let y = 0; y < 16; y++) P(g, x, y, mul(hex('#4b4b50'), (x % 4 === 0 ? 0.75 : 1) * (1 + (r() - 0.5) * 0.12))); },
+    powered_rail: (g) => {
+      g.clearRect(0, 0, 16, 16);
+      for (let y = 1; y < 16; y += 3) R(g, 2, y, 12, 2, hex('#6b4f2c'));
+      R(g, 3, 0, 1, 16, hex('#e0b23a')); R(g, 12, 0, 1, 16, hex('#e0b23a')); R(g, 7, 0, 2, 16, hex('#b0221a'));
+    },
+    redstone_block: (g, r) => { noise(g, r, '#b0170e', 0.1); frame(g, '#7a0e08', 1); },
+    magma: (g, r) => { voronoi(g, r, '#4a1d0c', 8, 0.9, 0.2); specks(g, r, '#f08a1a', 22); },
+    soul_sand: (g, r) => { noise(g, r, '#5b4535', 0.15); for (const [x, y] of [[3, 4], [10, 3], [6, 10], [12, 11]]) R(g, x, y, 2, 2, hex('#2e2219')); },
+    poppy: (g) => { g.clearRect(0, 0, 16, 16); R(g, 7, 7, 2, 9, hex('#4f8a2a')); R(g, 5, 3, 6, 5, hex('#c8221c')); R(g, 7, 4, 2, 2, hex('#2a1a10')); },
+    dandelion: (g) => { g.clearRect(0, 0, 16, 16); R(g, 7, 8, 2, 8, hex('#4f8a2a')); R(g, 5, 4, 6, 4, hex('#f2d22a')); },
+    red_wool: (g, r) => { noise(g, r, '#a82a24', 0.07); specks(g, r, '#8a1e1a', 24); },
+    terracotta: (g, r) => noise(g, r, '#a0583a', 0.05),
+    prismarine: (g, r) => bricks(g, r, '#5aa89a', '#3b7a70', 8, 8)
   };
 
   const texCache = new Map();
@@ -346,6 +390,7 @@
     glowstone: { name: 'Leuchtstein', shape: 'cube', tex: { all: 'glowstone' }, color: '#e2b65a', emissive: true },
 
     water: { name: 'Wasserquelle', shape: 'liquid', tex: { all: 'water' }, transparent: true, color: '#3d6ad6', item: 'Wassereimer', stack: 1, hint: () => 'Mit einem Wassereimer platzieren (Quellblock).' },
+    water_env: { name: 'Gewässer (vorhanden)', shape: 'liquid', tex: { all: 'water' }, transparent: true, color: '#4f7bdc', auto: true, hint: () => 'Vorhandenes Wasser: Baue diesen Teil einfach in einem Fluss, See oder Meer.' },
     water_flow: { name: 'Fließendes Wasser', shape: 'liquid', tex: { all: 'water_flow' }, transparent: true, color: '#8fb3f0', auto: true, flow: true, hint: () => 'Entsteht von selbst aus den Quellen. Nicht platzieren.' },
     lava: { name: 'Lavaquelle', shape: 'liquid', tex: { all: 'lava' }, color: '#e06a12', emissive: true, item: 'Lavaeimer', stack: 1, hint: () => 'Mit einem Lavaeimer platzieren, erst wenn alle Schilder hängen.' },
 
@@ -387,6 +432,48 @@
     blast_furnace: { name: 'Schmelzofen', shape: 'cube', tex: { front: 'blast_front', side: 'blast_side', top: 'blast_side', bottom: 'blast_side' }, color: '#5b5c60', hint: (f) => H.facingFront(f) + ' Arbeitsplatz für Rüstungsschmiede.' },
     fletching_table: { name: 'Bognertisch', shape: 'cube', tex: { top: 'fletching_top', bottom: 'oak_planks', side: 'fletching_side' }, color: '#d9c88a', hint: () => 'Arbeitsplatz für Pfeilmacher (Smaragde für Stöcke).' },
     smithing_table: { name: 'Schmiedetisch', shape: 'cube', tex: { top: 'smithing_top', bottom: 'smithing_side', side: 'smithing_side' }, color: '#2e2f35', hint: () => 'Arbeitsplatz für Werkzeugschmiede.' },
+    sandstone: { name: 'Sandstein', shape: 'cube', tex: { top: 'sandstone_top', bottom: 'sandstone_top', side: 'sandstone' }, color: '#d8c98f' },
+    sandstone_stairs: { name: 'Sandsteintreppe', shape: 'stairs', tex: { all: 'sandstone_top' }, color: '#e2d6a6', hint: H.stairs },
+    sandstone_slab: { name: 'Sandsteinstufe', shape: 'slab', tex: { all: 'sandstone_top' }, color: '#e2d6a6' },
+    birch_planks: { name: 'Birkenholzbretter', shape: 'cube', tex: { all: 'birch_planks' }, color: '#c8b77a' },
+    birch_log: { name: 'Birkenstamm', shape: 'cube', tex: { top: 'birch_log_top', bottom: 'birch_log_top', side: 'birch_log' }, color: '#dcd8cc' },
+    birch_stairs: { name: 'Birkenholztreppe', shape: 'stairs', tex: { all: 'birch_planks' }, color: '#d4c48a', hint: H.stairs },
+    dark_oak_planks: { name: 'Schwarzeichenbretter', shape: 'cube', tex: { all: 'dark_oak_planks' }, color: '#4a3020' },
+    dark_oak_log: { name: 'Schwarzeichenstamm', shape: 'cube', tex: { top: 'dark_oak_log_top', bottom: 'dark_oak_log_top', side: 'dark_oak_log' }, color: '#3a2a1a' },
+    dark_oak_stairs: { name: 'Schwarzeichentreppe', shape: 'stairs', tex: { all: 'dark_oak_planks' }, color: '#5a3c28', hint: H.stairs },
+    dark_oak_slab: { name: 'Schwarzeichenstufe', shape: 'slab', tex: { all: 'dark_oak_planks' }, color: '#5a3c28' },
+    dark_oak_fence: { name: 'Schwarzeichenzaun', shape: 'fence', tex: { all: 'dark_oak_planks' }, color: '#4a3020' },
+    cherry_planks: { name: 'Kirschholzbretter', shape: 'cube', tex: { all: 'cherry_planks' }, color: '#e4b4a8' },
+    cherry_log: { name: 'Kirschholzstamm', shape: 'cube', tex: { top: 'cherry_log_top', bottom: 'cherry_log_top', side: 'cherry_log' }, color: '#3b2028' },
+    cherry_stairs: { name: 'Kirschholztreppe', shape: 'stairs', tex: { all: 'cherry_planks' }, color: '#e9c0b4', hint: H.stairs },
+    cherry_leaves: { name: 'Kirschblätter', shape: 'cube', tex: { all: 'cherry_leaves' }, color: '#f2b6cf' },
+    bricks: { name: 'Ziegelsteine', shape: 'cube', tex: { all: 'bricks' }, color: '#9a4a3a' },
+    brick_stairs: { name: 'Ziegeltreppe', shape: 'stairs', tex: { all: 'bricks' }, color: '#a8584a', hint: H.stairs },
+    snow_block: { name: 'Schneeblock', shape: 'cube', tex: { all: 'snow' }, color: '#f4f8fa' },
+    bookshelf: { name: 'Bücherregal', shape: 'cube', tex: { top: 'oak_planks', bottom: 'oak_planks', side: 'bookshelf' }, color: '#8a5a3a' },
+    barrel: { name: 'Fass', shape: 'cube', tex: { top: 'barrel_top', bottom: 'barrel_top', side: 'barrel_side' }, color: '#7a5a34' },
+    anvil: { name: 'Amboss', shape: 'anvil', tex: { all: 'anvil' }, color: '#45464a', hint: (f) => 'Amboss: Lange Seite zeigt quer zu deiner Blickrichtung.' },
+    bell: { name: 'Glocke', shape: 'bell', tex: { all: 'bell' }, color: '#e8c04a', hint: () => 'Auf den Block darunter setzen.' },
+    quartz_block: { name: 'Quarzblock', shape: 'cube', tex: { all: 'quartz' }, color: '#ece6de' },
+    smooth_stone: { name: 'Glatter Stein', shape: 'cube', tex: { all: 'smooth_stone' }, color: '#a3a3a3' },
+    smooth_stone_slab: { name: 'Glatte Steinstufe', shape: 'slab', tex: { all: 'smooth_stone' }, color: '#a3a3a3' },
+    cobblestone_wall: { name: 'Bruchsteinmauer', shape: 'wall', tex: { all: 'cobble' }, color: '#8a8a8a' },
+    red_carpet: { name: 'Roter Teppich', shape: 'carpet', tex: { all: 'red_wool' }, color: '#a82a24' },
+    red_wool: { name: 'Rote Wolle', shape: 'cube', tex: { all: 'red_wool' }, color: '#a82a24' },
+    terracotta: { name: 'Keramik', shape: 'cube', tex: { all: 'terracotta' }, color: '#a0583a' },
+    prismarine_bricks: { name: 'Prismarinziegel', shape: 'cube', tex: { all: 'prismarine' }, color: '#5aa89a' },
+    beehive: { name: 'Bienenstock', shape: 'cube', tex: { front: 'beehive_front', side: 'beehive_side', top: 'beehive_top', bottom: 'beehive_top' }, color: '#b98c4c', hint: (f) => 'Eingang zeigt nach ' + DIR_NAME[f] + ', davor muss frei sein. Mit Bienen drin: Bienennest mit Behutsamkeit abbauen oder Bienen mit Blumen anlocken.' },
+    soul_soil: { name: 'Seelenerde', shape: 'cube', tex: { all: 'soul_soil' }, color: '#4b3a2e', hint: () => 'Gibt es im Seelensandtal im Nether.' },
+    soul_sand: { name: 'Seelensand', shape: 'cube', tex: { all: 'soul_sand' }, color: '#5b4535', hint: () => 'Erzeugt im Wasser darüber eine Blasensäule nach oben.' },
+    magma_block: { name: 'Magmablock', shape: 'cube', tex: { all: 'magma' }, color: '#6a2a10', emissive: true, hint: () => 'Erzeugt im Wasser darüber eine Blasensäule nach unten.' },
+    blue_ice: { name: 'Blaues Eis', shape: 'cube', tex: { all: 'blue_ice' }, color: '#74b4f0', hint: () => 'Aus 9 Packeis herstellen oder in Eisbergen finden.' },
+    basalt_auto: { name: 'Basalt (entsteht)', shape: 'cube', tex: { all: 'basalt' }, color: '#4b4b50', auto: true, ghost: true, hint: () => 'Hier entsteht Basalt. Abbauen, er bildet sich sofort neu.' },
+    stone_auto: { name: 'Stein (entsteht)', shape: 'cube', tex: { all: 'stone' }, color: '#7f7f7f', auto: true, ghost: true, hint: () => 'Hier entsteht Stein. Mit Behutsamkeit bekommst du Stein, sonst Bruchstein.' },
+    powered_rail: { name: 'Antriebsschiene', shape: 'rail', tex: { all: 'powered_rail' }, color: '#e0b23a', hint: () => 'Wird durch den Redstone-Block darunter dauerhaft angetrieben.' },
+    rail: { name: 'Schiene', shape: 'rail', tex: { all: 'rail' }, color: '#a7a7a7' },
+    redstone_block: { name: 'Redstone-Block', shape: 'cube', tex: { all: 'redstone_block' }, color: '#b0170e' },
+    poppy: { name: 'Mohn', shape: 'cross', tex: { all: 'poppy' }, color: '#c8221c' },
+    dandelion: { name: 'Löwenzahn', shape: 'cross', tex: { all: 'dandelion' }, color: '#f2d22a' },
     spruce_fence_gate: { name: 'Fichtenholzzauntor', shape: 'gate', tex: { all: 'spruce_planks' }, color: '#715231', hint: (f) => 'Zauntor: beim Platzieren nach ' + DIR_NAME[f] + ' oder ' + DIR_NAME[OPP[f]] + ' schauen.' },
     cobble_auto: { name: 'Bruchstein (entsteht)', shape: 'cube', tex: { all: 'cobble' }, color: '#8a8a8a', auto: true, ghost: true, hint: () => 'Hier entsteht der Bruchstein. Abbauen, er bildet sich sofort neu.' }
   };
@@ -425,13 +512,14 @@
 
 
   /* ---------- Java-Befehle (Kreativ-Test) ---------- */
-  const MC_ID = { farmland: 'farmland[moisture=7]', oak_leaves: 'oak_leaves[persistent=true]', redstone: 'redstone_wire', hay_block: 'hay_block[axis=y]',
+  const MC_ID = { barrel: 'barrel[facing=up]', bell: 'bell[attachment=floor]', cherry_leaves: 'cherry_leaves[persistent=true]', farmland: 'farmland[moisture=7]', oak_leaves: 'oak_leaves[persistent=true]', redstone: 'redstone_wire', hay_block: 'hay_block[axis=y]',
     sugar_cane: 'sugar_cane', pumpkin_stem: 'pumpkin_stem', pointed_dripstone: 'pointed_dripstone[vertical_direction=down,thickness=tip]' };
-  const FACING_PROP = { hopper: 1, chest: 1, furnace: 1, dispenser: 1, piston: 1, observer: 1, ladder: 1, oak_wall_sign: 1, lectern: 1, blast_furnace: 1, spruce_fence_gate: 1 };
+  const FACING_PROP = { hopper: 1, chest: 1, furnace: 1, dispenser: 1, piston: 1, observer: 1, ladder: 1, oak_wall_sign: 1, lectern: 1, blast_furnace: 1, spruce_fence_gate: 1, beehive: 1, anvil: 1 };
   function javaState(c) {
     const def = B[c.id];
     if (!def || def.auto || def.entity) return null;
     if (c.id === 'rail_cart') return 'rail[shape=' + (c.facing === 'e' || c.facing === 'w' ? 'east_west' : 'north_south') + ']';
+    if (def.shape === 'rail') return c.id + '[shape=' + (c.facing === 'e' || c.facing === 'w' ? 'east_west' : 'north_south') + (c.id === 'powered_rail' ? ',powered=true' : '') + ']';
     if (MC_ID[c.id]) return MC_ID[c.id];
     const f = MC.DIR_NAME_EN[c.facing || 'n'];
     switch (def.shape) {
@@ -445,7 +533,7 @@
     if (FACING_PROP[c.id] && c.facing) return c.id + '[facing=' + f + ']';
     return c.id;
   }
-  const LATE = { ladder: 1, wall_sign: 1, button: 1, trapdoor: 1, door: 1, lantern: 1, dust: 1, cross: 1, bamboo: 1, rail_cart: 1 };
+  const LATE = { rail: 1, carpet: 1, bell: 1, ladder: 1, wall_sign: 1, button: 1, trapdoor: 1, door: 1, lantern: 1, dust: 1, cross: 1, bamboo: 1, rail_cart: 1 };
   /* Liefert .mcfunction-Zeilen. Der Bau beginnt 2 Blöcke östlich vom Ausführenden. */
   function javaCommands(cells, ox) {
     ox = ox == null ? 2 : ox;

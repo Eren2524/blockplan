@@ -115,7 +115,8 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 .item[aria-current="true"] { background: var(--bg); border-color: var(--line); box-shadow: inset 3px 0 0 var(--accent); }
 .item-name { font-weight: 700; }
 .item-tag { font-size: 13px; color: var(--muted); }
-.item-meta { display: flex; gap: 8px; align-items: center; font: 12px/1.4 var(--font-mono); color: var(--muted); margin-top: 2px; }
+.item-meta span { white-space: nowrap; }
+.item-meta { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; font: 12px/1.4 var(--font-mono); color: var(--muted); margin-top: 2px; }
 .pill { display: inline-block; font: 700 11px/1 var(--font-body); padding: 3px 7px; border-radius: 999px; letter-spacing: 0.02em; }
 .pill.easy { background: var(--ok-soft); color: var(--ok); }
 .pill.mid { background: var(--warn-soft); color: var(--warn); }
@@ -144,6 +145,26 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 .hud-label { min-width: 132px; text-align: center; padding-inline: 6px; }
 .hud-label b { display: block; font: 700 24px/1 var(--font-display); font-variant-numeric: tabular-nums; }
 .hud-label span { font-size: 12px; color: var(--muted); }
+.video-cap {
+  position: absolute; left: 50%; top: 62px; transform: translateX(-50%); width: min(520px, calc(100% - 24px));
+  background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px;
+  display: grid; gap: 2px; box-shadow: 0 6px 20px rgb(0 0 0 / 0.15); pointer-events: none;
+}
+.video-cap b { font: 700 18px/1.2 var(--font-display); }
+.video-cap span { font-size: 14px; }
+.video-cap small { font-size: 12px; color: var(--muted); }
+.video-bar {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); width: min(520px, calc(100% - 24px));
+  display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; padding: 6px; box-shadow: 0 6px 20px rgb(0 0 0 / 0.15);
+}
+.video-bar .hud-btn { font: 700 16px var(--font-mono); color: var(--ink); }
+.video-bar .v-small { width: 44px; font-size: 14px; }
+.v-track { flex: 1; height: 12px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); overflow: hidden; cursor: pointer; }
+.v-track i { display: block; height: 100%; width: 0; background: var(--accent); }
+a.btn { text-decoration: none; color: var(--ink); }
+.stage.playing #modeSeg, .stage.playing .stage-hint { display: none; }
+.stat.wide { grid-column: span 2; border-left: 0; }
 .stage-hint { position: absolute; left: 14px; bottom: 18px; font-size: 12px; color: var(--muted); max-width: 30%; pointer-events: none; }
 
 /* ---------- Panel ---------- */
@@ -300,6 +321,7 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
         <button data-cam="top" title="Von oben, Norden oben (T)">Oben</button>
         <button data-cam="front" title="Von Norden, meist die Eingangsseite (F)">Vorne</button>
         <button data-cam="rotate" id="rotBtn" title="Langsam drehen (R)">Drehen</button>
+        <button id="videoBtn" aria-pressed="false" title="Bau-Video abspielen (V)">▶ Video</button>
       </div>
     </div>
     <div class="hud" role="group" aria-label="Ebene wechseln">
@@ -310,6 +332,17 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
       <button class="hud-btn" id="nextBtn" aria-label="Ebene darüber">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5l7 7-7 7"/></svg>
       </button>
+    </div>
+    <div class="video-cap" id="videoCap" hidden>
+      <b id="vCapTitle"></b>
+      <span id="vCapNote"></span>
+      <small id="vCapBlock"></small>
+    </div>
+    <div class="video-bar" id="videoBar" hidden>
+      <button class="hud-btn" id="vPlay" aria-label="Pause">❚❚</button>
+      <div class="v-track" id="vTrack" role="slider" aria-label="Video-Fortschritt"><i id="vProg"></i></div>
+      <button class="hud-btn v-small" id="vSpeed" aria-label="Geschwindigkeit">1×</button>
+      <button class="hud-btn v-small" id="vClose" aria-label="Video schließen">✕</button>
     </div>
     <div class="stage-hint">Ziehen: drehen · Scrollen: zoomen · Rechtsklick ziehen: verschieben · Block anklicken: Infos</div>
   </main>
@@ -362,6 +395,11 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
       </div>
     </div>
     <div class="tabpane prose" id="tab-how" hidden>
+      <div class="note">
+        <b>Video-Tutorial:</b> Sieh dir an, wie der Bau Block für Block entsteht, mit Hinweisen zu jeder Ebene.
+        <div class="row-actions" style="margin-top:10px"><button class="btn" id="howVideoBtn">▶ Bau-Video abspielen</button><a class="btn" id="ytLink" href="#" target="_blank" rel="noopener">Tutorials auf YouTube</a></div>
+      </div>
+      <p class="ver" id="community" hidden>Eigener Entwurf im Stil beliebter Community-Bauten.</p>
       <div id="howWrap"><div class="sub">Funktionsweise</div><ol id="howList"></ol></div>
       <div id="tipWrap"><div class="sub">Tipps</div><ul id="tipList"></ul></div>
       <div>
@@ -384,6 +422,7 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
     <span><kbd>A</kbd> <kbd>B</kbd> <kbd>N</kbd></span><span>Alles / Bis Ebene / Nur Ebene</span>
     <span><kbd>I</kbd> <kbd>T</kbd> <kbd>F</kbd></span><span>Kamera schräg / oben / vorne</span>
     <span><kbd>R</kbd></span><span>Drehen an/aus</span>
+    <span><kbd>V</kbd></span><span>Bau-Video starten/stoppen</span>
     <span><kbd>Esc</kbd></span><span>Auswahl aufheben</span>
   </div>
   <p class="ver" style="margin-top:14px">Tipp: Im Spiel mit F3 siehst du, in welche Richtung du schaust („Facing“). Norden ist in jedem Plan oben.</p>
@@ -395,6 +434,7 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="js/blocks.js"></script>
 <script src="js/builds.js"></script>
+<script src="js/builds-community.js"></script>
 <script src="js/viewer.js"></script>
 <script src="js/app.js"></script>
 </body>

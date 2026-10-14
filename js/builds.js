@@ -156,6 +156,7 @@
 
   BUILDS.push({
     id: 'eisen',
+    extraMin: 40,
     cat: 'farm',
     name: 'Eisenfarm',
     tagline: '3 Dorfbewohner, 1 Zombie, Lava-Klinge',
@@ -223,6 +224,7 @@
 
   BUILDS.push({
     id: 'eier',
+    extraMin: 5,
     cat: 'farm',
     name: 'Eierfarm',
     tagline: 'Hühner auf Trichtern, null Redstone',
@@ -373,6 +375,7 @@
 
   BUILDS.push({
     id: 'mobturm',
+    extraMin: 15,
     cat: 'farm',
     name: 'Mob-Fallturm',
     tagline: 'Knochen, Pfeile, Schießpulver, Fäden',
@@ -770,6 +773,7 @@
 
   BUILDS.push({
     id: 'handelshalle',
+    extraMin: 30,
     cat: 'project',
     name: 'Handelshalle',
     tagline: '6 Dorfbewohner sicher in Zellen',
@@ -1181,14 +1185,37 @@
     }
   });
 
-  /* Fertigstellen */
-  for (const def of BUILDS) {
-    const b = new Builder();
-    def.build(b);
-    const res = b.finish();
-    def.cells = res.cells;
-    def.size = res.size;
+  /* Bauzeit schätzen: reines Bauen mit Material im Inventar, ohne Sammeln. */
+  const SLOW = { piston: 1, hopper: 1, dust: 1, rail_cart: 1, trapdoor: 1, door: 1, stairs: 1, slab: 1, bed: 1, ladder: 1, wall_sign: 1, button: 1, chest: 1, gate: 1, rail: 1 };
+  function estimateMinutes(def) {
+    let sec = 0;
+    def.cells.forEach((c) => {
+      const d = MC.BLOCKS[c.id];
+      if (!d || d.auto) return;
+      if (d.entity) sec += 90;
+      else if (d.shape === 'liquid') sec += 5;
+      else if (SLOW[d.shape] || (d.tex && d.tex.front)) sec += 4.5;
+      else sec += 2.2;
+    });
+    sec += def.size[1] * 30;
+    const min = sec / 60 + (def.extraMin || 0);
+    return Math.max(5, Math.round(min / 5) * 5);
   }
 
+  /* Fertigstellen: verarbeitet alle Pläne, die noch keine Zellen haben (auch aus weiteren Dateien). */
+  function finishAll() {
+    for (const def of BUILDS) {
+      if (def.cells) continue;
+      const b = new Builder();
+      def.build(b);
+      const res = b.finish();
+      def.cells = res.cells;
+      def.size = res.size;
+      def.minutes = estimateMinutes(def);
+    }
+  }
+  finishAll();
+
   global.BUILDS = BUILDS;
+  global.BP = { Builder, circle, finishAll };
 })(window);

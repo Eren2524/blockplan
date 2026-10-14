@@ -155,7 +155,7 @@
         const m = pane ? mat(def.tex.all, { transparent: true }) : mat(def.tex.all);
         const conn = ['e', 'w', 's', 'n'].filter((d) => {
           const n = nb(MC.DIRS[d]);
-          return n && (isCube(n) || D(n).shape === def.shape || D(n).shape === 'gate' || (pane && D(n).shape === 'door'));
+          return n && (isCube(n) || D(n).shape === def.shape || D(n).shape === 'gate' || D(n).shape === 'wall' || (pane && D(n).shape === 'door'));
         });
         if (pane && conn.length === 0) conn.push('e', 'w');
         if (pane) {
@@ -291,6 +291,40 @@
         if (hanging) add(bx(0.47, y0 + 0.5625, 0.47, 0.53, 1, 0.53, colorMat('#4a4a50')));
         break;
       }
+      case 'carpet': add(bx(0, 0, 0, 1, 0.0625, 1, faces())); break;
+      case 'rail': {
+        const g = new THREE.PlaneGeometry(1, 1);
+        g.rotateX(-Math.PI / 2);
+        const rail = new THREE.Mesh(g, mat(def.tex.all, { alphaTest: 0.5, double: true }));
+        rail.position.set(0.5, 0.02, 0.5);
+        if (f === 'e' || f === 'w') rail.rotation.y = Math.PI / 2;
+        add(rail);
+        break;
+      }
+      case 'bell': {
+        add(bx(0.25, 0.25, 0.25, 0.75, 0.8, 0.75, mat('bell')));
+        add(bx(0.1, 0, 0.1, 0.9, 0.12, 0.9, mat('dark_oak_planks')));
+        add(bx(0.45, 0.8, 0.45, 0.55, 1, 0.55, colorMat('#3a3a3a')));
+        break;
+      }
+      case 'anvil': {
+        const m = mat('anvil'), along = f === 'e' || f === 'w';
+        add(bx(0.125, 0, 0.125, 0.875, 0.25, 0.875, m));
+        add(bx(0.3, 0.25, 0.3, 0.7, 0.6, 0.7, m));
+        add(along ? bx(0.1875, 0.6, 0, 0.8125, 1, 1, m) : bx(0, 0.6, 0.1875, 1, 1, 0.8125, m));
+        break;
+      }
+      case 'wall': {
+        const m = mat(def.tex.all);
+        add(bx(0.25, 0, 0.25, 0.75, 1, 0.75, m));
+        ['e', 'w', 's', 'n'].forEach((d) => {
+          const n = nb(MC.DIRS[d]);
+          if (!(n && (isCube(n) || ['wall', 'fence', 'gate'].includes(D(n).shape)))) return;
+          const r = { e: [0.75, 0.3125, 1, 0.6875], w: [0, 0.3125, 0.25, 0.6875], s: [0.3125, 0.75, 0.6875, 1], n: [0.3125, 0, 0.6875, 0.25] }[d];
+          add(bx(r[0], 0, r[1], r[2], 0.8125, r[3], m));
+        });
+        break;
+      }
       case 'gate': {
         const m = mat(def.tex.all);
         const ax = f === 'n' || f === 's';
@@ -340,6 +374,7 @@
   }
 
   function setLook(obj, level) {
+    obj.userData.look = level;
     obj.traverse((o) => {
       if (!o.isMesh) return;
       const orig = o.userData.orig;
@@ -491,7 +526,7 @@
       if (mode === 'upto') { vis = y <= cur; look = y < cur && dimBelow ? 0.32 : 1; }
       else if (mode === 'only') { vis = y === cur || y === cur - 1; look = y === cur ? 1 : 0.14; }
       g.visible = vis;
-      if (vis) g.children.forEach((o) => setLook(o, look));
+      if (vis) g.children.forEach((o) => { o.visible = true; setLook(o, look); });
     });
     if (this.layerGrid) {
       this.layerGrid.visible = mode !== 'all';
@@ -528,6 +563,27 @@
     if (name === 'top') this.controls.target.set(W / 2, 0, Dp / 2);
     this.camera.updateProjectionMatrix();
     this.controls.update();
+    this.dirty = true;
+  };
+
+
+  /* Bau-Video: nur die ersten n Blöcke zeigen (in Bau-Reihenfolge). */
+  Viewer.prototype.reveal = function (n) {
+    this.layerGrid && (this.layerGrid.visible = false);
+    this.layerGroups.forEach((g) => { g.visible = true; });
+    this.objects.forEach((o, i) => {
+      const on = i < n;
+      if (o.visible !== on) o.visible = on;
+      if (on && o.userData.look !== 1) { setLook(o, 1); o.userData.look = 1; }
+    });
+    const last = this.objects[Math.min(n, this.objects.length) - 1];
+    if (last) { const c = last.userData.cell; this.selBox.position.set(c.x + 0.5, c.y + 0.5, c.z + 0.5); this.selBox.visible = true; }
+    this.dirty = true;
+  };
+  Viewer.prototype.focusY = function (y) {
+    const dy = y - this.controls.target.y;
+    this.controls.target.y += dy * 0.08;
+    this.camera.position.y += dy * 0.08;
     this.dirty = true;
   };
 

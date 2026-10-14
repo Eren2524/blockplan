@@ -17,6 +17,8 @@ Wer lieber einen lokalen Server nutzt: `python3 -m http.server` im Ordner und da
 - **Fortschritt**: Ebenen als fertig markieren, wird im Browser gespeichert
 - **Kreativ-Test**: `/setblock`-Befehle für den ganzen Bau oder eine Ebene kopieren (Java Edition, als Datapack-Funktion)
 - **Filter** nach Schwierigkeit und Suche
+- **Bau-Video**: animiertes Tutorial, das den Bau Block für Block aufbaut, mit Hinweisen zu jeder Ebene (Taste `V`), dazu ein Link zu passenden YouTube-Tutorials
+- **Bauzeit**: geschätzte Zeit fürs Platzieren (ohne Material sammeln) bei jedem Bau
 - **Spielmodus**: große Weiter/Zurück-Tasten, Tastenkürzel (← → Leertaste), *Bildschirm an* hält Handy/Tablet wach
 
 ### Tastenkürzel
@@ -44,11 +46,21 @@ Wer lieber einen lokalen Server nutzt: `python3 -m http.server` im Ordner und da
 - Mob-Fallturm (30 Blöcke Fall, Beute in Truhen)
 - Lavafarm (Tropfstein + Kessel)
 - Bruchstein-Generator
+- Honigwabenfarm (Beobachter + Werfer mit Schere)
+- Basalt-Generator, Stein-Generator
+- Hühner-Brutstation (Beobachter-Uhr wirft Eier)
+- Zuckerrohr-Großfarm (24 Pflanzen)
 
-**Bauprojekte**: Netherportal, Leuchtfeuer-Pyramide, Handelshalle, Holzbrücke, Lagerraum
+**Bauprojekte**: Netherportal, Leuchtfeuer-Pyramide, Handelshalle, Holzbrücke, Lagerraum, Wasserfahrstuhl, Eisstraße, Bahnstrecke
 
 **Gebäude**: Starterhaus, Wachturm, Dorfbrunnen, Scheune, Leuchtturm, Windmühle, Modernes Haus,
 Kastell, Fachwerkhaus, Gewächshaus-Kuppel, Pferdestall, Baumhaus
+
+**Gebäude im Community-Stil** (eigene Entwürfe nach beliebten Bauideen, `js/builds-community.js`):
+Taverne, Wikinger-Langhaus, Japanische Pagode, Japanisches Teehaus, Schmiede, Dorfkirche, Marktplatz,
+Imkerei, Bootshaus mit Steg, Hobbit-Höhle, Magierturm, Torhaus, Bauernhof-Silo, Wüstenhaus, Iglu,
+Strandhaus, Berghütte, Moderne Villa mit Pool, Bäckerei, Bibliothek, Rathaus, Holz-Wachturm,
+Gartenpavillon, Springbrunnen, Unterwasser-Kuppel
 
 ## Eigene Baupläne hinzufügen
 
@@ -75,6 +87,7 @@ Verfügbare Blöcke, Texturen und Platzierungshinweise stehen in `js/blocks.js`.
 
 - `index.html`: Layout und Stil
 - `js/blocks.js`: Block-Registry, prozedurale Texturen, Platzierungshinweise
-- `js/builds.js`: alle Baupläne
+- `js/builds.js`: Farmen, Bauprojekte und die ersten Gebäude, Builder und Bauzeit-Schätzung
+- `js/builds-community.js`: Gebäude im Community-Stil, weitere Farmen und Projekte, Dach-Helfer
 - `js/viewer.js`: 3D-Ansicht (Three.js r128)
 - `js/app.js`: Oberfläche, 2D-Raster, Material, Fortschritt
