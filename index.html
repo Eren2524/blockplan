@@ -120,6 +120,8 @@ h1, h2, h3 { text-wrap: balance; margin: 0; }
 .pill.easy { background: var(--ok-soft); color: var(--ok); }
 .pill.mid { background: var(--warn-soft); color: var(--warn); }
 .pill.hard { background: var(--accent-soft); color: var(--accent); }
+.diff { align-self: flex-start; }
+.note code { font: 12px var(--font-mono); background: var(--bg); padding: 1px 4px; border-radius: 3px; overflow-wrap: anywhere; }
 .empty-note { color: var(--muted); font-size: 14px; padding: 8px 2px; }
 
 /* ---------- Bühne ---------- */
@@ -276,6 +278,11 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
 
   <aside class="sidebar" id="sidebar" aria-label="Bauliste">
     <input class="search" id="search" type="search" placeholder="Farm oder Gebäude suchen" aria-label="Suchen">
+    <div class="seg diff" id="diffSeg" role="group" aria-label="Nach Schwierigkeit filtern">
+      <button data-diff="Leicht">Leicht</button>
+      <button data-diff="Mittel">Mittel</button>
+      <button data-diff="Fortgeschritten">Profi</button>
+    </div>
     <div id="buildList"></div>
     <p class="ver">Die Farmen sind für die Java Edition ausgelegt. Gebäude funktionieren in jeder Version.</p>
   </aside>
@@ -291,7 +298,7 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
       <div class="seg" id="camSeg" role="group" aria-label="Kamera">
         <button data-cam="iso" title="Schräg von oben (I)">Schräg</button>
         <button data-cam="top" title="Von oben, Norden oben (T)">Oben</button>
-        <button data-cam="front" title="Von Süden (F)">Vorne</button>
+        <button data-cam="front" title="Von Norden, meist die Eingangsseite (F)">Vorne</button>
         <button data-cam="rotate" id="rotBtn" title="Langsam drehen (R)">Drehen</button>
       </div>
     </div>
@@ -342,6 +349,12 @@ kbd { font: 600 12px var(--font-mono); background: var(--bg); border: 1px solid 
     </div>
     <div class="tabpane" id="tab-mats" hidden>
       <div class="row-actions"><button class="btn" id="copyBtn">Einkaufsliste kopieren</button></div>
+      <div class="note">
+        <b>Erst im Kreativmodus testen?</b> Kopiere die Befehle und füge sie in eine Datapack-Funktion ein
+        (<code>data/blockplan/function/bau.mcfunction</code>, dann <code>/function blockplan:bau</code>).
+        Der Bau entsteht 2 Blöcke östlich von dir. Nur Java Edition.
+        <div class="row-actions" style="margin-top:10px"><button class="btn" id="cmdBtn">Befehle: ganzer Bau</button><button class="btn" id="cmdLayerBtn">Befehle: aktuelle Ebene</button></div>
+      </div>
       <div class="mats" id="allMats"></div>
       <div id="mobsWrap" hidden>
         <div class="sub">Kreaturen</div>
