@@ -256,7 +256,9 @@ I18N.add("fr", {
   "theme.nether": "Nether",
   "err.three": "Impossible de charger la bibliothèque 3D. Recharge la page.",
   "lang.loading": "Chargement de la langue …",
-  "lang.fail": "Impossible de charger la langue."
+  "lang.fail": "Impossible de charger la langue.",
+  "cat.special": "Constructions spéciales",
+  "one.special": "Construction spéciale"
  },
  "hints": {
   "front": {
@@ -1879,6 +1881,173 @@ I18N.add("fr", {
     "4": "Fond de l'étang : porte dans le mur est, derrière un couloir sec vers l'échelle.",
     "7": "Surface du sol, étang, maison avec trappe, ferme à rayons de miel, canne à sucre sur la rive.",
     "11": "Toit plat avec rangée de lampes, redstone et capteur de lumière du jour."
+   }
+  },
+  "koenigsschloss": {
+   "name": "Château royal",
+   "tagline": "Rempart, 4 tours, salle du trône, 5 fermes dans la cour",
+   "description": "Un immense château dans le style des grands projets de serveur : un rempart avec chemin de ronde et créneaux, quatre tours d'angle, un châtelet avec herse et, au centre, le donjon avec salle du trône, bibliothèque et chambre. Dans la cour, une ferme à blé, une ferme à citrouilles, une ferme à œufs, une ferme à canne à sucre et la fonderie automatique te ravitaillent. La nuit, les lampes du chemin de ronde s'allument toutes seules.",
+   "how": [
+    "Éclairage de nuit : des lampes de redstone sont encastrées dans le sol du chemin de ronde. Un Capteur de lumière du jour inversé au bout de chaque rangée les allume la nuit.",
+    "Sonnette : un bouton sur le bloc musical devant la porte joue une note quand quelqu'un arrive.",
+    "Les tours sont reliées au chemin de ronde par des échelles et des passages. Tu peux ainsi faire tout le tour du château.",
+    "Les fermes de la cour sont construites exactement comme les modules séparés. Tu trouveras leurs explications dans les fermes."
+   ],
+   "tips": [
+    "Construis d'abord le sol et le rempart, puis les tours d'angle, puis le donjon. Les fermes viennent en dernier.",
+    "Il te faut environ 4 000 Briques de pierre. Un Tailleur de pierre t'économise beaucoup de matériaux.",
+    "Fais un clic droit sur le Capteur de lumière du jour pour qu'il devienne bleu (inversé)."
+   ],
+   "layerNotes": {
+    "0": "Sol : herbe dans la cour, chemins en Pierre taillée, le puits devant le donjon et les sols des fermes.",
+    "1": "Début du rempart, des tours et du donjon. Portes des tours vers la cour, porte et tapis rouge dans la salle du trône.",
+    "5": "Premier plancher du donjon avec un trou pour l'échelle.",
+    "7": "Chemin de ronde : haut du mur et marches à l'intérieur. Les lampes de nuit sont sur les côtés nord et sud.",
+    "8": "Créneaux sur le rempart, redstone sur les lampes, Capteurs de lumière du jour. Passages du chemin de ronde vers les tours.",
+    "12": "Début des toits des tours.",
+    "16": "Le grand toit du donjon."
+   }
+  },
+  "streamervilla": {
+   "name": "Villa de streamer",
+   "tagline": "Studio, pièce secrète, piscine, ascenseur à eau, ferme au sous-sol",
+   "description": "Une villa moderne pour créateurs de contenu : en bas, un salon avec baie vitrée et piscine, en haut le studio de streaming avec poste gaming et lampe « ON AIR », et sur le toit une terrasse de fête avec feu d'artifice. Un ascenseur à eau relie tous les étages. Derrière la bibliothèque se cache une pièce secrète avec porte à pistons. De là, une trappe mène au sous-sol avec la grande ferme à canne à sucre.",
+   "how": [
+    "Lampe « ON AIR » : le levier est fixé directement sur la lampe de redstone. Levier activé, lampe allumée.",
+    "Porte à pistons : levier activé = bibliothèque fermée. Levier désactivé : les Pistons collants tirent les étagères sur le côté.",
+    "Ascenseur à eau : le Sable des âmes te propulse vers le haut. Les portes retiennent l'eau, c'est par elles que tu sors à chaque étage. En haut, tu arrives sur le toit.",
+    "Feu d'artifice : le bouton sur le dernier Distributeur alimente la redstone sur les trois Distributeurs, qui tirent vers le haut.",
+    "Éclairage de nuit : le Capteur de lumière du jour inversé allume la nuit les lampes du bord du toit."
+   ],
+   "tips": [
+    "Remplis les Distributeurs du toit de fusées d'artifice.",
+    "Remplis de préférence la colonne d'eau de haut en bas avec des sources (ou avec l'astuce du varech).",
+    "La trappe vers le sous-sol est dans la pièce secrète. Elle ressemble à un sol normal."
+   ],
+   "layerNotes": {
+    "0": "Dalle de fondation, piscine avec lanternes aquatiques, Sable des âmes pour l'ascenseur, trappe vers le sous-sol (dans la pièce secrète).",
+    "1": "Rez-de-chaussée : baie vitrée au nord, porte d'entrée, porte de l'ascenseur, mur de bibliothèques avec porte à pistons vers la pièce secrète.",
+    "6": "Plafond du rez-de-chaussée, sol du studio.",
+    "7": "Studio : bureau gaming, écrans en lanternes aquatiques, porte de l'ascenseur.",
+    "11": "Toit avec lampes de nuit dans le rebord.",
+    "12": "Toit-terrasse : garde-corps, redstone sur les lampes, feu d'artifice."
+   }
+  },
+  "luftschiff": {
+   "name": "Dirigeable",
+   "tagline": "Navire volant avec ballon, cabine et ferme à poulets",
+   "description": "Un dirigeable steampunk haut au-dessus du monde : une coque en bois avec cale, un pont avec bastingage, une cabine de capitaine, deux mâts et, au-dessus, un immense ballon rayé en laine. À l'arrière, les hélices tournent, sur le pont des poules pondent des œufs dans un coffre, et à la proue un feu d'artifice part d'une simple pression sur un bouton.",
+   "how": [
+    "Feu d'artifice à la proue : le bouton alimente le bloc derrière lui. La redstone sur ce bloc répartit le signal vers les deux Distributeurs.",
+    "Ferme à œufs : les poules sont posées sur des Entonnoirs. Les œufs tombent dans les Entonnoirs et finissent dans le coffre.",
+    "Cale : par la trappe du pont, tu sautes dans la coque avec les coffres de provisions."
+   ],
+   "tips": [
+    "Construis le navire haut dans le ciel. Une tour en terre ou en échafaudage aide au début, retire-la ensuite.",
+    "Tu obtiens vite de la laine avec une ferme à moutons ou auprès de villageois bergers.",
+    "Avec des Élytres et des fusées, c'est le plus simple pour monter."
+   ],
+   "layerNotes": {
+    "0": "Quille : la rangée la plus basse de la coque.",
+    "4": "Pont en chêne. La trappe mène à la cale, la ferme à œufs est au milieu du navire.",
+    "5": "Bastingage, cabine, mâts, cloche et le feu d'artifice à la proue.",
+    "12": "Le ballon commence sur les mâts.",
+    "16": "Milieu du ballon avec des rayures rouges."
+   }
+  },
+  "unterwasserstation": {
+   "name": "Station sous-marine",
+   "tagline": "3 dômes de verre, tunnels, ascenseur à bulles vers la surface",
+   "description": "Une station de recherche au fond de la mer : un grand dôme principal avec cuisine et coin d'enchantement, un dôme-dortoir et un dôme-ferme avec ferme à œufs, reliés par des tunnels de verre. Deux colonnes de bulles t'emmènent en quelques secondes jusqu'au ponton à la surface, et te ramènent en bas.",
+   "how": [
+    "Ascenseur à bulles vers le haut : le Sable des âmes sous l'eau crée une colonne de bulles qui te propulse vers le haut.",
+    "Ascenseur à bulles vers le bas : le Bloc de magma crée une colonne qui t'aspire vers le bas.",
+    "Dans le dôme, les colonnes passent dans des tubes de verre. Les portes empêchent l'eau d'entrer. Au-dessus du dôme, la colonne continue directement dans la mer.",
+    "Ferme à œufs : des poules sur des Entonnoirs, les œufs finissent dans le coffre. Elle marche aussi sous l'eau, tant que le dôme est étanche."
+   ],
+   "tips": [
+    "Construis d'abord les dômes dans l'eau. Remplis l'intérieur de sable puis creuse-le : l'eau disparaît.",
+    "Une potion de respiration aquatique, Apnée et Agilité aquatique sur les bottes rendent la construction bien plus facile.",
+    "Les blocs d'eau au-dessus du dôme sont la mer elle-même. Tu n'as rien à poser là."
+   ],
+   "layerNotes": {
+    "0": "Sols des trois dômes et des tunnels. Sable des âmes et Bloc de magma pour les ascenseurs du dôme principal.",
+    "1": "Première rangée de verre, portes des ascenseurs, mobilier, ferme à œufs dans le dôme est.",
+    "9": "Au-dessus du dôme principal : ici c'est déjà la mer, les colonnes continuent toutes seules.",
+    "19": "Ponton à la surface de l'eau avec des lanternes."
+   }
+  },
+  "farmhochhaus": {
+   "name": "Tour-ferme",
+   "tagline": "6 étages, 9 fermes, 2 ascenseurs à eau, Balise",
+   "description": "Un gratte-ciel en verre où chaque étage a sa propre ferme : la fonderie dans le hall, la grande ferme à canne à sucre, citrouilles et bambou, blé, couveuse et œufs, et tout en haut la ferme à miel. À l'extérieur, deux ascenseurs à eau montent et descendent, une Balise brille sur le toit, et la nuit les lampes du bord du toit s'allument toutes seules.",
+   "how": [
+    "Ascenseur à eau montant (Sable des âmes) et descendant (Bloc de magma) côté est. À chaque étage, tu entres et sors par une porte.",
+    "En haut, l'ascenseur te dépose directement sur le toit. Pour redescendre, saute dans la deuxième colonne.",
+    "Chaque étage est une ferme à part. Son fonctionnement est expliqué dans chaque ferme.",
+    "Balise : une couche de 9 blocs de fer suffit pour le premier niveau.",
+    "Les lanternes aquatiques dans chaque plafond font tout pousser et empêchent les monstres d'apparaître."
+   ],
+   "tips": [
+    "Construis étage par étage : d'abord le sol, puis le mur de verre, puis la ferme.",
+    "Laisse le couloir libre entre les fermes et le mur est, il mène à l'ascenseur.",
+    "Remplis les colonnes d'eau à la fin, quand toutes les portes sont en place."
+   ],
+   "layerNotes": {
+    "0": "Dalle de fondation, Sable des âmes et Bloc de magma pour les ascenseurs.",
+    "1": "Hall avec entrée et fonderie automatique.",
+    "9": "Étage 1 : grande ferme à canne à sucre.",
+    "17": "Étage 2 : ferme à citrouilles et à bambou.",
+    "25": "Étage 3 : ferme à blé avec bouton.",
+    "33": "Étage 4 : couveuse à poules et ferme à œufs.",
+    "41": "Étage 5 : ferme à rayons de miel.",
+    "48": "Toit avec lampes de nuit.",
+    "49": "Toit-terrasse avec Balise sur des blocs de fer."
+   }
+  },
+  "kirschtempel": {
+   "name": "Temple des cerisiers",
+   "tagline": "Pagode à trois étages, torii, bassin à koïs, ferme à bambou",
+   "description": "Une colline-temple japonaise sur trois terrasses de pierre : devant, un torii rouge, des lanternes de pierre le long du chemin, et au centre une pagode à trois étages avec des toits incurvés et une cloche. Quatre cerisiers, un bassin à koïs et, derrière le temple, une ferme à bambou automatique complètent le tout.",
+   "how": [
+    "Les toits sont des toits en pavillon faits d'escaliers en chêne noir. Chaque étage est en retrait d'une rangée.",
+    "Ferme à bambou : les Observateurs repèrent quand le bambou pousse et déclenchent les pistons. Le bambou tombe dans les wagonnets à entonnoir."
+   ],
+   "tips": [
+    "Tu trouves du bois et des feuilles de cerisier dans le biome de la cerisaie.",
+    "Le bambou est le combustible parfait pour ton four.",
+    "Mets quelques poissons dans le bassin à koïs (avec un seau de poisson)."
+   ],
+   "layerNotes": {
+    "0": "Terrasse du bas et prairie avec le torii devant.",
+    "2": "Terrasse du haut avec chemin, bassin à koïs et emplacements des arbres.",
+    "3": "Rez-de-chaussée de la pagode en laine blanche avec poteaux en chêne noir. Porte au nord.",
+    "7": "Premier toit.",
+    "12": "Deuxième toit.",
+    "16": "Troisième toit avec flèche."
+   }
+  },
+  "riesenbaumhaus": {
+   "name": "Arbre géant",
+   "tagline": "Arbre géant creux, 2 cabanes, vigie, fermes",
+   "description": "Un arbre gigantesque au tronc creux, dans lequel une échelle monte jusqu'au-dessus de la cime. Deux plateformes portent des cabanes : en bas l'atelier et la cuisine, en haut la chambre. Tout en haut, depuis la vigie, tu vois toute la région. Au pied du tronc tournent une ferme à citrouilles et une ferme à miel.",
+   "how": [
+    "L'échelle est fixée à l'intérieur, contre la paroi nord du tronc. À chaque plateforme, une porte mène dehors.",
+    "La cime est une grande boule de feuilles. Pour qu'elle ne disparaisse pas, elle doit toucher le tronc, ou tu la construis avec des feuilles récupérées au Toucher de soie (les feuilles posées ne disparaissent pas).",
+    "Ferme à citrouilles : les Observateurs repèrent la nouvelle citrouille, les pistons la détachent. Ferme à miel : des Observateurs sur les ruches activent des Distributeurs avec des cisailles."
+   ],
+   "tips": [
+    "Les feuilles posées ne se décomposent jamais. Tu peux donc construire la cime sans souci.",
+    "Les abeilles adorent les arbres et les fleurs. Plante encore plus de fleurs autour de la ferme à miel.",
+    "Construis d'abord le tronc jusqu'en haut, puis les plateformes, puis la cime."
+   ],
+   "layerNotes": {
+    "0": "Prairie, racines et fermes au pied de l'arbre.",
+    "1": "Le tronc (5 × 5, creux à l'intérieur) avec échelle et porte d'entrée au sud.",
+    "8": "Plateforme du bas avec la cabane-atelier.",
+    "16": "Plateforme du haut avec la chambre.",
+    "21": "Début de la cime.",
+    "32": "Vigie au-dessus de la cime."
    }
   }
  }

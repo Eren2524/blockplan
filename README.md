@@ -46,6 +46,12 @@ die Seite braucht also kein Internet. Für den Offline-Modus (App installieren) 
 
 ## Enthaltene Baupläne
 
+**Special-Bauten** (große Prunkbauten mit eingebauten Farmen, `js/builds-special.js`):
+Königsschloss (Burgmauer, 4 Türme, Thronsaal, 5 Farmen), Streamer-Villa (Studio, Geheimraum, Keller-Farm, Wasserlift),
+Luftschiff (Ballon, Kabine, Eierfarm, Feuerwerk), Unterwasserstation (3 Kuppeln, Blasen-Lifte zur Oberfläche),
+Farm-Hochhaus (6 Etagen, 9 Farmen, Leuchtfeuer), Kirschblüten-Tempel (Pagode, Torii, Bambusfarm),
+Riesenbaumhaus (hohler Stamm, 2 Baumhäuser, Ausguck, Kürbis- und Honigfarm).
+
 **Geheimhäuser** (versteckte Räume, Geheimgänge, Redstone und Farmen, `js/builds-secret.js`):
 Agentenhaus (Bodenklappe, Geheimkeller, Kolben-Tresor, Zuckerrohrfarm), Wasserfall-Versteck (Höhle hinter dem
 Wasserfall, Bambusfarm, Fahrstuhl), Brunnen-Bunker (Blasensäule in die Basis, Kürbis- und Eierfarm),
@@ -128,5 +134,6 @@ Neue Sprache: Datei kopieren, übersetzen und in `LANGS` in `js/i18n.js` sowie i
 - `js/builds-community.js`: Gebäude im Community-Stil, weitere Farmen und Projekte, Dach-Helfer
 - `js/builds-mega.js`: Mega-Bauten, setzt geprüfte Farm-Module in Gebäude ein
 - `js/builds-secret.js`: Geheimhäuser mit Kolben-Tresor-Helfer
+- `js/builds-special.js`: Special-Bauten mit Wasserlift-, Feuerwerk- und Kugel-Helfern
 - `js/viewer.js`: 3D-Ansicht (Three.js r128)
 - `js/app.js`: Oberfläche, 2D-Raster, Material, Fortschritt

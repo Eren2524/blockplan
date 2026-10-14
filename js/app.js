@@ -14,7 +14,7 @@
     set(k, v) { try { localStorage.setItem('blockplan.' + k, JSON.stringify(v)); return true; } catch (e) { return false; } }
   };
   const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  const CATS = ['mine', 'secret', 'mega', 'farm', 'project', 'building'];
+  const CATS = ['mine', 'special', 'secret', 'mega', 'farm', 'project', 'building'];
   const DIFF = { 'Leicht': 'easy', 'Mittel': 'mid', 'Fortgeschritten': 'hard' };
   const CW = ['n', 'e', 's', 'w'];
 

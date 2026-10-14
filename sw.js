@@ -1,11 +1,11 @@
 /* Blockplan – Offline-Modus. Beim ersten Besuch werden alle Dateien gespeichert,
    danach läuft die Seite auch ohne Internet. Neue Versionen werden im Hintergrund geladen.
    Nach Änderungen an Dateien die Versionsnummer erhöhen. */
-const VERSION = 'blockplan-2.0.0';
+const VERSION = 'blockplan-2.1.0';
 const FILES = [
   './', 'index.html', 'legal.html', 'manifest.webmanifest',
   'vendor/three.min.js', 'vendor/OrbitControls.js', 'vendor/fonts/fonts.css',
-  'js/config.js', 'js/i18n.js', 'js/blocks.js', 'js/builds.js', 'js/builds-community.js', 'js/builds-mega.js', 'js/builds-secret.js',
+  'js/config.js', 'js/i18n.js', 'js/blocks.js', 'js/builds.js', 'js/builds-community.js', 'js/builds-mega.js', 'js/builds-secret.js', 'js/builds-special.js',
   'js/formats.js', 'js/viewer.js', 'js/app.js',
   'js/i18n/en.js', 'js/i18n/es.js', 'js/i18n/fr.js', 'js/i18n/tr.js', 'js/i18n/pl.js',
   'icons/icon-192.png', 'icons/icon-512.png'

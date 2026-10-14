@@ -256,7 +256,9 @@ I18N.add("pl", {
   "theme.nether": "Nether",
   "err.three": "Nie udało się wczytać biblioteki 3D. Odśwież stronę.",
   "lang.loading": "Wczytywanie języka …",
-  "lang.fail": "Nie udało się wczytać języka."
+  "lang.fail": "Nie udało się wczytać języka.",
+  "cat.special": "Budowle specjalne",
+  "one.special": "Budowla specjalna"
  },
  "hints": {
   "front": {
@@ -1879,6 +1881,173 @@ I18N.add("pl", {
     "4": "Dno stawu: drzwi we wschodniej ścianie, za nimi suchy korytarz do drabiny.",
     "7": "Powierzchnia ziemi, staw, dom z klapą w podłodze, farma plastrów miodu, trzcina cukrowa na brzegu.",
     "11": "Płaski dach z rzędem lamp, redstone i czujnikiem światła dziennego."
+   }
+  },
+  "koenigsschloss": {
+   "name": "Zamek królewski",
+   "tagline": "Mur obronny, 4 wieże, sala tronowa, 5 farm na dziedzińcu",
+   "description": "Ogromny zamek w stylu wielkich projektów serwerowych: mur obronny z chodnikiem i blankami, cztery wieże narożne, brama z broną, a pośrodku donżon z salą tronową, biblioteką i sypialnią. Na dziedzińcu zaopatrują cię farma pszenicy, farma dyń, farma jajek, farma trzciny cukrowej i automatyczna huta. Nocą lampy na chodniku obronnym zapalają się same.",
+   "how": [
+    "Nocne światło: w podłodze chodnika obronnego są lampy redstone. Odwrócony Czujnik światła dziennego na końcu każdego rzędu włącza je w nocy.",
+    "Dzwonek przy bramie: przycisk na bloku nutowym przed bramą gra dźwięk, gdy ktoś przychodzi.",
+    "Wieże są połączone z chodnikiem obronnym drabinami i przejściami. Dzięki temu obejdziesz cały zamek dookoła.",
+    "Farmy na dziedzińcu są zbudowane dokładnie tak jak osobne moduły. Ich opisy znajdziesz przy farmach."
+   ],
+   "tips": [
+    "Najpierw zbuduj podłoże i mur, potem wieże narożne, potem donżon. Farmy na sam koniec.",
+    "Potrzebujesz około 4000 Kamiennych cegieł. Przecinarka oszczędza mnóstwo materiału.",
+    "Kliknij raz prawym przyciskiem Czujnik światła dziennego, żeby zrobił się niebieski (odwrócony)."
+   ],
+   "layerNotes": {
+    "0": "Podłoże: trawa na dziedzińcu, ścieżki z Bruku, studnia przed donżonem i podłogi farm.",
+    "1": "Początek muru, wież i donżonu. Drzwi wież na dziedziniec, drzwi i czerwony dywan w sali tronowej.",
+    "5": "Pierwszy strop w donżonie z otworem na drabinę.",
+    "7": "Chodnik obronny: korona muru i stopnie od środka. Nocne lampy są po stronie północnej i południowej.",
+    "8": "Blanki na murze, redstone na lampach, Czujniki światła dziennego. Przejścia z chodnika obronnego do wież.",
+    "12": "Początek dachów wież.",
+    "16": "Wielki dach donżonu."
+   }
+  },
+  "streamervilla": {
+   "name": "Willa streamera",
+   "tagline": "Studio, tajny pokój, basen, winda wodna, farma w piwnicy",
+   "description": "Nowoczesna willa dla twórców: na dole salon z przeszkloną ścianą i basenem, na górze studio streamingowe ze stanowiskiem do grania i lampą „ON AIR”, a na dachu imprezowy taras z fajerwerkami. Winda wodna łączy wszystkie piętra. Za regałem z książkami kryje się tajny pokój z drzwiami na tłokach. Stamtąd właz w podłodze prowadzi do piwnicy z dużą farmą trzciny cukrowej.",
+   "how": [
+    "Lampa „ON AIR”: dźwignia wisi bezpośrednio na lampie redstone. Dźwignia włączona, lampa świeci.",
+    "Drzwi na tłokach: dźwignia włączona = regał zamknięty. Dźwignia wyłączona: Lepkie tłoki odsuwają regały na bok.",
+    "Winda wodna: Piasek dusz wystrzeliwuje cię w górę. Drzwi trzymają wodę, przez nie wysiadasz na każdym piętrze. Na samej górze wychodzisz na dach.",
+    "Fajerwerki: przycisk na ostatnim Dozowniku zasila redstone na wszystkich trzech Dozownikach, a one strzelają w górę.",
+    "Nocne światło: odwrócony Czujnik światła dziennego włącza w nocy lampy w krawędzi dachu."
+   ],
+   "tips": [
+    "Napełnij Dozowniki na dachu fajerwerkami.",
+    "Kolumnę wody najlepiej napełniaj źródłami od góry do dołu (albo sztuczką z wodorostami).",
+    "Właz do piwnicy jest w tajnym pokoju. Wygląda jak zwykła podłoga."
+   ],
+   "layerNotes": {
+    "0": "Płyta fundamentu, basen z latarniami morskimi, Piasek dusz do windy, właz do piwnicy (w tajnym pokoju).",
+    "1": "Parter: przeszklona ściana od północy, drzwi wejściowe, drzwi windy, ściana z regałów z drzwiami na tłokach do tajnego pokoju.",
+    "6": "Sufit parteru, podłoga studia.",
+    "7": "Studio: biurko do grania, ekrany z latarni morskich, drzwi windy.",
+    "11": "Dach z nocnymi lampami w krawędzi.",
+    "12": "Taras na dachu: barierka, redstone na lampach, fajerwerki."
+   }
+  },
+  "luftschiff": {
+   "name": "Sterowiec",
+   "tagline": "Latający statek z balonem, kajutą i farmą kur",
+   "description": "Steampunkowy sterowiec wysoko nad światem: drewniany kadłub z ładownią, pokład z relingiem, kajuta kapitana, dwa maszty, a nad nimi ogromny pasiasty balon z wełny. Z tyłu kręcą się śmigła, na pokładzie kury znoszą jajka do skrzyni, a na dziobie po naciśnięciu przycisku startują fajerwerki.",
+   "how": [
+    "Fajerwerki na dziobie: przycisk zasila blok za nim. Redstone na tym bloku rozdziela sygnał na oba Dozowniki.",
+    "Farma jajek: kury stoją na Lejach. Jajka wpadają do Lejów i trafiają do skrzyni.",
+    "Ładownia: przez właz w pokładzie wskakujesz do kadłuba ze skrzyniami z zapasami."
+   ],
+   "tips": [
+    "Buduj statek wysoko na niebie. Na początku pomoże wieża z ziemi albo z rusztowania, potem ją rozbierz.",
+    "Wełnę szybko zdobędziesz z farmy owiec albo od wieśniaków pasterzy.",
+    "Najwygodniej dostaniesz się na górę z Elytrą i fajerwerkami."
+   ],
+   "layerNotes": {
+    "0": "Stępka: najniższy rząd kadłuba.",
+    "4": "Dębowy pokład. Właz prowadzi do ładowni, farma jajek jest na środku statku.",
+    "5": "Reling, kajuta, maszty, dzwon i fajerwerki na dziobie.",
+    "12": "Balon zaczyna się na masztach.",
+    "16": "Środek balonu z czerwonymi pasami."
+   }
+  },
+  "unterwasserstation": {
+   "name": "Stacja podwodna",
+   "tagline": "3 szklane kopuły, tunele, bąbelkowa winda na powierzchnię",
+   "description": "Stacja badawcza na dnie morza: duża kopuła główna z kuchnią i kącikiem do zaklinania, kopuła sypialna i kopuła z farmą jajek, połączone szklanymi tunelami. Dwie kolumny bąbelków w kilka sekund zabierają cię na pomost na powierzchni wody i z powrotem na dół.",
+   "how": [
+    "Bąbelkowa winda w górę: Piasek dusz pod wodą tworzy kolumnę bąbelków, która wystrzeliwuje cię w górę.",
+    "Bąbelkowa winda w dół: Blok magmy tworzy kolumnę, która ciągnie cię w dół.",
+    "W kopule kolumny biegną w szklanych rurach. Drzwi trzymają wodę na zewnątrz. Nad kopułą kolumna biegnie dalej prosto w morzu.",
+    "Farma jajek: kury na Lejach, jajka trafiają do skrzyni. Działa też pod wodą, dopóki kopuła jest szczelna."
+   ],
+   "tips": [
+    "Najpierw zbuduj kopuły w wodzie. Wypełnij wnętrze piaskiem i go wykop, a woda zniknie.",
+    "Mikstura oddychania pod wodą, Oddychanie i Głębinowy wędrowiec na butach bardzo ułatwiają budowę.",
+    "Bloki wody nad kopułą to samo morze. Nic nie musisz tam stawiać."
+   ],
+   "layerNotes": {
+    "0": "Podłogi trzech kopuł i tuneli. Piasek dusz i Blok magmy do wind w kopule głównej.",
+    "1": "Pierwszy rząd szkła, drzwi wind, wyposażenie, farma jajek we wschodniej kopule.",
+    "9": "Nad kopułą główną: tu jest już morze, kolumny biegną dalej same.",
+    "19": "Pomost na powierzchni wody z latarniami."
+   }
+  },
+  "farmhochhaus": {
+   "name": "Wieżowiec farm",
+   "tagline": "6 pięter, 9 farm, 2 windy wodne, Magiczna latarnia",
+   "description": "Szklany wieżowiec, w którym każde piętro ma własną farmę: huta w holu, duża farma trzciny cukrowej, dynie i bambus, pszenica, wylęgarnia kur i jajka, a na samej górze farma miodu. Na zewnątrz jeżdżą w górę i w dół dwie windy wodne, na dachu świeci Magiczna latarnia, a nocą lampy w krawędzi dachu zapalają się same.",
+   "how": [
+    "Winda wodna w górę (Piasek dusz) i w dół (Blok magmy) po stronie wschodniej. Na każdym piętrze wsiadasz i wysiadasz przez drzwi.",
+    "Na górze wychodzisz z windy prosto na dach. Żeby zjechać, wskocz tam do drugiej kolumny.",
+    "Każde piętro to osobna farma. Jak działają, przeczytasz przy poszczególnych farmach.",
+    "Magiczna latarnia: na pierwszy poziom wystarczy warstwa 9 bloków żelaza.",
+    "Latarnie morskie w każdym suficie sprawiają, że wszystko rośnie, a potwory się nie pojawiają."
+   ],
+   "tips": [
+    "Buduj piętro po piętrze: najpierw podłoga, potem szklana ściana, potem farma.",
+    "Zostaw wolny korytarz między farmami a ścianą wschodnią, prowadzi do windy.",
+    "Kolumny wody napełnij na końcu, gdy wszystkie drzwi są na miejscu."
+   ],
+   "layerNotes": {
+    "0": "Płyta fundamentu, Piasek dusz i Blok magmy do wind.",
+    "1": "Hol z wejściem i automatyczną hutą.",
+    "9": "Piętro 1: duża farma trzciny cukrowej.",
+    "17": "Piętro 2: farma dyń i bambusa.",
+    "25": "Piętro 3: farma pszenicy z przyciskiem.",
+    "33": "Piętro 4: wylęgarnia kur i farma jajek.",
+    "41": "Piętro 5: farma plastrów miodu.",
+    "48": "Dach z nocnymi lampami.",
+    "49": "Taras na dachu z Magiczną latarnią na blokach żelaza."
+   }
+  },
+  "kirschtempel": {
+   "name": "Świątynia wiśni",
+   "tagline": "Trzypiętrowa pagoda, torii, staw z karpiami koi, farma bambusa",
+   "description": "Japońskie wzgórze świątynne na trzech kamiennych tarasach: z przodu czerwona brama torii, kamienne latarnie wzdłuż ścieżki, a pośrodku trzypiętrowa pagoda z wygiętymi dachami i dzwonem. Całość dopełniają cztery wiśnie, staw z karpiami koi i automatyczna farma bambusa za świątynią.",
+   "how": [
+    "Dachy to dachy namiotowe ze schodów z ciemnego dębu. Każde piętro jest o jeden rząd bardziej cofnięte.",
+    "Farma bambusa: Obserwatory wykrywają, kiedy bambus rośnie, i uruchamiają tłoki. Bambus wpada do wagoników z lejem."
+   ],
+   "tips": [
+    "Drewno i liście wiśni znajdziesz w biomie gaju wiśniowego.",
+    "Bambus to idealne paliwo do twojego pieca.",
+    "Wpuść kilka ryb do stawu z koi (wiaderkiem z rybą)."
+   ],
+   "layerNotes": {
+    "0": "Najniższy taras i łąka z bramą torii przed nim.",
+    "2": "Najwyższy taras ze ścieżką, stawem z koi i miejscami na drzewa.",
+    "3": "Parter pagody z białej wełny ze słupami z ciemnego dębu. Drzwi od północy.",
+    "7": "Pierwszy dach.",
+    "12": "Drugi dach.",
+    "16": "Trzeci dach z iglicą."
+   }
+  },
+  "riesenbaumhaus": {
+   "name": "Gigantyczny domek na drzewie",
+   "tagline": "Wydrążone olbrzymie drzewo, 2 domki, punkt widokowy, farmy",
+   "description": "Gigantyczne drzewo z pustym pniem, przez który drabina prowadzi aż ponad koronę. Na dwóch platformach wiszą domki: na dole warsztat i kuchnia, na górze sypialnia. Z punktu widokowego na samej górze widzisz całą okolicę. U stóp pnia pracują farma dyń i farma miodu.",
+   "how": [
+    "Drabina wisi od środka na północnej ścianie pnia. Na każdej platformie drzwi prowadzą na zewnątrz.",
+    "Korona to duża kula z liści. Żeby nie zniknęła, musi dotykać pnia, albo budujesz ją z liści zebranych z Jedwabnym dotykiem (postawione liście nie znikają).",
+    "Farma dyń: Obserwatory wykrywają nową dynię, tłoki ją odcinają. Farma miodu: Obserwatory na ulach uruchamiają Dozowniki z nożycami."
+   ],
+   "tips": [
+    "Postawione liście nigdy nie opadają. Możesz więc spokojnie budować koronę.",
+    "Pszczoły uwielbiają drzewa i kwiaty. Posadź jeszcze więcej kwiatów wokół farmy miodu.",
+    "Najpierw zbuduj pień aż do samej góry, potem platformy, potem koronę."
+   ],
+   "layerNotes": {
+    "0": "Łąka, korzenie i farmy u stóp drzewa.",
+    "1": "Pień (5 × 5, pusty w środku) z drabiną i drzwiami wejściowymi od południa.",
+    "8": "Dolna platforma z domkiem-warsztatem.",
+    "16": "Górna platforma z sypialnią.",
+    "21": "Początek korony.",
+    "32": "Punkt widokowy nad koroną."
    }
   }
  }

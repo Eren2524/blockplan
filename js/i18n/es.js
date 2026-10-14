@@ -256,7 +256,9 @@ I18N.add("es", {
   "theme.nether": "Nether",
   "err.three": "No se pudo cargar la biblioteca 3D. Recarga la página.",
   "lang.loading": "Cargando idioma…",
-  "lang.fail": "No se pudo cargar el idioma."
+  "lang.fail": "No se pudo cargar el idioma.",
+  "cat.special": "Construcciones especiales",
+  "one.special": "Construcción especial"
  },
  "hints": {
   "front": {
@@ -1879,6 +1881,173 @@ I18N.add("es", {
     "4": "Fondo del estanque: puerta en la pared este y, detrás, un pasillo seco hasta la escalera de mano.",
     "7": "Superficie, estanque, casa con trampilla, granja de panales, caña de azúcar en la orilla.",
     "11": "Techo plano con fila de lámparas, polvo de redstone y sensor de luz solar."
+   }
+  },
+  "koenigsschloss": {
+   "name": "Castillo real",
+   "tagline": "Muralla, 4 torres, salón del trono, 5 granjas en el patio",
+   "description": "Un castillo enorme al estilo de los grandes proyectos de servidor: una muralla con adarve y almenas, cuatro torres en las esquinas, una torre de entrada con rastrillo y, en el centro, la torre del homenaje con salón del trono, biblioteca y dormitorio. En el patio te abastecen una granja de trigo, una de calabazas, una de huevos, una de caña de azúcar y la fundición automática. Por la noche, las lámparas del adarve se encienden solas.",
+   "how": [
+    "Luz nocturna: en el suelo del adarve hay lámparas de redstone. Un sensor de luz solar invertido al final de cada fila las enciende por la noche.",
+    "Timbre: un botón en el bloque musical delante de la puerta toca una nota cuando llega alguien.",
+    "Las torres están unidas al adarve con escaleras de mano y pasillos. Así puedes dar la vuelta entera al castillo.",
+    "Las granjas del patio están construidas igual que los módulos individuales. Encontrarás sus explicaciones en cada granja."
+   ],
+   "tips": [
+    "Construye primero el suelo y la muralla, luego las torres de las esquinas y después la torre del homenaje. Las granjas, al final.",
+    "Necesitas unos 4000 ladrillos de piedra. Un cortapiedras te ahorra mucho material.",
+    "Haz clic derecho una vez en el sensor de luz solar para que se ponga azul (invertido)."
+   ],
+   "layerNotes": {
+    "0": "Suelo: césped en el patio, caminos de roca, el pozo delante de la torre del homenaje y los suelos de las granjas.",
+    "1": "Empiezan la muralla, las torres y la torre del homenaje. Puertas de las torres hacia el patio, puerta y alfombra roja en el salón del trono.",
+    "5": "Primer piso intermedio de la torre del homenaje, con un hueco para la escalera de mano.",
+    "7": "Adarve: remate de la muralla y escaleras por dentro. En los lados norte y sur van las lámparas nocturnas.",
+    "8": "Almenas en la muralla, redstone sobre las lámparas y sensores de luz solar. Pasillos del adarve a las torres.",
+    "12": "Empiezan los tejados de las torres.",
+    "16": "El gran tejado de la torre del homenaje."
+   }
+  },
+  "streamervilla": {
+   "name": "Villa del streamer",
+   "tagline": "Estudio, sala secreta, piscina, ascensor de agua, granja en el sótano",
+   "description": "Una villa moderna para creadores de contenido: abajo, el salón con fachada de cristal y piscina; arriba, el estudio de streaming con puesto gaming y lámpara «ON AIR»; y en el tejado, una terraza de fiesta con fuegos artificiales. Un ascensor de agua conecta todas las plantas. Detrás de la estantería hay una sala secreta con puerta de pistones. Desde ahí, una trampilla en el suelo lleva al sótano con la gran granja de caña de azúcar.",
+   "how": [
+    "Lámpara «ON AIR»: la palanca está pegada a la lámpara de redstone. Palanca activada, lámpara encendida.",
+    "Puerta de pistones: palanca activada = estantería cerrada. Palanca desactivada: los pistones adhesivos apartan las estanterías.",
+    "Ascensor de agua: la arena de almas te lanza hacia arriba. Las puertas contienen el agua y por ellas sales en cada planta. Arriba del todo sales al tejado.",
+    "Fuegos artificiales: el botón del último dispensador activa la redstone de los tres dispensadores, que disparan hacia arriba.",
+    "Luz nocturna: el sensor de luz solar invertido enciende por la noche las lámparas del borde del tejado."
+   ],
+   "tips": [
+    "Llena los dispensadores del tejado con cohetes de fuegos artificiales.",
+    "Lo mejor es llenar la columna de agua con bloques de fuente de arriba abajo (o con el truco de las algas).",
+    "La trampilla al sótano está en la sala secreta. Parece suelo normal."
+   ],
+   "layerNotes": {
+    "0": "Losa base, piscina con linternas marinas, arena de almas para el ascensor y trampilla al sótano (en la sala secreta).",
+    "1": "Planta baja: fachada de cristal al norte, puerta, puerta del ascensor y pared de estanterías con puerta de pistones a la sala secreta.",
+    "6": "Techo de la planta baja y suelo del estudio.",
+    "7": "Estudio: mesa gaming, pantallas de linternas marinas y puerta del ascensor.",
+    "11": "Tejado con lámparas nocturnas en el borde.",
+    "12": "Terraza en el tejado: barandilla, redstone sobre las lámparas y fuegos artificiales."
+   }
+  },
+  "luftschiff": {
+   "name": "Dirigible",
+   "tagline": "Barco volador con globo, camarote y granja de gallinas",
+   "description": "Un dirigible steampunk muy por encima del mundo: un casco de madera con bodega, una cubierta con barandilla, el camarote del capitán, dos mástiles y, encima, un globo gigante de lana a rayas. En la popa giran las hélices, en cubierta las gallinas ponen huevos en un cofre y en la proa arrancan unos fuegos artificiales con solo pulsar un botón.",
+   "how": [
+    "Fuegos artificiales en la proa: el botón activa el bloque de detrás. La redstone sobre ese bloque reparte la señal a los dos dispensadores.",
+    "Granja de huevos: las gallinas están sobre tolvas. Los huevos caen en las tolvas y acaban en el cofre.",
+    "Bodega: salta por la trampilla de la cubierta al casco, donde están los cofres de provisiones."
+   ],
+   "tips": [
+    "Construye el barco muy alto en el cielo. Al principio te ayuda una torre de tierra o de andamios; luego la quitas.",
+    "Consigues lana rápido con una granja de ovejas o de aldeanos pastores.",
+    "Con élitros y cohetes es como mejor se sube."
+   ],
+   "layerNotes": {
+    "0": "Quilla: la fila más baja del casco.",
+    "4": "Cubierta de roble. La trampilla lleva a la bodega y la granja de huevos está en el centro del barco.",
+    "5": "Barandilla, camarote, mástiles, campana y los fuegos artificiales de la proa.",
+    "12": "El globo empieza sobre los mástiles.",
+    "16": "Centro del globo con rayas rojas."
+   }
+  },
+  "unterwasserstation": {
+   "name": "Estación submarina",
+   "tagline": "3 cúpulas de cristal, túneles, ascensor de burbujas a la superficie",
+   "description": "Una estación de investigación en el fondo del mar: una gran cúpula principal con cocina y rincón de encantamientos, una cúpula dormitorio y una cúpula granja con granja de huevos, unidas por túneles de cristal. Dos columnas de burbujas te llevan en segundos al muelle de la superficie y de vuelta abajo.",
+   "how": [
+    "Ascensor de burbujas para subir: la arena de almas bajo el agua crea una columna de burbujas que te lanza hacia arriba.",
+    "Ascensor de burbujas para bajar: el bloque de magma crea una columna que tira de ti hacia abajo.",
+    "Dentro de la cúpula, las columnas van por tubos de cristal. Las puertas mantienen el agua fuera. Por encima de la cúpula, la columna sigue directamente por el mar.",
+    "Granja de huevos: gallinas sobre tolvas y los huevos acaban en el cofre. También funciona bajo el agua mientras la cúpula sea estanca."
+   ],
+   "tips": [
+    "Construye primero las cúpulas en el agua. Llena el interior de arena y luego cávala: así desaparece el agua.",
+    "Una poción de respiración acuática, más Respiración y Agilidad acuática en el equipo, te facilitan mucho la obra.",
+    "Los bloques de agua sobre la cúpula son el propio mar. Ahí no tienes que colocar nada."
+   ],
+   "layerNotes": {
+    "0": "Suelos de las tres cúpulas y de los túneles. Arena de almas y bloque de magma para los ascensores en la cúpula principal.",
+    "1": "Primera fila de cristal, puertas de los ascensores, mobiliario y granja de huevos en la cúpula este.",
+    "9": "Sobre la cúpula principal: aquí ya es mar y las columnas siguen solas.",
+    "19": "Muelle en la superficie del agua con faroles."
+   }
+  },
+  "farmhochhaus": {
+   "name": "Rascacielos de granjas",
+   "tagline": "6 plantas, 9 granjas, 2 ascensores de agua, faro",
+   "description": "Un rascacielos de cristal en el que cada planta tiene su propia granja: fundición en el vestíbulo, la gran granja de caña de azúcar, calabazas y bambú, trigo, cría de gallinas y huevos, y arriba del todo la granja de miel. Por fuera suben y bajan dos ascensores de agua, en el tejado brilla un faro y por la noche las lámparas del borde del tejado se encienden solas.",
+   "how": [
+    "Ascensor de agua para subir (arena de almas) y para bajar (bloque de magma) en el lado este. En cada planta entras y sales por una puerta.",
+    "Arriba, el ascensor te deja directamente en el tejado. Para bajar, salta ahí a la segunda columna.",
+    "Cada planta es una granja distinta. Cómo funciona cada una se explica en las granjas individuales.",
+    "Faro: con una capa de 9 bloques de hierro basta para el primer nivel.",
+    "Las linternas marinas de cada techo hacen que todo crezca y que no aparezcan monstruos."
+   ],
+   "tips": [
+    "Construye planta por planta: primero el suelo, luego la pared de cristal y después la granja.",
+    "Deja libre el pasillo entre las granjas y la pared este; lleva al ascensor.",
+    "Llena las columnas de agua al final, cuando todas las puertas estén puestas."
+   ],
+   "layerNotes": {
+    "0": "Losa base, arena de almas y bloque de magma para los ascensores.",
+    "1": "Vestíbulo con entrada y fundición automática.",
+    "9": "Planta 1: gran granja de caña de azúcar.",
+    "17": "Planta 2: granja de calabazas y bambú.",
+    "25": "Planta 3: granja de trigo con botón.",
+    "33": "Planta 4: criadero de gallinas y granja de huevos.",
+    "41": "Planta 5: granja de panales.",
+    "48": "Tejado con lámparas nocturnas.",
+    "49": "Terraza en el tejado con faro sobre bloques de hierro."
+   }
+  },
+  "kirschtempel": {
+   "name": "Templo de los cerezos",
+   "tagline": "Pagoda de tres pisos, torii, estanque koi, granja de bambú",
+   "description": "Un monte con templo japonés sobre tres terrazas de piedra: delante, una puerta torii roja; faroles de piedra a lo largo del camino; y en el centro, una pagoda de tres pisos con tejados curvados y una campana. Cuatro cerezos, un estanque koi y una granja automática de bambú detrás del templo completan el conjunto.",
+   "how": [
+    "Los tejados son tejados a cuatro aguas hechos con escaleras de roble oscuro. Cada piso queda una fila más hacia dentro.",
+    "Granja de bambú: los observadores notan cuando crece el bambú y activan los pistones. El bambú cae en las vagonetas con tolva."
+   ],
+   "tips": [
+    "La madera y las hojas de cerezo están en el bioma de arboleda de cerezos.",
+    "El bambú es el combustible perfecto para tu horno.",
+    "Echa unos cuantos peces al estanque koi (con un cubo con pez)."
+   ],
+   "layerNotes": {
+    "0": "Terraza inferior y pradera con la puerta torii delante.",
+    "2": "Terraza superior con el camino, el estanque koi y los huecos para los árboles.",
+    "3": "Planta baja de la pagoda de lana blanca con postes de roble oscuro. Puerta al norte.",
+    "7": "Primer tejado.",
+    "12": "Segundo tejado.",
+    "16": "Tercer tejado con la aguja."
+   }
+  },
+  "riesenbaumhaus": {
+   "name": "Casa del árbol gigante",
+   "tagline": "Árbol gigante hueco, 2 casas del árbol, mirador, granjas",
+   "description": "Un árbol gigantesco con el tronco hueco, por el que sube una escalera de mano hasta más allá de la copa. En dos plataformas hay casas del árbol: abajo, el taller y la cocina; arriba, el dormitorio. Desde el mirador de lo más alto ves toda la zona. Al pie del tronco trabajan una granja de calabazas y una granja de miel.",
+   "how": [
+    "La escalera de mano está por dentro, en la pared norte del tronco. En cada plataforma, una puerta lleva al exterior.",
+    "La copa es una gran esfera de hojas. Para que no desaparezca, tiene que tocar el tronco, o la construyes con hojas recogidas con Toque de seda (las hojas colocadas no desaparecen).",
+    "Granja de calabazas: los observadores detectan la calabaza nueva y los pistones la empujan. Granja de miel: los observadores sobre las colmenas activan dispensadores con tijeras."
+   ],
+   "tips": [
+    "Las hojas colocadas nunca se deshacen, así que puedes construir la copa sin preocuparte.",
+    "A las abejas les encantan los árboles y las flores. Planta todavía más flores alrededor de la granja de miel.",
+    "Construye primero el tronco hasta arriba del todo, luego las plataformas y después la copa."
+   ],
+   "layerNotes": {
+    "0": "Pradera, raíces y granjas al pie del árbol.",
+    "1": "El tronco (5 × 5, hueco por dentro) con escalera de mano y puerta de entrada al sur.",
+    "8": "Plataforma inferior con la caseta del taller.",
+    "16": "Plataforma superior con el dormitorio.",
+    "21": "Empieza la copa.",
+    "32": "Mirador sobre la copa."
    }
   }
  }
