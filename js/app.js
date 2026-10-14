@@ -9,8 +9,8 @@
     set(k, v) { try { localStorage.setItem('blockplan.' + k, JSON.stringify(v)); } catch (e) { /* kein Speicher */ } }
   };
   const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
-  const CAT = { farm: 'Automatische Farmen', project: 'Bauprojekte', building: 'Gebäude' };
-  const CAT_ONE = { farm: 'Automatische Farm', project: 'Bauprojekt', building: 'Gebäude' };
+  const CAT = { mega: 'Mega-Bauten', farm: 'Automatische Farmen', project: 'Bauprojekte', building: 'Gebäude' };
+  const CAT_ONE = { mega: 'Mega-Bau', farm: 'Automatische Farm', project: 'Bauprojekt', building: 'Gebäude' };
   const DIFF = { 'Leicht': 'easy', 'Mittel': 'mid', 'Fortgeschritten': 'hard' };
 
   const state = { diff: '', build: null, layer: 0, mode: 'all', sel: null, tab: 'layer', rotate: false, done: new Set() };
@@ -72,7 +72,7 @@
     const wrap = $('#buildList');
     wrap.textContent = '';
     let any = false;
-    ['farm', 'project', 'building'].forEach((cat) => {
+    ['mega', 'farm', 'project', 'building'].forEach((cat) => {
       const items = BUILDS.filter((b) => b.cat === cat && (!state.diff || b.difficulty === state.diff) && (!q || (b.name + ' ' + b.tagline + ' ' + b.description).toLowerCase().includes(q)));
       if (!items.length) return;
       any = true;
@@ -334,6 +334,18 @@
         g.fillStyle = '#26262a'; g.fillRect(cx - s * 0.15, cy - s * 0.15, s * 0.3, s * 0.3);
         break;
       }
+      case 'detector':
+        g.fillStyle = def.color; g.fillRect(x + 1, y + 1, s - 2, s - 2);
+        g.fillStyle = '#9ec7e6'; g.fillRect(x + s * 0.2, y + s * 0.2, s * 0.25, s * 0.25); g.fillRect(x + s * 0.55, y + s * 0.55, s * 0.25, s * 0.25);
+        break;
+      case 'lever': edgeRect(g, x, y, s, MC.OPP[f], 0.3, def.color); g.fillStyle = '#6b5232'; g.fillRect(cx - s * 0.08, cy - s * 0.08, s * 0.16, s * 0.16); break;
+      case 'piston_head':
+        g.globalAlpha = 0.6; g.fillStyle = def.color; g.fillRect(x, y, s, s); g.globalAlpha = 1;
+        arrow(g, cx, cy, r * 0.7, f, '#1b1b1b');
+        break;
+      case 'stonecutter':
+        g.fillStyle = def.color; g.fillRect(x, y, s, s); g.fillStyle = '#3a3a3a'; g.fillRect(x + s * 0.1, cy - 1, s * 0.8, 2);
+        break;
       case 'carpet':
         g.fillStyle = def.color; g.fillRect(x, y, s, s);
         g.fillStyle = 'rgba(255,255,255,0.18)'; for (let i = 0; i < s; i += 4) g.fillRect(x, y + i, s, 1);

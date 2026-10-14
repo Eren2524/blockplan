@@ -34,6 +34,12 @@ Wer lieber einen lokalen Server nutzt: `python3 -m http.server` im Ordner und da
 
 ## Enthaltene Baupläne
 
+**Mega-Bauten** (Gebäude mit eingebauten Farmen und Redstone, `js/builds-mega.js`):
+Redstone-Villa, Bauernhof-Anwesen, Golem-Festung, Monsterturm-Festung, Fabrikhalle (Bambus heizt die Öfen),
+Gelehrten-Bibliothek, Bienen-Gewächshaus, Party-Turm, Kolbentür-Bunker, Ranch, Steinmetz-Werkstatt, Vulkan-Schmiede.
+Redstone-Techniken: Nachtlicht mit Tageslichtsensor, Kolbentür mit Hebel, Feuerwerk-Startrampe,
+Notenblock-Klingel, Snack-Automat, Wasserfahrstühle, automatische Brennstoff-Zufuhr.
+
 **Automatische Farmen** (Mechanik für Java Edition ausgelegt)
 
 - Zuckerrohrfarm (Beobachter + Kolben, Trichterloren)
@@ -89,5 +95,6 @@ Verfügbare Blöcke, Texturen und Platzierungshinweise stehen in `js/blocks.js`.
 - `js/blocks.js`: Block-Registry, prozedurale Texturen, Platzierungshinweise
 - `js/builds.js`: Farmen, Bauprojekte und die ersten Gebäude, Builder und Bauzeit-Schätzung
 - `js/builds-community.js`: Gebäude im Community-Stil, weitere Farmen und Projekte, Dach-Helfer
+- `js/builds-mega.js`: Mega-Bauten, setzt geprüfte Farm-Module in Gebäude ein
 - `js/viewer.js`: 3D-Ansicht (Three.js r128)
 - `js/app.js`: Oberfläche, 2D-Raster, Material, Fortschritt

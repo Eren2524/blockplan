@@ -304,7 +304,13 @@
     dandelion: (g) => { g.clearRect(0, 0, 16, 16); R(g, 7, 8, 2, 8, hex('#4f8a2a')); R(g, 5, 4, 6, 4, hex('#f2d22a')); },
     red_wool: (g, r) => { noise(g, r, '#a82a24', 0.07); specks(g, r, '#8a1e1a', 24); },
     terracotta: (g, r) => noise(g, r, '#a0583a', 0.05),
-    prismarine: (g, r) => bricks(g, r, '#5aa89a', '#3b7a70', 8, 8)
+    prismarine: (g, r) => bricks(g, r, '#5aa89a', '#3b7a70', 8, 8),
+    lamp_on: (g, r) => { noise(g, r, '#e8a24a', 0.12); frame(g, '#6b3d1a', 1); for (let i = 3; i < 16; i += 4) { R(g, i, 1, 1, 14, hex('#8a5426')); R(g, 1, i, 14, 1, hex('#8a5426')); } R(g, 6, 6, 4, 4, hex('#fff0b0')); },
+    detector_top: (g, r) => { noise(g, r, '#5a7f9e', 0.08); frame(g, '#6b5232', 2); R(g, 3, 3, 4, 4, hex('#9ec7e6')); R(g, 9, 3, 4, 4, hex('#9ec7e6')); R(g, 3, 9, 4, 4, hex('#9ec7e6')); R(g, 9, 9, 4, 4, hex('#9ec7e6')); },
+    detector_side: (g, r) => { planks(g, r, '#9c7a45'); },
+    note_block: (g, r) => { planks(g, r, '#6b4a2a'); frame(g, '#3d2a16', 1); R(g, 6, 4, 2, 7, hex('#1d1d1d')); R(g, 8, 4, 3, 2, hex('#1d1d1d')); R(g, 4, 10, 4, 3, hex('#1d1d1d')); },
+    sticky_face: (g, r) => { planks(g, r, '#b08f58'); frame(g, '#7a7a7a', 2); R(g, 3, 3, 10, 10, hex('#7fc062')); R(g, 5, 5, 6, 6, hex('#9be07a')); },
+    stonecutter_top: (g, r) => { noise(g, r, '#8a8a8a', 0.06); R(g, 1, 7, 14, 2, hex('#c9ccd0')); R(g, 7, 5, 2, 6, hex('#3a3a3a')); },
   };
 
   const texCache = new Map();
@@ -432,6 +438,13 @@
     blast_furnace: { name: 'Schmelzofen', shape: 'cube', tex: { front: 'blast_front', side: 'blast_side', top: 'blast_side', bottom: 'blast_side' }, color: '#5b5c60', hint: (f) => H.facingFront(f) + ' Arbeitsplatz für Rüstungsschmiede.' },
     fletching_table: { name: 'Bognertisch', shape: 'cube', tex: { top: 'fletching_top', bottom: 'oak_planks', side: 'fletching_side' }, color: '#d9c88a', hint: () => 'Arbeitsplatz für Pfeilmacher (Smaragde für Stöcke).' },
     smithing_table: { name: 'Schmiedetisch', shape: 'cube', tex: { top: 'smithing_top', bottom: 'smithing_side', side: 'smithing_side' }, color: '#2e2f35', hint: () => 'Arbeitsplatz für Werkzeugschmiede.' },
+    redstone_lamp: { name: 'Redstone-Lampe', shape: 'cube', tex: { all: 'lamp_on' }, color: '#e8a24a', emissive: true, hint: () => 'Leuchtet, sobald sie Strom bekommt (hier: nachts über den Tageslichtsensor).' },
+    daylight_detector: { name: 'Tageslichtsensor (umgedreht)', shape: 'detector', tex: { top: 'detector_top', bottom: 'detector_side', side: 'detector_side' }, color: '#5a7f9e', item: 'Tageslichtsensor', hint: () => 'Nach dem Setzen einmal rechtsklicken: Er wird blau und gibt dann nachts Strom ab.' },
+    note_block: { name: 'Notenblock', shape: 'cube', tex: { all: 'note_block' }, color: '#6b4a2a', hint: () => 'Der Block darüber muss frei bleiben, sonst bleibt er stumm. Rechtsklick ändert den Ton.' },
+    lever: { name: 'Hebel', shape: 'lever', tex: { all: 'cobble' }, color: '#8a8a8a', hint: (f) => 'Hebel an die Wand im ' + DIR_NAME[OPP[f]] + ' setzen. Hebel an = Tür zu, Hebel aus = Tür offen.' },
+    sticky_piston: { name: 'Klebriger Kolben', shape: 'piston', sticky: true, tex: { all: 'piston_body' }, color: '#7fc062', hint: H.piston },
+    piston_head: { name: 'Kolbenkopf (ausgefahren)', shape: 'piston_head', tex: { all: 'piston_wood' }, color: '#c9a76a', auto: true, hint: () => 'So sieht es aus, wenn der Kolben ausgefahren ist. Nicht platzieren.' },
+    stonecutter: { name: 'Steinsäge', shape: 'stonecutter', tex: { top: 'stonecutter_top', bottom: 'stone', side: 'smooth_stone' }, color: '#8a8a8a', hint: () => 'Macht aus Stein Stufen, Treppen und Ziegel ohne Verlust.' },
     sandstone: { name: 'Sandstein', shape: 'cube', tex: { top: 'sandstone_top', bottom: 'sandstone_top', side: 'sandstone' }, color: '#d8c98f' },
     sandstone_stairs: { name: 'Sandsteintreppe', shape: 'stairs', tex: { all: 'sandstone_top' }, color: '#e2d6a6', hint: H.stairs },
     sandstone_slab: { name: 'Sandsteinstufe', shape: 'slab', tex: { all: 'sandstone_top' }, color: '#e2d6a6' },
@@ -512,9 +525,9 @@
 
 
   /* ---------- Java-Befehle (Kreativ-Test) ---------- */
-  const MC_ID = { barrel: 'barrel[facing=up]', bell: 'bell[attachment=floor]', cherry_leaves: 'cherry_leaves[persistent=true]', farmland: 'farmland[moisture=7]', oak_leaves: 'oak_leaves[persistent=true]', redstone: 'redstone_wire', hay_block: 'hay_block[axis=y]',
+  const MC_ID = { daylight_detector: 'daylight_detector[inverted=true]', barrel: 'barrel[facing=up]', bell: 'bell[attachment=floor]', cherry_leaves: 'cherry_leaves[persistent=true]', farmland: 'farmland[moisture=7]', oak_leaves: 'oak_leaves[persistent=true]', redstone: 'redstone_wire', hay_block: 'hay_block[axis=y]',
     sugar_cane: 'sugar_cane', pumpkin_stem: 'pumpkin_stem', pointed_dripstone: 'pointed_dripstone[vertical_direction=down,thickness=tip]' };
-  const FACING_PROP = { hopper: 1, chest: 1, furnace: 1, dispenser: 1, piston: 1, observer: 1, ladder: 1, oak_wall_sign: 1, lectern: 1, blast_furnace: 1, spruce_fence_gate: 1, beehive: 1, anvil: 1 };
+  const FACING_PROP = { hopper: 1, chest: 1, furnace: 1, dispenser: 1, piston: 1, observer: 1, ladder: 1, oak_wall_sign: 1, lectern: 1, blast_furnace: 1, spruce_fence_gate: 1, beehive: 1, anvil: 1, sticky_piston: 1, stonecutter: 1 };
   function javaState(c) {
     const def = B[c.id];
     if (!def || def.auto || def.entity) return null;
@@ -529,11 +542,12 @@
       case 'bed': return c.id + '[facing=' + f + ',part=' + (c.part || 'foot') + ']';
       case 'trapdoor': return c.id + '[facing=' + f + ',open=true,half=bottom]';
       case 'button': return c.id + '[face=wall,facing=' + f + ']';
+      case 'lever': return c.id + '[face=wall,facing=' + f + ',powered=true]';
     }
     if (FACING_PROP[c.id] && c.facing) return c.id + '[facing=' + f + ']';
     return c.id;
   }
-  const LATE = { rail: 1, carpet: 1, bell: 1, ladder: 1, wall_sign: 1, button: 1, trapdoor: 1, door: 1, lantern: 1, dust: 1, cross: 1, bamboo: 1, rail_cart: 1 };
+  const LATE = { lever: 1, rail: 1, carpet: 1, bell: 1, ladder: 1, wall_sign: 1, button: 1, trapdoor: 1, door: 1, lantern: 1, dust: 1, cross: 1, bamboo: 1, rail_cart: 1 };
   /* Liefert .mcfunction-Zeilen. Der Bau beginnt 2 Blöcke östlich vom Ausführenden. */
   function javaCommands(cells, ox) {
     ox = ox == null ? 2 : ox;
